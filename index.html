@@ -1,33 +1,51 @@
 <html>
     <head>
         <title>
-            Scrolling page test
+            Daniel Dakev | Home
         </title>
         <link rel="stylesheet" type="text/css" href="indexStyle.css"></style>
         <script type="text/javascript" src="scrollCode.js"></script>
     </head>
-    <body>
+    <body onload="javascript:startAnimations();">
         <div id="topBar">
             <div id="logo">
             </div>
         </div>
-        <div id="scrollHint">
-        </div>
         <div id="pageSelector">
-            <div class="pageSelect" id="page0" onclick="javascript:scrollTo('s0');"></div>
-            <div class="pageSelect" id="page1" onclick="javascript:scrollTo('s1');"></div>
-            <div class="pageSelect" id="page2" onclick="javascript:scrollTo('s2');"></div>
-            <div class="pageSelect" id="page3" onclick="javascript:scrollTo('s3');"></div>
+            <a href="#home" class="pageSelect" id="page0" onclick="javascript:scrollToPage(0);"></a>
+            <a href="#about" class="pageSelect" id="page1" onclick="javascript:scrollToPage(1);"></a>
+            <a href="#projects" class="pageSelect" id="page2" onclick="javascript:scrollToPage(2);"></a>
+            <a href="#contact" class="pageSelect" id="page3" onclick="javascript:scrollToPage(3);"></a>
+            <div id="pageSelectorButtons">
+                <a href="#home" class="pageSelectButton" id="pagebtn0" onclick="javascript:scrollToPage(0);"></a>
+                <a href="#about" class="pageSelectButton" id="pagebtn1" onclick="javascript:scrollToPage(1);"></a>
+                <a href="#projects" class="pageSelectButton" id="pagebtn2" onclick="javascript:scrollToPage(2);"></a>
+                <a href="#contact" class="pageSelectButton" id="pagebtn3" onclick="javascript:scrollToPage(3);"></a>
+            </div>
         </div>
-        <div class="slide" id="s0">
+        <div class="slide" id="home">
+            <div class="contents" id="homeContents">
+                <h1 class="titleText">Hi! I'm</h1><br>
+                <h1 class="titleText">Daniel Dakev</h1><br>
+                <div id="nameUnderline"></div>
+                <span id="subtitle">Front-end Programmer; Designer; Android Developer</span>
+            </div>
+            <div id="scrollHint">
+                <span>Scroll</span>
+                <object id="downarr" data="graphics/downarrow1.svg"></object>
+                <a href="#about "id="hintSelector" onclick="javascript:scrollToPage(1);">
+                </a>
+                <span>Down</span>
+            </div>
         </div>
-        <div class="slide" id="s1">
+        <div class="slide" id="about">
         </div>
-        <div class="slide" id="s2">
+        <div class="slide" id="projects">
         </div>
-        <div class="slide" id="s3">
+        <div class="slide" id="contact">
         </div>
         <div id="copyright">
+            <span id="credits">Designed and developed by Daniel Dakev</span>
         </div>
     </body>
 </html>
