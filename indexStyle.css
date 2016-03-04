@@ -19,13 +19,37 @@ body
 #logo
 {
     position:absolute;
+    display:inline-block;
+    float:left;
     top:15%;
+    width:15vh;
     height:70%;
-    width:6vw;
     left:5vw;
-    background-image:url(graphics/logo.svg);
-    background-size: contain;
-    background-repeat:no-repeat;
+}
+#menu
+{
+    display:inline-block;
+    top:0px;
+    float:right;
+    height:8vh;
+    width:auto;
+    margin:1vh 1vw;
+}
+.menuItem
+{
+    display:inline-block;
+    padding:4vh 2vw;
+    margin:0;
+    text-decoration: none;
+}
+.menuItem li
+{
+    list-style: none;
+    color:white;
+    font-size:1vw;
+    line-height: 0px;
+    margin:0;
+    
 }
 .slide
 {
@@ -48,7 +72,7 @@ body
     margin-left:-6vw;
     z-index:1;
     bottom:-5vh;
-    width:12vw;
+    width:auto;
     height:6.2vh;
     overflow:visible;
     -webkit-clip-path:circle(3.1vh at 50% 50%);
@@ -61,12 +85,13 @@ body
 #scrollHint span
 {
     float:left;
-    margin:3.1vh 10px;
+    font-size:1.3vw;
+    margin:3.1vh 1vw;
     line-height: 0px;
     color:white;
     font-style:italic;
 }
-#downarr
+object
 {
     height:100%;
     overflow:visible;
@@ -175,6 +200,7 @@ a
 {
     position:absolute;
     line-height: 10px;
+    font-size:90%;
     font-weight:500;
     display:block;
     color:rgb(190,191,189);
@@ -208,6 +234,10 @@ h1, span
     display:inline-block;
     margin:0;
     line-height: 50px;
+}
+#hi
+{
+    color:rgba(55,54,56,0.9);
 }
 #nameUnderline
 {

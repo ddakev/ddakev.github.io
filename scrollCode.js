@@ -72,7 +72,7 @@ function scrollPg()
    
     if(!rep)
     {
-        if(slideNames.indexOf(window.location.hash.slice(1))!=curScrn)
+        if(slideNames.indexOf(window.location.hash.slice(1))!=curScrn && slideNames.indexOf(window.location.hash.slice(1))!=-1)
         {
             return;
         }

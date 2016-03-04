@@ -9,6 +9,21 @@
     <body onload="javascript:startAnimations();">
         <div id="topBar">
             <div id="logo">
+                <object id="logoImage" data="graphics/logo.svg"></object>
+            </div>
+            <div id="menu">
+                <a href="#home" class="menuItem" onclick="javascript:scrollToPage(0);">
+                    <li>Home</li>
+                </a>
+                <a href="#about" class="menuItem" onclick="javascript:scrollToPage(1);">
+                    <li>About</li>
+                </a>
+                <a href="#projects" class="menuItem" onclick="javascript:scrollToPage(2);">
+                    <li>Projects</li>
+                </a>
+                <a href="#contact" class="menuItem" onclick="javascript:scrollToPage(3);">
+                    <li>Contact</li>
+                </a>
             </div>
         </div>
         <div id="pageSelector">
@@ -25,8 +40,8 @@
         </div>
         <div class="slide" id="home">
             <div class="contents" id="homeContents">
-                <h1 class="titleText">Hi! I'm</h1><br>
-                <h1 class="titleText">Daniel Dakev</h1><br>
+                <h1 class="titleText" id="hi">Hi! I'm</h1><br>
+                <h1 class="titleText" id="name">Daniel Dakev</h1><br>
                 <div id="nameUnderline"></div>
                 <span id="subtitle">Front-end Programmer; Designer; Android Developer</span>
             </div>
