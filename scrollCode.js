@@ -26,7 +26,7 @@ function updateCurrentScreen(scr)
 }
 function findScreen()
 {
-    var pos=window.scrollY;
+    var pos=Math.abs(window.pageYOffset);
     var dist0=Math.abs(pos-parseFloat(getComputedStyle(document.getElementById(slideNames[0])).top));
     var dist1=Math.abs(pos-parseFloat(getComputedStyle(document.getElementById(slideNames[1])).top));
     var dist2=Math.abs(pos-parseFloat(getComputedStyle(document.getElementById(slideNames[2])).top));
@@ -47,8 +47,8 @@ function scroll(spos,fpos,steps)
     }
     scrStep++;
     window.scrollTo(0,Math.round(spos+(fpos-spos)*(-(scrStep/steps-1)*(scrStep/steps-1)+1)));
-    scrollPosition=window.scrollY;
-    var scrollFactor=3*window.scrollY/parseFloat(window.getComputedStyle(document.getElementById("contact")).top);
+    scrollPosition=Math.abs(window.pageYOffset);
+    var scrollFactor=3*Math.abs(window.pageYOffset)/parseFloat(window.getComputedStyle(document.getElementById("contact")).top);
     document.getElementById("pageSelectorButtons").style.webkitClipPath="circle(10px at 7.5px " + (8.5+scrollFactor*19.5) + "px)";
     var scr = findScreen();
     if(scr != curScrn)
@@ -63,11 +63,11 @@ function scrollToPage(anc)
     var steps=80;
     scrStep=0;
     var goal=parseFloat(window.getComputedStyle(document.getElementById(slideNames[parseInt(anc)])).top);
-    rep=setInterval(scroll,dur/steps,window.scrollY,goal,steps);
+    rep=setInterval(scroll,dur/steps,Math.abs(window.pageYOffset),goal,steps);
 }
 function scrollPg()
 {
-    var newScr=window.scrollY;
+    var newScr=Math.abs(window.pageYOffset);
     window.scrollTo(0,scrollPosition);
    
     if(!rep)
@@ -104,5 +104,5 @@ function startAn()
 {
     var svgDocument=document.getElementById("downarr").contentDocument;
     svgDocument.getElementById('expand').beginElement();
-    document.getElementById("scrollHint").style.webkitClipPath="circle(7.5vw at 50% 50%)";
+    document.getElementById("scrollHint").style.webkitClipPath="circle(60% at 50% 50%)";
 }

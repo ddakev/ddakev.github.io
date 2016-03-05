@@ -1,3 +1,11 @@
+/*
+To do:
+menu animations on hover, on click;
+decide on background for top bar;
+animated svg for logo;
+in js, switch out window.scrollY with document.documentElement.scrollTop so it works in IE |(;
+set up 404 page;
+*/
 body
 {
     overflow-x:hidden;
@@ -34,6 +42,7 @@ body
     height:8vh;
     width:auto;
     margin:1vh 1vw;
+    cursor:default;
 }
 .menuItem
 {
@@ -41,15 +50,19 @@ body
     padding:4vh 2vw;
     margin:0;
     text-decoration: none;
+    cursor:pointer;
 }
 .menuItem li
 {
     list-style: none;
     color:white;
-    font-size:1vw;
+    font-size:2.4vh;
     line-height: 0px;
     margin:0;
-    
+}
+.menuItem li:hover
+{
+    border-bottom:1px solid white;
 }
 .slide
 {
@@ -69,7 +82,7 @@ body
 {
     position:fixed;
     display:inline-block;
-    margin-left:-6vw;
+    margin-left:-9vh;
     z-index:1;
     bottom:-5vh;
     width:auto;
@@ -85,8 +98,8 @@ body
 #scrollHint span
 {
     float:left;
-    font-size:1.3vw;
-    margin:3.1vh 1vw;
+    font-size:2vh;
+    margin:3.1vh 1vh;
     line-height: 0px;
     color:white;
     font-style:italic;
