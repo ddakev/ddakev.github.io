@@ -1,0 +1,22 @@
+@keyframes appearHint
+{
+    0% {bottom:-10vh;}
+    100% {bottom:5vh;}
+}
+#scrollHint
+{
+    bottom:-10vh;
+    height:10vh;
+    margin-left:-15vh;
+    -webkit-clip-path:circle(5vh at 50% 50%);
+}
+#scrollHint span
+{
+    font-size:2.5vh;
+    margin:5vh 2vh;
+}
+#nameUnderline
+{
+    width:90%;
+    margin:10px 5%;
+}
