@@ -21,17 +21,16 @@ body
     z-index:2;
     left:0;
     width:100vw;
-    height:10vh;
-    background:rgb(65,64,66);
+    height:15vh;
 }
 #logo
 {
     position:absolute;
     display:inline-block;
     float:left;
-    top:15%;
-    width:15vh;
-    height:70%;
+    top:25%;
+    width:auto;
+    height:50%;
     left:5vw;
 }
 #menu
@@ -41,13 +40,13 @@ body
     float:right;
     height:8vh;
     width:auto;
-    margin:1vh 1vw;
+    margin:3.5vh 1vw;
     cursor:default;
 }
 .menuItem
 {
     display:inline-block;
-    padding:4vh 2vw;
+    padding:1vh 0;
     margin:0;
     text-decoration: none;
     cursor:pointer;
@@ -58,11 +57,15 @@ body
     color:white;
     font-size:2.4vh;
     line-height: 0px;
+    padding:3vh 2vw;
     margin:0;
+    border-radius:10px;
+    background-color:rgba(65,64,66,0.0);
+    -webkit-transition:background-color 0.2s;
 }
 .menuItem li:hover
 {
-    border-bottom:1px solid white;
+    background-color:rgba(65,64,66,0.6);
 }
 .slide
 {

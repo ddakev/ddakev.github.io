@@ -8,7 +8,9 @@ String.prototype.capitalize = function() {
 }
 function startAnimations()
 {
-    scrollToHash(window.location.hash);
+    var scrollFactor=3*Math.abs(window.pageYOffset)/parseFloat(window.getComputedStyle(document.getElementById("contact")).top);
+    document.getElementById("pageSelectorButtons").style.webkitClipPath="circle(10px at 7.5px " + (8.5+scrollFactor*19.5) + "px)";
+    updateCurrentScreen(findScreen());
     document.addEventListener("scroll",scrollPg);
     document.getElementById('scrollHint').style.animationPlayState='running';
     document.getElementById('scrollHint').addEventListener("animationend",startAn);
@@ -21,7 +23,8 @@ function updateCurrentScreen(scr)
 {
     window.location.hash=slideNames[scr];
     document.title="Daniel Dakev | " + slideNames[scr].capitalize();
-    
+    document.getElementsByTagName("li")[curScrn].style.backgroundColor="rgba(65,64,66,0.0)";
+    document.getElementsByTagName("li")[scr].style.backgroundColor="rgba(65,64,66,0.6)";
     curScrn=scr;
 }
 function findScreen()
@@ -85,19 +88,6 @@ function scrollPg()
         }
         else if(newScr<scrollPosition)
             scrollToPage(Math.max(0,(curScrn-1)));
-    }
-}
-function scrollToHash(hash)
-{
-    slideN = slideNames.indexOf(hash.slice(1));
-    if(slideN != -1)
-    {
-        if(slideN != curScrn)
-        {
-            scrollPosition=parseFloat(window.getComputedStyle(document.getElementById(slideNames[slideN])).top);
-            window.scrollTo(0,scrollPosition);
-        }
-        updateCurrentScreen(findScreen());
     }
 }
 function startAn()
