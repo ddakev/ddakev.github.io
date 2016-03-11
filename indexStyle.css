@@ -23,15 +23,25 @@ body
     width:100vw;
     height:15vh;
 }
+#hamMenuLabel
+{
+    float:left;
+    width:auto;
+    height:7.5vh;
+    margin:3.75vh 2vw;
+    display:none;
+}
+#hamMenu
+{
+    display:none;
+}
 #logo
 {
-    position:absolute;
     display:inline-block;
     float:left;
-    top:25%;
     width:auto;
-    height:50%;
-    left:5vw;
+    height:7.5vh;
+    margin:3.75vh 5vw;
 }
 #menu
 {

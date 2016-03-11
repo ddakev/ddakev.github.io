@@ -20,3 +20,82 @@
     width:90%;
     margin:10px 5%;
 }
+#topBar
+{
+    text-align: center;
+}
+#hamMenuLabel
+{
+    display:block;
+    position:absolute;
+    width:auto;
+    z-index:3;
+    height:7.5vh;
+    margin:3.75vh 2vw;
+}
+#hamImage
+{
+    pointer-events: none;
+}
+#hamMenu:checked ~ #topBar>#menu
+{
+    left:0vw;
+}
+body>div
+{
+    -webkit-transition:left 0.2s, right 0.2s;
+}
+#hamMenu:checked ~ div
+{
+    left:60vw;
+}
+#hamMenu:checked ~ #pageSelector
+{
+    left:100vw;
+}
+#logo
+{
+    display:block;
+    width:auto;
+    height:7.5vh;
+    margin:3.75vh 5vw;
+}
+#menu
+{
+    position:fixed;
+    display:block;
+    top:0vh;
+    z-index:1;
+    padding-top:15vh;
+    left:-60vw;
+    margin:0;
+    height:85vh;
+    width:60vw;
+    cursor:default;
+    background:rgba(65,64,66,1);
+    -webkit-transition:left 0.2s;
+}
+.menuItem
+{
+    display:block;
+    padding:1vh 0;
+    margin:0;
+    text-decoration: none;
+    cursor:pointer;
+}
+.menuItem li
+{
+    list-style: none;
+    color:white;
+    font-size:6vh;
+    line-height: 0px;
+    padding:5vh 2vw;
+    margin:0;
+    border-radius:10px;
+    background-color:rgba(65,64,66,0.0);
+    -webkit-transition:background-color 0.2s;
+}
+.menuItem li:hover
+{
+    background-color:rgba(65,64,66,0.6);
+}
