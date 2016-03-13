@@ -8,10 +8,13 @@ String.prototype.capitalize = function() {
 }
 function startAnimations()
 {
-    var scrollFactor=3*Math.abs(window.pageYOffset)/parseFloat(window.getComputedStyle(document.getElementById("contact")).top);
+    var content=document.getElementById("contentPage");
+    scrollPosition=content.scrollTop;
+    var scrollFactor=3*Math.abs(content.scrollTop)/parseFloat(window.getComputedStyle(document.getElementById("contact")).top);
     document.getElementById("pageSelectorButtons").style.webkitClipPath="circle(10px at 7.5px " + (8.5+scrollFactor*19.5) + "px)";
     updateCurrentScreen(findScreen());
-    document.addEventListener("scroll",scrollPg);
+    document.getElementById("contentPage").addEventListener("scroll",scrollPg);
+    document.getElementById("hamMenu").addEventListener("click",checkboxChange);
     document.getElementById('scrollHint').style.animationPlayState='running';
     document.getElementById('scrollHint').addEventListener("animationend",startAn);
     if(navigator.userAgent.indexOf("Firefox")!=-1) 
@@ -29,7 +32,8 @@ function updateCurrentScreen(scr)
 }
 function findScreen()
 {
-    var pos=Math.abs(window.pageYOffset);
+    var content=document.getElementById("contentPage");
+    var pos=Math.abs(content.scrollTop);
     var dist0=Math.abs(pos-parseFloat(getComputedStyle(document.getElementById(slideNames[0])).top));
     var dist1=Math.abs(pos-parseFloat(getComputedStyle(document.getElementById(slideNames[1])).top));
     var dist2=Math.abs(pos-parseFloat(getComputedStyle(document.getElementById(slideNames[2])).top));
@@ -42,6 +46,7 @@ function findScreen()
 }
 function scroll(spos,fpos,steps)
 {
+    var content=document.getElementById("contentPage");
     if(scrStep==steps)
     {
         clearInterval(rep);
@@ -49,9 +54,9 @@ function scroll(spos,fpos,steps)
         return;
     }
     scrStep++;
-    window.scrollTo(0,Math.round(spos+(fpos-spos)*(-(scrStep/steps-1)*(scrStep/steps-1)+1)));
-    scrollPosition=Math.abs(window.pageYOffset);
-    var scrollFactor=3*Math.abs(window.pageYOffset)/parseFloat(window.getComputedStyle(document.getElementById("contact")).top);
+    content.scrollTop=Math.round(spos+(fpos-spos)*(-(scrStep/steps-1)*(scrStep/steps-1)+1));
+    scrollPosition=Math.abs(content.scrollTop);
+    var scrollFactor=3*Math.abs(content.scrollTop)/parseFloat(window.getComputedStyle(document.getElementById("contact")).top);
     document.getElementById("pageSelectorButtons").style.webkitClipPath="circle(10px at 7.5px " + (8.5+scrollFactor*19.5) + "px)";
     var scr = findScreen();
     if(scr != curScrn)
@@ -64,14 +69,16 @@ function scrollToPage(anc)
     clearInterval(rep);
     var dur=800;
     var steps=80;
+    var content = document.getElementById("contentPage");
     scrStep=0;
     var goal=parseFloat(window.getComputedStyle(document.getElementById(slideNames[parseInt(anc)])).top);
-    rep=setInterval(scroll,dur/steps,Math.abs(window.pageYOffset),goal,steps);
+    rep=setInterval(scroll,dur/steps,Math.abs(content.scrollTop),goal,steps);
 }
 function scrollPg()
 {
-    var newScr=Math.abs(window.pageYOffset);
-    window.scrollTo(0,scrollPosition);
+    var content=document.getElementById("contentPage");
+    var newScr=Math.abs(content.scrollTop);
+    content.scrollTop=scrollPosition;
    
     if(!rep)
     {
@@ -95,4 +102,15 @@ function startAn()
     var svgDocument=document.getElementById("downarr").contentDocument;
     svgDocument.getElementById('expand').beginElement();
     document.getElementById("scrollHint").style.webkitClipPath="circle(60% at 50% 50%)";
+}
+function checkboxChange(e)
+{
+    if(e.target.checked)
+    {
+        document.getElementsByTagName("body")[0].style.overflowY="hidden";
+    }
+    else
+    {
+        document.getElementsByTagName("body")[0].style.overflowY="visible";
+    }
 }

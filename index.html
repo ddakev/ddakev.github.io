@@ -9,64 +9,66 @@
         <script type="text/javascript" src="scrollCode.js"></script>
     </head>
     <body onload="javascript:startAnimations();">
-        <input type="checkbox" id="hamMenu">
-        <label id="hamMenuLabel" for="hamMenu">
-            <object id="hamImage" data="graphics/hamIcon.svg"></object>
-        </label>
-        <div id="topBar">
-            <div id="logo">
-                <object id="logoImage" data="graphics/logo.svg"></object>
+            <label id="hamMenuLabel" for="hamMenu">
+                <object id="hamImage" data="graphics/hamIcon.svg"></object>
+            </label>
+            <input type="checkbox" id="hamMenu">
+        <div id="contentPage">
+            <div id="topBar">
+                <div id="logo">
+                    <object id="logoImage" data="graphics/logo.svg"></object>
+                </div>
+                <div id="menu">
+                    <a href="#home" class="menuItem" onclick="javascript:scrollToPage(0);">
+                        <li>Home</li>
+                    </a>
+                    <a href="#about" class="menuItem" onclick="javascript:scrollToPage(1);">
+                        <li>About</li>
+                    </a>
+                    <a href="#projects" class="menuItem" onclick="javascript:scrollToPage(2);">
+                        <li>Projects</li>
+                    </a>
+                    <a href="#contact" class="menuItem" onclick="javascript:scrollToPage(3);">
+                        <li>Contact</li>
+                    </a>
+                </div>
             </div>
-            <div id="menu">
-                <a href="#home" class="menuItem" onclick="javascript:scrollToPage(0);">
-                    <li>Home</li>
-                </a>
-                <a href="#about" class="menuItem" onclick="javascript:scrollToPage(1);">
-                    <li>About</li>
-                </a>
-                <a href="#projects" class="menuItem" onclick="javascript:scrollToPage(2);">
-                    <li>Projects</li>
-                </a>
-                <a href="#contact" class="menuItem" onclick="javascript:scrollToPage(3);">
-                    <li>Contact</li>
-                </a>
+            <div id="pageSelector">
+                <a href="#home" class="pageSelect" id="page0" onclick="javascript:scrollToPage(0);"></a>
+                <a href="#about" class="pageSelect" id="page1" onclick="javascript:scrollToPage(1);"></a>
+                <a href="#projects" class="pageSelect" id="page2" onclick="javascript:scrollToPage(2);"></a>
+                <a href="#contact" class="pageSelect" id="page3" onclick="javascript:scrollToPage(3);"></a>
+                <div id="pageSelectorButtons">
+                    <a href="#home" class="pageSelectButton" id="pagebtn0" onclick="javascript:scrollToPage(0);"></a>
+                    <a href="#about" class="pageSelectButton" id="pagebtn1" onclick="javascript:scrollToPage(1);"></a>
+                    <a href="#projects" class="pageSelectButton" id="pagebtn2" onclick="javascript:scrollToPage(2);"></a>
+                    <a href="#contact" class="pageSelectButton" id="pagebtn3" onclick="javascript:scrollToPage(3);"></a>
+                </div>
             </div>
-        </div>
-        <div id="pageSelector">
-            <a href="#home" class="pageSelect" id="page0" onclick="javascript:scrollToPage(0);"></a>
-            <a href="#about" class="pageSelect" id="page1" onclick="javascript:scrollToPage(1);"></a>
-            <a href="#projects" class="pageSelect" id="page2" onclick="javascript:scrollToPage(2);"></a>
-            <a href="#contact" class="pageSelect" id="page3" onclick="javascript:scrollToPage(3);"></a>
-            <div id="pageSelectorButtons">
-                <a href="#home" class="pageSelectButton" id="pagebtn0" onclick="javascript:scrollToPage(0);"></a>
-                <a href="#about" class="pageSelectButton" id="pagebtn1" onclick="javascript:scrollToPage(1);"></a>
-                <a href="#projects" class="pageSelectButton" id="pagebtn2" onclick="javascript:scrollToPage(2);"></a>
-                <a href="#contact" class="pageSelectButton" id="pagebtn3" onclick="javascript:scrollToPage(3);"></a>
+            <div class="slide" id="home">
+                <div class="contents" id="homeContents">
+                    <h1 class="titleText" id="hi">Hi! I'm</h1><br>
+                    <h1 class="titleText" id="name">Daniel Dakev</h1><br>
+                    <div id="nameUnderline"></div>
+                    <span id="subtitle">Front-end Programmer; Designer; Android Developer</span>
+                </div>
+                <div id="scrollHint">
+                    <span>Scroll</span>
+                    <object id="downarr" data="graphics/downarrow1.svg"></object>
+                    <a href="#about" id="hintSelector" onclick="javascript:scrollToPage(1);">
+                    </a>
+                    <span>Down</span>
+                </div>
             </div>
-        </div>
-        <div class="slide" id="home">
-            <div class="contents" id="homeContents">
-                <h1 class="titleText" id="hi">Hi! I'm</h1><br>
-                <h1 class="titleText" id="name">Daniel Dakev</h1><br>
-                <div id="nameUnderline"></div>
-                <span id="subtitle">Front-end Programmer; Designer; Android Developer</span>
+            <div class="slide" id="about">
             </div>
-            <div id="scrollHint">
-                <span>Scroll</span>
-                <object id="downarr" data="graphics/downarrow1.svg"></object>
-                <a href="#about "id="hintSelector" onclick="javascript:scrollToPage(1);">
-                </a>
-                <span>Down</span>
+            <div class="slide" id="projects">
             </div>
-        </div>
-        <div class="slide" id="about">
-        </div>
-        <div class="slide" id="projects">
-        </div>
-        <div class="slide" id="contact">
-        </div>
-        <div id="copyright">
-            <span id="credits">Designed and developed by Daniel Dakev</span>
+            <div class="slide" id="contact">
+            </div>
+            <div id="copyright">
+                <span id="credits">Designed and developed by Daniel Dakev</span>
+            </div>
         </div>
     </body>
 </html>

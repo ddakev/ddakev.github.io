@@ -1,18 +1,30 @@
 /*
 To do:
 menu animations on hover, on click;
-decide on background for top bar;
 animated svg for logo;
-in js, switch out window.scrollY with document.documentElement.scrollTop so it works in IE |(;
 set up 404 page;
 */
 body
 {
+    overflow-y:hidden;
     overflow-x:hidden;
+    background:black;
+    padding:0;
+    margin:0;
     font-family: "Trebuchet MS","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Tahoma,sans-serif;
 }
-::-webkit-scrollbar {
-    width: 0px;
+#contentPage
+{
+    overflow-x:visible;
+    margin:0;
+    padding:0;
+    overflow-y:scroll;
+    width:100vw;
+    height:100vh;
+    top:0;
+    left:0;
+    padding-right:40px;
+    position:absolute;
 }
 #topBar
 {
@@ -99,6 +111,7 @@ body
     z-index:1;
     bottom:-5vh;
     width:auto;
+    white-space: nowrap;
     height:6.2vh;
     overflow:visible;
     -webkit-clip-path:circle(3.1vh at 50% 50%);

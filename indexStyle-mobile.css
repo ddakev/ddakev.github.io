@@ -8,6 +8,8 @@
     bottom:-10vh;
     height:10vh;
     margin-left:-15vh;
+    width:30vh;
+    position:absolute;
     -webkit-clip-path:circle(5vh at 50% 50%);
 }
 #scrollHint span
@@ -20,57 +22,62 @@
     width:90%;
     margin:10px 5%;
 }
-#topBar
-{
-    text-align: center;
-}
 #hamMenuLabel
 {
     display:block;
-    position:absolute;
+    position:fixed;
     width:auto;
     z-index:3;
+    top:0;
+    left:0;
     height:7.5vh;
-    margin:3.75vh 2vw;
+    margin:3.75vh 5vw;
 }
 #hamImage
 {
     pointer-events: none;
 }
-#hamMenu:checked ~ #topBar>#menu
+#contentPage, #topBar
 {
-    left:0vw;
+    -webkit-transition:left 0.2s;
 }
-body>div
+#pageSelector
 {
-    -webkit-transition:left 0.2s, right 0.2s;
+    -webkit-transition:right 0.2s;
 }
-#hamMenu:checked ~ div
+#hamMenu:checked ~ div>#topBar
 {
     left:60vw;
 }
-#hamMenu:checked ~ #pageSelector
+#hamMenu:checked ~ div
 {
-    left:100vw;
+    overflow-y:hidden;
+    left:60vw;
+}
+#hamMenu:checked ~ div>#pageSelector
+{
+    right:-57vw;
 }
 #logo
 {
+    position:absolute;
     display:block;
     width:auto;
     height:7.5vh;
-    margin:3.75vh 5vw;
+    left:-4vh;
+    margin:3.75vh 50%;
 }
 #menu
 {
-    position:fixed;
+    position:absolute;
     display:block;
     top:0vh;
     z-index:1;
-    padding-top:15vh;
+    padding:15vh 0vh 0vh 5vw;
     left:-60vw;
     margin:0;
     height:85vh;
-    width:60vw;
+    width:55vw;
     cursor:default;
     background:rgba(65,64,66,1);
     -webkit-transition:left 0.2s;
