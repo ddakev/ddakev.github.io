@@ -12,6 +12,16 @@
     position:absolute;
     -webkit-clip-path:circle(5vh at 50% 50%);
 }
+body
+{
+    overflow-x:scroll;
+}
+#contentPage
+{
+    overflow-x:visible;
+    position:fixed;
+    box-sizing:border-box;
+}
 #scrollHint span
 {
     font-size:2.5vh;
@@ -31,7 +41,7 @@
     top:0;
     left:0;
     height:7.5vh;
-    margin:3.75vh 5vw;
+    margin:3.75vh 4vh;
 }
 #hamImage
 {
@@ -41,22 +51,25 @@
 {
     -webkit-transition:left 0.2s;
 }
+#topBar
+{
+    position:fixed;
+}
 #pageSelector
 {
     -webkit-transition:right 0.2s;
 }
-#hamMenu:checked ~ div>#topBar
+#hamMenu:checked ~ #contentPage
 {
-    left:60vw;
+    left:35vh;
 }
-#hamMenu:checked ~ div
+#hamMenu:checked ~ #contentPage>#topBar
 {
-    overflow-y:hidden;
-    left:60vw;
+    left:35vh;
 }
-#hamMenu:checked ~ div>#pageSelector
+#hamMenu:checked ~ #contentPage>#pageSelector
 {
-    right:-57vw;
+    right:-35vh;
 }
 #logo
 {
@@ -71,15 +84,18 @@
 {
     position:absolute;
     display:block;
+    overflow:hidden;
     top:0vh;
     z-index:1;
-    padding:15vh 0vh 0vh 5vw;
-    left:-60vw;
+    padding:15vh 0vh 0vh 4vh;
+    left:-35vh;
     margin:0;
     height:85vh;
-    width:55vw;
+    width:31vh;
     cursor:default;
-    background:rgba(65,64,66,1);
+    background-color:rgba(65,64,66,1);
+    /*background-image:-webkit-linear-gradient(left,rgb(65,64,66) 0%,rgb(65,64,66) 95%,rgb(0,0,0) 100%);*/
+    -webkit-box-shadow:inset -6px 0px 10px -5px black;
     -webkit-transition:left 0.2s;
 }
 .menuItem
@@ -96,7 +112,7 @@
     color:white;
     font-size:6vh;
     line-height: 0px;
-    padding:5vh 2vw;
+    padding:5vh 2vh;
     margin:0;
     border-radius:10px;
     background-color:rgba(65,64,66,0.0);
@@ -104,5 +120,5 @@
 }
 .menuItem li:hover
 {
-    background-color:rgba(65,64,66,0.6);
+    background-color:none;
 }

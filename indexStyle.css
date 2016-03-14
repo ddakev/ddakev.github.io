@@ -15,7 +15,7 @@ body
 }
 #contentPage
 {
-    overflow-x:visible;
+    overflow-x:hidden;
     margin:0;
     padding:0;
     overflow-y:scroll;
@@ -23,8 +23,8 @@ body
     height:100vh;
     top:0;
     left:0;
-    padding-right:40px;
-    position:absolute;
+    padding-right:11vw;
+    position:fixed;
 }
 #topBar
 {

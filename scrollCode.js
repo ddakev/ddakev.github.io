@@ -15,6 +15,11 @@ function startAnimations()
     updateCurrentScreen(findScreen());
     document.getElementById("contentPage").addEventListener("scroll",scrollPg);
     document.getElementById("hamMenu").addEventListener("click",checkboxChange);
+    document.getElementById("contentPage").addEventListener("click",checkToCollapse);
+    for(var i=0; i<document.getElementsByClassName("menuItem").length; i++)
+    {
+        document.getElementsByClassName("menuItem")[i].addEventListener("click",collapseMenu);
+    }
     document.getElementById('scrollHint').style.animationPlayState='running';
     document.getElementById('scrollHint').addEventListener("animationend",startAn);
     if(navigator.userAgent.indexOf("Firefox")!=-1) 
@@ -26,8 +31,11 @@ function updateCurrentScreen(scr)
 {
     window.location.hash=slideNames[scr];
     document.title="Daniel Dakev | " + slideNames[scr].capitalize();
-    document.getElementsByTagName("li")[curScrn].style.backgroundColor="rgba(65,64,66,0.0)";
-    document.getElementsByTagName("li")[scr].style.backgroundColor="rgba(65,64,66,0.6)";
+    if(window.getComputedStyle(document.getElementById("hamMenuLabel")).display=="none")
+    {
+        document.getElementsByTagName("li")[curScrn].style.backgroundColor="rgba(65,64,66,0.0)";
+        document.getElementsByTagName("li")[scr].style.backgroundColor="rgba(65,64,66,0.6)";
+    }
     curScrn=scr;
 }
 function findScreen()
@@ -105,12 +113,27 @@ function startAn()
 }
 function checkboxChange(e)
 {
-    if(e.target.checked)
+    if(document.getElementById("hamMenu").checked)
     {
-        document.getElementsByTagName("body")[0].style.overflowY="hidden";
+        document.getElementById("contentPage").style.overflowY="hidden";
     }
     else
     {
-        document.getElementsByTagName("body")[0].style.overflowY="visible";
+        document.getElementById("contentPage").style.overflowY="scroll";
+    }
+}
+function checkToCollapse(e)
+{
+    if(e.pageX>=parseFloat(window.getComputedStyle(document.getElementById("contentPage")).left))
+    {
+        collapseMenu();
+    }
+}
+function collapseMenu()
+{
+    if(document.getElementById("hamMenu").checked==true)
+    {
+        document.getElementById("hamMenu").checked=false;
+        checkboxChange();
     }
 }
