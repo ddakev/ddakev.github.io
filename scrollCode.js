@@ -1,3 +1,8 @@
+/*
+To-dos:
+- on mobile, on swipe from right to left, if menu is open, collapse
+
+*/
 var rep;
 var curScrn=0;
 var scrStep=0;
@@ -113,13 +118,18 @@ function startAn()
 }
 function checkboxChange(e)
 {
+    var svgDoc = document.getElementById("hamImage").contentDocument;
     if(document.getElementById("hamMenu").checked)
     {
         document.getElementById("contentPage").style.overflowY="hidden";
+        svgDoc.getElementById("toArrow1").beginElement();
+        svgDoc.getElementById("toArrow2").beginElement();
     }
     else
     {
         document.getElementById("contentPage").style.overflowY="scroll";
+        svgDoc.getElementById("toHam1").beginElement();
+        svgDoc.getElementById("toHam2").beginElement();
     }
 }
 function checkToCollapse(e)
