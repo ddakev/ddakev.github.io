@@ -21,9 +21,12 @@ function startAnimations()
     document.getElementById("contentPage").addEventListener("scroll",scrollPg);
     document.getElementById("hamMenu").addEventListener("click",checkboxChange);
     document.getElementById("contentPage").addEventListener("click",checkToCollapse);
-    for(var i=0; i<document.getElementsByClassName("menuItem").length; i++)
+    var mItems=document.getElementsByClassName("menuItem");
+    for(var i=0; i<mItems.length; i++)
     {
-        document.getElementsByClassName("menuItem")[i].addEventListener("click",collapseMenu);
+        mItems[i].addEventListener("click",collapseMenu);
+        mItems[i].children[0].addEventListener("mouseenter",function(event){event.target.style.backgroundColor="rgba(65,64,66,0.6)";});
+        mItems[i].children[0].addEventListener("mouseout",function(event){if(event.target != document.getElementsByClassName("menuItem")[curScrn].children[0]) event.target.style.backgroundColor="rgba(65,64,66,0.0)";});
     }
     document.getElementById('scrollHint').style.animationPlayState='running';
     document.getElementById('scrollHint').addEventListener("animationend",startAn);
@@ -35,7 +38,7 @@ function startAnimations()
 function updateCurrentScreen(scr)
 {
     window.location.hash=slideNames[scr];
-    document.title="Daniel Dakev | " + slideNames[scr].capitalize();
+    document.title=slideNames[scr].capitalize() + " | Daniel Dakev";
     if(window.getComputedStyle(document.getElementById("hamMenuLabel")).display=="none")
     {
         document.getElementsByTagName("li")[curScrn].style.backgroundColor="rgba(65,64,66,0.0)";
@@ -71,6 +74,14 @@ function scroll(spos,fpos,steps)
     scrollPosition=Math.abs(content.scrollTop);
     var scrollFactor=3*Math.abs(content.scrollTop)/parseFloat(window.getComputedStyle(document.getElementById("contact")).top);
     document.getElementById("pageSelectorButtons").style.webkitClipPath="circle(10px at 7.5px " + (8.5+scrollFactor*19.5) + "px)";
+    var cSlides = document.getElementsByClassName("contents");
+    for(var l=0; l<cSlides.length; l++)
+    {
+        var topClip=(-parseFloat(window.getComputedStyle(cSlides[l]).top)+content.scrollTop)*100/window.innerHeight+15;
+        var iClip="inset("+topClip.toString()+"vh 0px 0px 0px)";
+        alert(iClip);
+        cSlides[l].style.webkitClipPath=iClip;
+    }
     var scr = findScreen();
     if(scr != curScrn)
     {

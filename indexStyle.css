@@ -247,19 +247,23 @@ a
 }
 .contents
 {
-    position:absolute;
-    top:0px;
+    position:relative;
+    top:15vh;
     left:0px;
     width:60vw;
-    height:80vh;
+    height:85vh;
     margin:0 20vw;
-    padding:10vh 5px;
+    padding:0vh 5px;
     text-align:center;
 }
 #homeContents
 {
-    height:60vh;
-    padding-top:30vh;
+    height:70vh;
+    padding-top:15vh;
+}
+#projectsContents
+{
+    background:black;
 }
 h1, span
 {
