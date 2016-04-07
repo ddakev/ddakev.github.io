@@ -79,7 +79,6 @@ function scroll(spos,fpos,steps)
     {
         var topClip=(-parseFloat(window.getComputedStyle(cSlides[l]).top)+content.scrollTop)*100/window.innerHeight+15;
         var iClip="inset("+topClip.toString()+"vh 0px 0px 0px)";
-        alert(iClip);
         cSlides[l].style.webkitClipPath=iClip;
     }
     var scr = findScreen();
