@@ -10,19 +10,45 @@ var KEY_LEFT_ARROW = 37,
     KEY_UP_ARROW = 38,
     KEY_DOWN_ARROW = 40,
     KEY_SPACE = 32,
-    FPS = 60;
+    FPS = 60,
+    BULLET_COOLDOWN = 300;
 
 var canvas,
     ctx,
     timestep=1000 / FPS,
     lastFrame = 0,
     lastDraw = 0,
+    lastBullet = 0,
     delta = 0,
     screenWidth = 1366,
     screenHeight = 643,
     player,
     background,
-    keysPressed = new Array(223);
+    keysPressed = new Array(223),
+    bullets = [];
+
+function Background() {
+    this.width = 1366;
+    this.height = 643;
+    this.x = 0;
+    this.y = 1277; // starting y position on the image
+    this.speed = 1.5;
+    this.image = new Image();
+    this.image.src = "images/backgroundBig.png";
+}
+Background.prototype.move = function() {
+    this.y -= this.speed;
+    if(this.y <= -643) this.y = 1277;
+};
+Background.prototype.draw = function(ctx) {
+    if(this.y>=0) {
+        ctx.drawImage(this.image,this.x,this.y,this.width,this.height,0,0,1366,643);
+    }
+    else {
+        ctx.drawImage(this.image,this.x,0,this.width,this.height+this.y,0,-this.y,1366,643+this.y);
+        ctx.drawImage(this.image,this.x,1920+this.y,this.width,-this.y,0,0,1366,-this.y);
+    }
+};
 
 function Player(x,y) {
     this.x = x;
@@ -96,27 +122,24 @@ Player.prototype.draw = function(ctx) {
                   this.x, this.y, this.width, this.height);
 };
 
-function Background() {
-    this.width = 1366;
-    this.height = 643;
-    this.x = 0;
-    this.y = 1277; // starting y position on the image
-    this.speed = 1.5;
+function Bullet(x,y) {
+    this.x = x;
+    this.y = y;
+    this.width = 3;
+    this.height = 9;
+    this.speed = -4;
     this.image = new Image();
-    this.image.src = "images/backgroundBig.png";
+    this.image.src = "images/alt_bullet.png";
 }
-Background.prototype.move = function() {
-    this.y -= this.speed;
-    if(this.y <= -643) this.y = 1277;
+Bullet.prototype.moveTo = function(newX, newY) {
+    this.x = newX;
+    this.y = newY;
 };
-Background.prototype.draw = function(ctx) {
-    if(this.y>=0) {
-        ctx.drawImage(this.image,this.x,this.y,this.width,this.height,0,0,1366,643);
-    }
-    else {
-        ctx.drawImage(this.image,this.x,0,this.width,this.height+this.y,0,-this.y,1366,643+this.y);
-        ctx.drawImage(this.image,this.x,1920+this.y,this.width,-this.y,0,0,1366,-this.y);
-    }
+Bullet.prototype.move = function() {
+    this.y += this.speed;
+};
+Bullet.prototype.draw = function(ctx) {
+    ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 };
 
 function initialize() {
@@ -129,7 +152,6 @@ function initialize() {
     ctx = canvas.getContext('2d');
     player = new Player(673,550);
     background = new Background();
-    ctx.font = "24pt sans-serif";
     ctx.fillStyle="#fff";
     
     main(0);
@@ -151,6 +173,24 @@ function update(delta) {
         player.moveBy(delta*playerdX/Math.sqrt(playerdX*playerdX+playerdY*playerdY),delta*playerdY/Math.sqrt(playerdX*playerdX+playerdY*playerdY));
     else
         player.moveBy(0,0);
+    
+    if(keysPressed[KEY_SPACE]) {
+        if(lastFrame - lastBullet >= BULLET_COOLDOWN) {
+            bullets.push(new Bullet(player.x + player.width/2 - 3/2, player.y));
+            lastBullet = lastFrame;
+        }
+    }
+    
+    var n=bullets.length;
+    for(var i=0; i<n; i++) {
+        bullets[i].move();
+        if(bullets[i].y<=-bullets[i].height) {
+            delete bullets[i];
+            bullets.splice(i,1);
+            n--;
+        }
+    }
+    
     background.move();
 }
 
@@ -162,5 +202,9 @@ function draw(ctx) {
     
     background.draw(ctx);
     player.draw(ctx);
+    bullets.forEach(function(bull) {bull.draw(ctx);});
+    ctx.font = "24pt sans-serif";
     ctx.fillText(Math.round(1000/deltaDraw) + " fps",20,40);
+    ctx.font = "10pt sans-serif";
+    ctx.fillText("Last update: bullets added (shoot with space)",20,60);
 }
