@@ -20,6 +20,7 @@ var canvas,
     lastDraw = 0,
     lastBullet = 0,
     delta = 0,
+    freeze = false,
     screenWidth = 1366,
     screenHeight = 643,
     player,
@@ -60,6 +61,8 @@ function Player(x,y) {
     this.maxSpeed = 4;
     this.width = 41;
     this.height = 46;
+    this.collisionBox = [1, 4, 1, 5];
+    this.explosion = new Explosion();
     this.image = new Image();
     this.image.src = "images/spaceshipSprite.png";
     this.imageX = 0;
@@ -119,8 +122,11 @@ Player.prototype.moveBy = function(dX, dY) {
     if(this.y > screenHeight - 20 - this.height) {this.y = screenHeight - 20 - this.height; this.imageY = 2;}
 };
 Player.prototype.draw = function(ctx) {
-    ctx.drawImage(this.image, this.imageX * this.imageWidth, this.imageY * this.imageHeight, this.imageWidth, this.imageHeight,
+    if(this.explosion.explosionFrame<7) {
+        ctx.drawImage(this.image, this.imageX * this.imageWidth, this.imageY * this.imageHeight, this.imageWidth, this.imageHeight,
                   this.x, this.y, this.width, this.height);
+    }
+    this.explosion.draw(ctx,this.x, this.y, this.width, this.height);
 };
 
 function Bullet(x,y,type) {
@@ -128,6 +134,8 @@ function Bullet(x,y,type) {
     this.y = y;
     this.width = 4;
     this.height = 12;
+    this.collisionBox = [0, 0, 0, 0];
+    this.explosion = new Explosion();
     this.speed = 4*(type==0?-1:1);
     this.image = new Image();
     this.image.src = "images/alt_bullet.png";
@@ -140,7 +148,10 @@ Bullet.prototype.move = function() {
     this.y += this.speed;
 };
 Bullet.prototype.draw = function(ctx) {
-    ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    if(this.explosion.explosionFrame<7) {
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    }
+    this.explosion.draw(ctx, this.x, this.y, this.width, this.height);
 };
 
 function Enemy(type,x,y) {
@@ -148,14 +159,31 @@ function Enemy(type,x,y) {
     this.y = y;
     this.startY = y;
     this.changeY = 40;
+    this.explosion = new Explosion();
     this.type = type;
     this.width = 72;
     this.height = 50;
     this.speed = 0.5;
     this.direction = 0; //0 for right, 1 for down, 2 for left, 3 for down again
-    this.armor = type+1;
+    this.armor = 5-type;
     this.image = new Image();
     this.image.src = "images/enemies.png";
+    this.collisionBox = [0, 0, 0, 0];
+    if(type==0) {
+        this.collisionBox = [5.4, 10.8, 5.4, 10.8];
+    }
+    else if(type==1) {
+        this.collisionBox = [21.6, 12, 21.6, 12];
+    }
+    else if(type==2) {
+        this.collisionBox = [15.6, 11.4, 15.6, 11.4];
+    }
+    else if(type==3) {
+        this.collisionBox = [18, 11.4, 18, 11.4];
+    }
+    else {
+        this.collisionBox = [18.6, 10.2, 18.6, 10.2];
+    }
 }
 Enemy.prototype.move = function() {
     if(this.direction == 0) {
@@ -179,8 +207,32 @@ Enemy.prototype.moveBy = function(dX, dY) {
     this.y += dY;
 };
 Enemy.prototype.draw = function(ctx) {
-    ctx.drawImage(this.image, this.type*this.image.width/5, 0, this.image.width/5, this.image.height,
+    if(this.explosion.explosionFrame<7)
+        ctx.drawImage(this.image, this.type*this.image.width/5, 0, this.image.width/5, this.image.height,
                   this.x, this.y, this.width, this.height);
+    this.explosion.draw(ctx, this.x, this.y, this.width, this.height);
+    
+};
+
+function Explosion() {
+    this.explosionFrame = -1; //-1 for not exploding, otherwise between 0 and 19 for each frame, 20 for end and destroy
+    this.explosionColumns = 5;
+    this.explosionRows = 4;
+    this.explosionSpeed = 0.5;
+    this.explosionImage = new Image();
+    this.explosionImage.src = "images/explosion.png";
+}
+Explosion.prototype.advance = function() {
+    this.explosionFrame += this.explosionSpeed;
+};
+Explosion.prototype.draw = function(ctx, x, y, width, height) {
+    if(this.explosionFrame>-1&&this.explosionFrame<this.explosionColumns*this.explosionRows)
+        ctx.drawImage(this.explosionImage,
+                      this.explosionImage.width*(Math.floor(this.explosionFrame)%this.explosionColumns)/this.explosionColumns,
+                      this.explosionImage.height*(Math.floor(Math.floor(this.explosionFrame)/this.explosionColumns))/this.explosionRows,
+                      this.explosionImage.width/this.explosionColumns,
+                      this.explosionImage.height/this.explosionRows,
+                      x, y, Math.max(width,height), Math.max(width,height));
 };
 
 function spawnEnemies() {
@@ -189,6 +241,14 @@ function spawnEnemies() {
             enemies.push(new Enemy(i, 0.15*screenWidth+j*(0.7*screenWidth-72)/6, 0.05*screenHeight+i*0.1*screenHeight));
         }
     }
+}
+
+function collidingBoxes(a, b)
+{
+    if(Math.max(a.x+a.collisionBox[0],b.x+b.collisionBox[0])<Math.min(a.x+a.width-a.collisionBox[2],b.x+b.width-b.collisionBox[2]) &&
+        Math.max(a.y+a.collisionBox[1],b.y+b.collisionBox[1])<Math.min(a.y+a.height-a.collisionBox[3],b.y+b.height-b.collisionBox[3]))
+        return true;
+    else return false;
 }
 
 function initialize() {
@@ -212,11 +272,37 @@ function main(timestamp) {
     delta = timestamp - lastFrame;
     lastFrame = timestamp;
     
-    update(delta);
+    if(!freeze) {
+        update(delta);
+    }
+    else {
+        background.move();
+    }
     draw(ctx);
 }
 
 function update(delta) {
+    background.move();
+    
+    if(player.explosion.explosionFrame>-1) {
+        if(player.explosion.explosionFrame>=20) {
+            freeze=true;
+        }
+        else {
+            player.explosion.advance();
+            enemies.forEach(function(enemy) {
+                if(enemy.explosion.explosionFrame>-1) {
+                    if(enemy.explosion.explosionFrame<20) enemy.explosion.advance();
+                    else {enemies.splice(enemies.indexOf(enemy),1); delete enemy;}
+                }
+            });
+            bullets.forEach(function(bullet) {
+                bullet.move();
+                if(bullet.y<=-bullet.height) {bullets.splice(bullets.indexOf(bullet),1); delete bullet;}
+            });
+            return;
+        }
+    }
     var playerdX = keysPressed[KEY_RIGHT_ARROW] - keysPressed[KEY_LEFT_ARROW];
     var playerdY = keysPressed[KEY_DOWN_ARROW] - keysPressed[KEY_UP_ARROW];
     if(playerdX != 0 || playerdY != 0)
@@ -250,15 +336,45 @@ function update(delta) {
     
     var n=bullets.length;
     for(var i=0; i<n; i++) {
-        bullets[i].move();
-        if(bullets[i].y<=-bullets[i].height) {
+        if(bullets[i].explosion.explosionFrame == -1)
+            bullets[i].move();
+        else
+            bullets[i].explosion.advance();
+        if(bullets[i].y<=-bullets[i].height || bullets[i].explosion.explosionFrame>=20) {
             delete bullets[i];
             bullets.splice(i,1);
             n--;
         }
     }
     
-    background.move();
+    var enC = enemies.length;
+    var buC = bullets.length;
+    for(var i=0; i<enC; i++) {
+        if(enemies[i].explosion.explosionFrame>-1) {
+            enemies[i].explosion.advance();
+            continue;
+        }
+        if(enemies[i].explosion.explosionFrame>=20) {
+            delete enemies[i];
+            enemies.splice(i,1);
+            enc--;
+        }
+        if(collidingBoxes(enemies[i],player)) {
+            enemies[i].explosion.explosionFrame=Math.max(enemies[i].explosion.explosionFrame,0);
+            player.explosion.explosionFrame = 0;
+        }
+        for(var j=0; j<buC; j++) {
+            if(bullets[j].explosion.explosionFrame>-1) continue;
+            if(collidingBoxes(enemies[i],bullets[j]))
+            {
+                enemies[i].armor--;
+                if(enemies[i].armor == 0) {
+                    enemies[i].explosion.explosionFrame=Math.max(enemies[i].explosion.explosionFrame,0);
+                }
+                bullets[j].explosion.explosionFrame=0;
+            }
+        }
+    }
 }
 
 function draw(ctx) {
@@ -274,5 +390,5 @@ function draw(ctx) {
     ctx.font = "24pt sans-serif";
     ctx.fillText(Math.round(1000/deltaDraw) + " fps",20,40);
     ctx.font = "10pt sans-serif";
-    ctx.fillText("Last update: moving enemies added (no collision detection)",20,60);
+    ctx.fillText("Last update: added collisions and explosions",20,60);
 }
