@@ -10,6 +10,7 @@ var KEY_LEFT_ARROW = 37,
     KEY_UP_ARROW = 38,
     KEY_DOWN_ARROW = 40,
     KEY_SPACE = 32,
+    KEY_M = 77,
     FPS = 60,
     BULLET_COOLDOWN = 300;
 
@@ -28,6 +29,14 @@ var canvas,
     keysPressed = new Array(223),
     bullets = [],
     enemies = [];
+
+var muted = false,
+    markToMute = false,
+    sound_shoot,
+    sound_explosion,
+    sound_bullet_collide,
+    sound_player_death,
+    music_background;
 
 function Background() {
     this.width = 1366;
@@ -262,6 +271,13 @@ function initialize() {
     ctx.fillStyle="#fff";
     player = new Player(673,550);
     background = new Background();
+    sound_shoot = new Audio("sounds/bullet_shoot.wav");
+    music_background = new Audio("sounds/background_music.wav");
+    music_background.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    });
+    music_background.play();
     spawnEnemies();
     
     main(0);
@@ -283,6 +299,9 @@ function main(timestamp) {
 
 function update(delta) {
     background.move();
+    if(keysPressed[KEY_M]) markToMute = true;
+    else if(!keysPressed[KEY_M]&&markToMute) {muted=!muted; markToMute=false;}
+    music_background.muted=muted;
     
     if(player.explosion.explosionFrame>-1) {
         if(player.explosion.explosionFrame>=20) {
@@ -331,6 +350,10 @@ function update(delta) {
         if(lastFrame - lastBullet >= BULLET_COOLDOWN) {
             bullets.push(new Bullet(player.x + player.width/2 - 3/2, player.y, 0));
             lastBullet = lastFrame;
+            if(!muted) {
+                sound_shoot = new Audio("sounds/bullet_shoot.wav");
+                sound_shoot.play();
+            }
         }
     }
     
@@ -362,6 +385,10 @@ function update(delta) {
         if(collidingBoxes(enemies[i],player)) {
             enemies[i].explosion.explosionFrame=Math.max(enemies[i].explosion.explosionFrame,0);
             player.explosion.explosionFrame = 0;
+            if(!muted) {
+                sound_player_death = new Audio("sounds/player_explosion.wav");
+                sound_player_death.play();
+            }
         }
         for(var j=0; j<buC; j++) {
             if(bullets[j].explosion.explosionFrame>-1) continue;
@@ -370,8 +397,16 @@ function update(delta) {
                 enemies[i].armor--;
                 if(enemies[i].armor == 0) {
                     enemies[i].explosion.explosionFrame=Math.max(enemies[i].explosion.explosionFrame,0);
+                    if(!muted) {
+                        sound_explosion = new Audio("sounds/enemy_explosion.wav");
+                        sound_explosion.play();
+                    }
                 }
                 bullets[j].explosion.explosionFrame=0;
+                if(!muted) {
+                    sound_bullet_collide = new Audio("sounds/bullet_collision.wav");
+                    sound_bullet_collide.play();
+                }
             }
         }
     }
@@ -390,5 +425,5 @@ function draw(ctx) {
     ctx.font = "24pt sans-serif";
     ctx.fillText(Math.round(1000/deltaDraw) + " fps",20,40);
     ctx.font = "10pt sans-serif";
-    ctx.fillText("Last update: added collisions and explosions",20,60);
+    ctx.fillText("Last update: sounds!!! (mute with m)",20,60);
 }
