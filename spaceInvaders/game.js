@@ -367,20 +367,22 @@ function update(delta) {
             delete bullets[i];
             bullets.splice(i,1);
             n--;
+            i--;
         }
     }
     
     var enC = enemies.length;
     var buC = bullets.length;
     for(var i=0; i<enC; i++) {
-        if(enemies[i].explosion.explosionFrame>-1) {
+        if(enemies[i].explosion.explosionFrame>-1&&enemies[i].explosion.explosionFrame<20) {
             enemies[i].explosion.advance();
             continue;
         }
         if(enemies[i].explosion.explosionFrame>=20) {
             delete enemies[i];
             enemies.splice(i,1);
-            enc--;
+            enC--;
+            i--;
         }
         if(collidingBoxes(enemies[i],player)) {
             enemies[i].explosion.explosionFrame=Math.max(enemies[i].explosion.explosionFrame,0);
