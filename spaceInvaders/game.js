@@ -143,11 +143,12 @@ function Bullet(x,y,type) {
     this.y = y;
     this.width = 4;
     this.height = 12;
+    this.type = type;
     this.collisionBox = [0, 0, 0, 0];
     this.explosion = new Explosion();
     this.speed = 4*(type==0?-1:1);
     this.image = new Image();
-    this.image.src = "images/alt_bullet.png";
+    this.image.src = (type==0?"images/player_bullet.png":"images/enemy_bullet.png");
 }
 Bullet.prototype.moveTo = function(newX, newY) {
     this.x = newX;
@@ -175,6 +176,7 @@ function Enemy(type,x,y) {
     this.speed = 0.5;
     this.direction = 0; //0 for right, 1 for down, 2 for left, 3 for down again
     this.armor = 5-type;
+    this.shootProbability = 0.001;
     this.image = new Image();
     this.image.src = "images/enemies.png";
     this.collisionBox = [0, 0, 0, 0];
@@ -224,18 +226,25 @@ Enemy.prototype.draw = function(ctx) {
 };
 
 function Explosion() {
-    this.explosionFrame = -1; //-1 for not exploding, otherwise between 0 and 19 for each frame, 20 for end and destroy
+    this.explosionFrame = -1;                           //-1 for not exploding, otherwise between 0 and 19 for each frame, 20 for end and destroy
     this.explosionColumns = 5;
     this.explosionRows = 4;
     this.explosionSpeed = 0.5;
+    this.status = 0;                                    //0 for not started, 1 for running, 2 for finishes
     this.explosionImage = new Image();
     this.explosionImage.src = "images/explosion.png";
 }
+Explosion.prototype.start = function() {
+    this.explosionFrame = 0;
+    this.status = 1;
+};
 Explosion.prototype.advance = function() {
     this.explosionFrame += this.explosionSpeed;
+    if(this.explosionFrame >= this.explosionColumns * this.explosionRows)
+        this.status = 2;
 };
 Explosion.prototype.draw = function(ctx, x, y, width, height) {
-    if(this.explosionFrame>-1&&this.explosionFrame<this.explosionColumns*this.explosionRows)
+    if(this.status == 1)
         ctx.drawImage(this.explosionImage,
                       this.explosionImage.width*(Math.floor(this.explosionFrame)%this.explosionColumns)/this.explosionColumns,
                       this.explosionImage.height*(Math.floor(Math.floor(this.explosionFrame)/this.explosionColumns))/this.explosionRows,
@@ -288,12 +297,7 @@ function main(timestamp) {
     delta = timestamp - lastFrame;
     lastFrame = timestamp;
     
-    if(!freeze) {
-        update(delta);
-    }
-    else {
-        background.move();
-    }
+    update(delta);
     draw(ctx);
 }
 
@@ -303,15 +307,31 @@ function update(delta) {
     else if(!keysPressed[KEY_M]&&markToMute) {muted=!muted; markToMute=false;}
     music_background.muted=muted;
     
-    if(player.explosion.explosionFrame>-1) {
-        if(player.explosion.explosionFrame>=20) {
+    var n=bullets.length;
+    for(var i=0; i<n; i++) {
+        if(bullets[i].explosion.status == 0)
+            bullets[i].move();
+        else
+            bullets[i].explosion.advance();
+        if(bullets[i].y<=-bullets[i].height || bullets[i].y>=screenHeight || bullets[i].explosion.status == 2) {
+            delete bullets[i];
+            bullets.splice(i,1);
+            n--;
+            i--;
+        }
+    }
+    
+    if(freeze) return;
+    
+    if(player.explosion.status > 0) {
+        if(player.explosion.status == 2) {
             freeze=true;
         }
         else {
             player.explosion.advance();
             enemies.forEach(function(enemy) {
-                if(enemy.explosion.explosionFrame>-1) {
-                    if(enemy.explosion.explosionFrame<20) enemy.explosion.advance();
+                if(enemy.explosion.status > 0) {
+                    if(enemy.explosion.status == 1) enemy.explosion.advance();
                     else {enemies.splice(enemies.indexOf(enemy),1); delete enemy;}
                 }
             });
@@ -338,6 +358,10 @@ function update(delta) {
         if(shouldChangeDir == 0 && enemy.x < 0.05*screenWidth) {
             shouldChangeDir = enemy.x - 0.05*screenWidth;
         }
+        if(Math.random() < enemy.shootProbability) {
+            bullets.push(new Bullet(enemy.x+enemy.width/2-2, enemy.y+enemy.height-enemy.collisionBox[3]-12, 1));
+            
+        }
     });
     if(shouldChangeDir!=0) {
         enemies.forEach(function(enemy) {
@@ -348,7 +372,7 @@ function update(delta) {
     
     if(keysPressed[KEY_SPACE]) {
         if(lastFrame - lastBullet >= BULLET_COOLDOWN) {
-            bullets.push(new Bullet(player.x + player.width/2 - 3/2, player.y, 0));
+            bullets.push(new Bullet(player.x + player.width/2 - 2, player.y + player.collisionBox[1], 0));
             lastBullet = lastFrame;
             if(!muted) {
                 sound_shoot = new Audio("sounds/bullet_shoot.wav");
@@ -357,54 +381,52 @@ function update(delta) {
         }
     }
     
-    var n=bullets.length;
-    for(var i=0; i<n; i++) {
-        if(bullets[i].explosion.explosionFrame == -1)
-            bullets[i].move();
-        else
-            bullets[i].explosion.advance();
-        if(bullets[i].y<=-bullets[i].height || bullets[i].explosion.explosionFrame>=20) {
-            delete bullets[i];
-            bullets.splice(i,1);
-            n--;
-            i--;
-        }
-    }
-    
     var enC = enemies.length;
     var buC = bullets.length;
     for(var i=0; i<enC; i++) {
-        if(enemies[i].explosion.explosionFrame>-1&&enemies[i].explosion.explosionFrame<20) {
+        if(enemies[i].explosion.status == 1) {
             enemies[i].explosion.advance();
             continue;
         }
-        if(enemies[i].explosion.explosionFrame>=20) {
+        if(enemies[i].explosion.status == 2) {
             delete enemies[i];
             enemies.splice(i,1);
             enC--;
             i--;
         }
         if(collidingBoxes(enemies[i],player)) {
-            enemies[i].explosion.explosionFrame=Math.max(enemies[i].explosion.explosionFrame,0);
-            player.explosion.explosionFrame = 0;
+            if(enemies[i].explosion.status == 0) enemies[i].explosion.start();
+            player.explosion.start();
             if(!muted) {
                 sound_player_death = new Audio("sounds/player_explosion.wav");
                 sound_player_death.play();
             }
         }
         for(var j=0; j<buC; j++) {
-            if(bullets[j].explosion.explosionFrame>-1) continue;
-            if(collidingBoxes(enemies[i],bullets[j]))
+            if(bullets[j].explosion.status > 0) continue;
+            if(collidingBoxes(enemies[i],bullets[j]) && bullets[j].type == 0)
             {
                 enemies[i].armor--;
                 if(enemies[i].armor == 0) {
-                    enemies[i].explosion.explosionFrame=Math.max(enemies[i].explosion.explosionFrame,0);
+                    if(enemies[i].explosion.status == 0) enemies[i].explosion.start();
                     if(!muted) {
                         sound_explosion = new Audio("sounds/enemy_explosion.wav");
                         sound_explosion.play();
                     }
                 }
-                bullets[j].explosion.explosionFrame=0;
+                bullets[j].explosion.start();
+                if(!muted) {
+                    sound_bullet_collide = new Audio("sounds/bullet_collision.wav");
+                    sound_bullet_collide.play();
+                }
+            }
+            if(collidingBoxes(player,bullets[j]) && bullets[j].type == 1) {
+                player.explosion.start();
+                if(!muted) {
+                    sound_player_death = new Audio("sounds/player_explosion.wav");
+                    sound_player_death.play();
+                }
+                bullets[j].explosion.start();
                 if(!muted) {
                     sound_bullet_collide = new Audio("sounds/bullet_collision.wav");
                     sound_bullet_collide.play();
@@ -421,9 +443,9 @@ function draw(ctx) {
     ctx.clearRect(0,0,canvas.width,canvas.height);
     
     background.draw(ctx);
+    bullets.forEach(function(bull) {bull.draw(ctx);});
     player.draw(ctx);
     enemies.forEach(function(enemy) {enemy.draw(ctx);});
-    bullets.forEach(function(bull) {bull.draw(ctx);});
     ctx.font = "24pt sans-serif";
     ctx.fillText(Math.round(1000/deltaDraw) + " fps",20,40);
     ctx.font = "10pt sans-serif";
