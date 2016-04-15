@@ -15,6 +15,10 @@ var KEY_LEFT_ARROW = 37,
     KEY_S = 83,
     KEY_SPACE = 32,
     KEY_M = 77,
+    KEY_R = 82,
+    KEY_1 = 49,
+    KEY_2 = 50,
+    KEY_3 = 51,
     FPS = 60,
     BULLET_COOLDOWN = 300;
 
@@ -41,6 +45,8 @@ var canvas,
 
 var muted = false,
     markToMute = false,
+    markBtn2 = false,
+    markBtn3 = false,
     sound_shoot,
     sound_explosion,
     sound_bullet_collide,
@@ -314,8 +320,14 @@ function drawGUI(ctx) {
     ctx.fillText(score,10+20*(5-numD),28);
     ctx.drawImage(image_powerup, 120, 10, 20, 20);
     ctx.fillText(upgrades, 142, 28);
-    for(var i=0; i<player.lives; i++)
-        ctx.drawImage(image_lives, 185 + i*28, 10, 20, 20);
+    if(player.lives <= 3) {
+        for(var i=0; i<player.lives; i++)
+            ctx.drawImage(image_lives, 185 + i*28, 10, 20, 20);
+    }
+    else {
+        ctx.drawImage(image_lives, 185, 10, 20, 20);
+        ctx.fillText(player.lives, 215, 28);
+    }
     ctx.font = "20pt KenvectorFuture";
     ctx.fillText(Math.round(1000/deltaDraw) + " fps",1240,40);
     ctx.font = "10pt KenvectorFuture";
@@ -444,6 +456,19 @@ function update(delta) {
     if(keysPressed[KEY_M]) markToMute = true;
     else if(!keysPressed[KEY_M]&&markToMute) {muted=!muted; markToMute=false;}
     music_background.muted=muted;
+    if(keysPressed[KEY_1]) {
+        enemies.forEach(function(e) {if(e.explosion.status == 0) e.explosion.start();});
+    }
+    if(keysPressed[KEY_2]) markBtn2 = true;
+    else if(!keysPressed[KEY_2]&&markBtn2) {
+        markBtn2 = false;
+        spawnUpgrade(Math.random()*screenWidth, -20);
+    }
+    if(keysPressed[KEY_3]) markBtn3 = true;
+    else if(!keysPressed[KEY_3]&&markBtn3) {
+        markBtn3 = false;
+        player.lives++;
+    }
     
     var n=bullets.length;
     for(var i=0; i<n; i++) {
