@@ -9,6 +9,10 @@ var KEY_LEFT_ARROW = 37,
     KEY_RIGHT_ARROW = 39,
     KEY_UP_ARROW = 38,
     KEY_DOWN_ARROW = 40,
+    KEY_A = 65,
+    KEY_D = 68,
+    KEY_W = 87,
+    KEY_S = 83,
     KEY_SPACE = 32,
     KEY_M = 77,
     FPS = 60,
@@ -20,14 +24,18 @@ var canvas,
     lastFrame = 0,
     lastDraw = 0,
     lastBullet = 0,
+    lastDeath = -5000,
     delta = 0,
     freeze = false,
+    upgrades = 0,
+    gameOver = 0, //0 for not over, 1 for loss, 2 for win
     screenWidth = 1366,
     screenHeight = 643,
     player,
     background,
     keysPressed = new Array(223),
     bullets = [],
+    pickups = [],
     enemies = [];
 
 var muted = false,
@@ -36,6 +44,7 @@ var muted = false,
     sound_explosion,
     sound_bullet_collide,
     sound_player_death,
+    sound_upgrade,
     music_background;
 
 function Background() {
@@ -72,6 +81,7 @@ function Player(x,y) {
     this.height = 46;
     this.collisionBox = [1, 4, 1, 5];
     this.explosion = new Explosion();
+    this.lives=3;
     this.image = new Image();
     this.image.src = "images/spaceshipSprite.png";
     this.imageX = 0;
@@ -143,12 +153,21 @@ function Bullet(x,y,type) {
     this.y = y;
     this.width = 4;
     this.height = 12;
+    if(type >= 0) {
+        this.width = 3;
+        this.height = 9;
+    }
     this.type = type;
+    this.damage = (type+1)*0.5;
     this.collisionBox = [0, 0, 0, 0];
     this.explosion = new Explosion();
-    this.speed = 4*(type==0?-1:1);
+    this.speed = 0;
+    if(type == -1)
+        this.speed = -Math.random()*2 + 5;
+    else
+        this.speed = -4;
     this.image = new Image();
-    this.image.src = (type==0?"images/player_bullet.png":"images/enemy_bullet.png");
+    this.image.src = (type==-1?"images/enemy_bullet.png":"images/player_bullet.png");
 }
 Bullet.prototype.moveTo = function(newX, newY) {
     this.x = newX;
@@ -158,11 +177,35 @@ Bullet.prototype.move = function() {
     this.y += this.speed;
 };
 Bullet.prototype.draw = function(ctx) {
-    if(this.explosion.explosionFrame<7) {
-        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    if(this.explosion.explosionFrame<2) {
+        if(this.type>0)
+            ctx.drawImage(this.image, this.x-this.width*this.type/(2*(1+this.type)), this.y, this.width*(1+this.type/(this.type+1)), this.height*(1+this.type/(this.type+1)));
+        else
+            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
     this.explosion.draw(ctx, this.x, this.y, this.width, this.height);
 };
+
+function Upgrade(x, y) {
+    this.x = x;
+    this.y = y;
+    this.width = 20;
+    this.height = 20;
+    this.speed = 2;
+    this.collisionBox = [0, 0, 0, 0];
+    this.image = new Image();
+    this.image.src = "images/upgrade.png";
+}
+Upgrade.prototype.moveTo = function(newX, newY) {
+    this.x = newX;
+    this.y = newY;
+}
+Upgrade.prototype.move = function() {
+    this.y += this.speed;
+}
+Upgrade.prototype.draw = function(ctx) {
+    ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, this.x, this.y, this.width, this.height);
+}
 
 function Enemy(type,x,y) {
     this.x = x;
@@ -176,7 +219,8 @@ function Enemy(type,x,y) {
     this.speed = 0.5;
     this.direction = 0; //0 for right, 1 for down, 2 for left, 3 for down again
     this.armor = 5-type;
-    this.shootProbability = 0.001;
+    this.shootProbability = 0.002;
+    this.upgradeProbability = 0.14;
     this.image = new Image();
     this.image.src = "images/enemies.png";
     this.collisionBox = [0, 0, 0, 0];
@@ -261,6 +305,33 @@ function spawnEnemies() {
     }
 }
 
+function spawnBullets(x, y, width) {
+    if(upgrades == 0) {
+        bullets.push(new Bullet(x + width/2 - 3/2, y, 0));
+    }
+    else if(upgrades == 1) {
+        bullets.push(new Bullet(x + width/2 - 3/2 - 11, y + 13, 0));
+        bullets.push(new Bullet(x + width/2 - 3/2 + 11, y + 13, 0));
+    }
+    else if(upgrades == 2) {
+        bullets.push(new Bullet(x + width/2 - 3/2, y, 1));
+    }
+    else if(upgrades == 3) {
+        bullets.push(new Bullet(x + width/2 - 3/2, y, 1));
+        bullets.push(new Bullet(x + width/2 - 3/2 - 11, y + 13, 0));
+        bullets.push(new Bullet(x + width/2 - 3/2 + 11, y + 13, 0));
+    }
+    else {
+        bullets.push(new Bullet(x + width/2 - 3/2, y, 1));
+        bullets.push(new Bullet(x + width/2 - 3/2 - 11, y + 13, 1));
+        bullets.push(new Bullet(x + width/2 - 3/2 + 11, y + 13, 1));
+    }
+}
+
+function spawnUpgrade(x, y) {
+    pickups.push(new Upgrade(x - 10, y));
+}
+
 function collidingBoxes(a, b)
 {
     if(Math.max(a.x+a.collisionBox[0],b.x+b.collisionBox[0])<Math.min(a.x+a.width-a.collisionBox[2],b.x+b.width-b.collisionBox[2]) &&
@@ -321,7 +392,40 @@ function update(delta) {
         }
     }
     
-    if(freeze) return;
+    var u = pickups.length;
+    for(var i=0; i<u; i++) {
+        pickups[i].move();
+        if(pickups[i].y >= screenHeight) {
+            delete pickups[i];
+            pickups.splice(i,1);
+            u--;
+            i--;
+        }
+        else if(collidingBoxes(player,pickups[i])) {
+            upgrades++;
+            sound_upgrade = new Audio("sounds/upgrade.wav");
+            sound_upgrade.play();
+            delete upg;
+            pickups.splice(i,1);
+            u--;
+            i--;
+        }
+    }
+    
+    if(freeze) {
+        if(gameOver == 0 && lastFrame - lastDeath >= 2000) {
+            player.moveTo(673,550);
+            player.explosion.explosionFrame = -1;
+            player.speedX = 0;
+            player.speedY = 0;
+            player.explosion.status = 0;
+            freeze=false;
+        }
+        else return;
+    }
+    
+    if(enemies.length == 0)
+        gameOver = 2;
     
     if(player.explosion.status > 0) {
         if(player.explosion.status == 2) {
@@ -337,13 +441,17 @@ function update(delta) {
             });
             bullets.forEach(function(bullet) {
                 bullet.move();
-                if(bullet.y<=-bullet.height) {bullets.splice(bullets.indexOf(bullet),1); delete bullet;}
+                if(bullet.y<=-bullet.height || bullet.y>=screenHeight) {bullets.splice(bullets.indexOf(bullet),1); delete bullet;}
+            });
+            pickups.forEach(function(upg) {
+                upg.move();
+                if(upg.y >= screenHeight) {pickups.splice(pickups.indexOf(upg),1); delete upg;}
             });
             return;
         }
     }
-    var playerdX = keysPressed[KEY_RIGHT_ARROW] - keysPressed[KEY_LEFT_ARROW];
-    var playerdY = keysPressed[KEY_DOWN_ARROW] - keysPressed[KEY_UP_ARROW];
+    var playerdX = Math.max(keysPressed[KEY_RIGHT_ARROW], keysPressed[KEY_D]) - Math.max(keysPressed[KEY_LEFT_ARROW], keysPressed[KEY_A]);
+    var playerdY = Math.max(keysPressed[KEY_DOWN_ARROW], keysPressed[KEY_S]) - Math.max(keysPressed[KEY_UP_ARROW], keysPressed[KEY_W]);
     if(playerdX != 0 || playerdY != 0)
         player.moveBy(delta*playerdX/Math.sqrt(playerdX*playerdX+playerdY*playerdY),delta*playerdY/Math.sqrt(playerdX*playerdX+playerdY*playerdY));
     else
@@ -359,7 +467,7 @@ function update(delta) {
             shouldChangeDir = enemy.x - 0.05*screenWidth;
         }
         if(Math.random() < enemy.shootProbability) {
-            bullets.push(new Bullet(enemy.x+enemy.width/2-2, enemy.y+enemy.height-enemy.collisionBox[3]-12, 1));
+            bullets.push(new Bullet(enemy.x+enemy.width/2-2, enemy.y+enemy.height-enemy.collisionBox[3]-12, -1));
             
         }
     });
@@ -372,7 +480,7 @@ function update(delta) {
     
     if(keysPressed[KEY_SPACE]) {
         if(lastFrame - lastBullet >= BULLET_COOLDOWN) {
-            bullets.push(new Bullet(player.x + player.width/2 - 2, player.y + player.collisionBox[1], 0));
+            spawnBullets(player.x, player.y+player.collisionBox[1], player.width);
             lastBullet = lastFrame;
             if(!muted) {
                 sound_shoot = new Audio("sounds/bullet_shoot.wav");
@@ -394,9 +502,15 @@ function update(delta) {
             enC--;
             i--;
         }
-        if(collidingBoxes(enemies[i],player)) {
-            if(enemies[i].explosion.status == 0) enemies[i].explosion.start();
+        if(collidingBoxes(enemies[i],player) && lastFrame - lastDeath > 5000) {
+            enemies[i].explosion.start();
+            if(Math.random() < enemies[i].upgradeProbability)
+                spawnUpgrade(enemies[i].x+enemies[i].width/2, enemies[i].y+enemies[i].height/2);
             player.explosion.start();
+            lastDeath = lastFrame;
+            player.lives--;
+            upgrades = Math.floor(upgrades/2);
+            if(player.lives == 0) gameOver = 1;
             if(!muted) {
                 sound_player_death = new Audio("sounds/player_explosion.wav");
                 sound_player_death.play();
@@ -404,11 +518,13 @@ function update(delta) {
         }
         for(var j=0; j<buC; j++) {
             if(bullets[j].explosion.status > 0) continue;
-            if(collidingBoxes(enemies[i],bullets[j]) && bullets[j].type == 0)
+            if(collidingBoxes(enemies[i],bullets[j]) && bullets[j].type >= 0)
             {
-                enemies[i].armor--;
-                if(enemies[i].armor == 0) {
-                    if(enemies[i].explosion.status == 0) enemies[i].explosion.start();
+                enemies[i].armor-=bullets[j].damage;
+                if(enemies[i].armor <= 0) {
+                    enemies[i].explosion.start();
+                    if(Math.random() < enemies[i].upgradeProbability)
+                        spawnUpgrade(enemies[i].x+enemies[i].width/2, enemies[i].y+enemies[i].height/2);
                     if(!muted) {
                         sound_explosion = new Audio("sounds/enemy_explosion.wav");
                         sound_explosion.play();
@@ -420,8 +536,13 @@ function update(delta) {
                     sound_bullet_collide.play();
                 }
             }
-            if(collidingBoxes(player,bullets[j]) && bullets[j].type == 1) {
+            if(collidingBoxes(player,bullets[j]) && bullets[j].type == -1) {
+                if(lastFrame - lastDeath <= 5000) continue;
                 player.explosion.start();
+                lastDeath = lastFrame;
+                player.lives--;
+                upgrades = Math.floor(upgrades/2);
+                if(player.lives == 0) gameOver = 1;
                 if(!muted) {
                     sound_player_death = new Audio("sounds/player_explosion.wav");
                     sound_player_death.play();
@@ -444,10 +565,14 @@ function draw(ctx) {
     
     background.draw(ctx);
     bullets.forEach(function(bull) {bull.draw(ctx);});
-    player.draw(ctx);
+    pickups.forEach(function(upg) {upg.draw(ctx);});
+    if(!((lastFrame - lastDeath >= 2500 && lastFrame - lastDeath <= 3000) ||
+         (lastFrame - lastDeath >= 3500 && lastFrame - lastDeath <= 4000) ||
+         (lastFrame - lastDeath >= 4500 && lastFrame - lastDeath <= 5000)))
+       player.draw(ctx);
     enemies.forEach(function(enemy) {enemy.draw(ctx);});
     ctx.font = "24pt sans-serif";
     ctx.fillText(Math.round(1000/deltaDraw) + " fps",20,40);
     ctx.font = "10pt sans-serif";
-    ctx.fillText("Last update: sounds!!! (mute with m)",20,60);
+    ctx.fillText("mute with m",20,60);
 }
