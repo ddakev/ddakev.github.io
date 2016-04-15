@@ -28,6 +28,7 @@ var canvas,
     delta = 0,
     freeze = false,
     upgrades = 0,
+    score = 0,
     gameOver = 0, //0 for not over, 1 for loss, 2 for win
     screenWidth = 1366,
     screenHeight = 643,
@@ -47,14 +48,25 @@ var muted = false,
     sound_upgrade,
     music_background;
 
+var image_lives = new Image(),
+    image_powerup = new Image(),
+    image_guiPanel = new Image(),
+    image_background = new Image(),
+    image_player = new Image(),
+    image_enemy_bullet = new Image(),
+    image_player_bullet = new Image(),
+    image_upgrade = new Image(),
+    image_enemies = new Image(),
+    image_explosion = new Image(),
+    resourcesLoaded = 0;
+
 function Background() {
     this.width = 1366;
     this.height = 643;
     this.x = 0;
     this.y = 1277; // starting y position on the image
     this.speed = 1.5;
-    this.image = new Image();
-    this.image.src = "images/backgroundBig.png";
+    this.image = image_background;
 }
 Background.prototype.move = function() {
     this.y -= this.speed;
@@ -82,8 +94,7 @@ function Player(x,y) {
     this.collisionBox = [1, 4, 1, 5];
     this.explosion = new Explosion();
     this.lives=3;
-    this.image = new Image();
-    this.image.src = "images/spaceshipSprite.png";
+    this.image = image_player;
     this.imageX = 0;
     this.imageY = 0;
     this.imageWidth = 123/3;
@@ -166,8 +177,7 @@ function Bullet(x,y,type) {
         this.speed = -Math.random()*2 + 5;
     else
         this.speed = -4;
-    this.image = new Image();
-    this.image.src = (type==-1?"images/enemy_bullet.png":"images/player_bullet.png");
+    this.image = (type==-1?image_enemy_bullet:image_player_bullet);
 }
 Bullet.prototype.moveTo = function(newX, newY) {
     this.x = newX;
@@ -193,8 +203,7 @@ function Upgrade(x, y) {
     this.height = 20;
     this.speed = 2;
     this.collisionBox = [0, 0, 0, 0];
-    this.image = new Image();
-    this.image.src = "images/upgrade.png";
+    this.image = image_upgrade;
 }
 Upgrade.prototype.moveTo = function(newX, newY) {
     this.x = newX;
@@ -221,8 +230,7 @@ function Enemy(type,x,y) {
     this.armor = 5-type;
     this.shootProbability = 0.002;
     this.upgradeProbability = 0.14;
-    this.image = new Image();
-    this.image.src = "images/enemies.png";
+    this.image = image_enemies;
     this.collisionBox = [0, 0, 0, 0];
     if(type==0) {
         this.collisionBox = [5.4, 10.8, 5.4, 10.8];
@@ -275,8 +283,7 @@ function Explosion() {
     this.explosionRows = 4;
     this.explosionSpeed = 0.5;
     this.status = 0;                                    //0 for not started, 1 for running, 2 for finishes
-    this.explosionImage = new Image();
-    this.explosionImage.src = "images/explosion.png";
+    this.explosionImage = image_explosion;
 }
 Explosion.prototype.start = function() {
     this.explosionFrame = 0;
@@ -296,6 +303,37 @@ Explosion.prototype.draw = function(ctx, x, y, width, height) {
                       this.explosionImage.height/this.explosionRows,
                       x, y, Math.max(width,height), Math.max(width,height));
 };
+
+function drawGUI(ctx) {
+    var deltaDraw = lastFrame - lastDraw;
+    lastDraw = lastFrame;
+    var temp = score, numD = (score==0?1:0);
+    while(temp>0) {temp=Math.floor(temp/10); numD++;}
+    ctx.drawImage(image_guiPanel, 0, 0, 310, 50, -5, -5, 315, 55);
+    ctx.font = "20pt KenvectorFuture";
+    ctx.fillText(score,10+20*(5-numD),28);
+    ctx.drawImage(image_powerup, 120, 10, 20, 20);
+    ctx.fillText(upgrades, 142, 28);
+    for(var i=0; i<player.lives; i++)
+        ctx.drawImage(image_lives, 185 + i*28, 10, 20, 20);
+    ctx.font = "20pt KenvectorFuture";
+    ctx.fillText(Math.round(1000/deltaDraw) + " fps",1240,40);
+    ctx.font = "10pt KenvectorFuture";
+    ctx.fillText("mute with m",1245,60);
+    
+    if(gameOver == 1) {
+        ctx.font = "48pt KenvectorFuture";
+        ctx.fillText("Game Over", screenWidth/2 - 200, screenHeight/2);
+        ctx.font = "20pt KenvectorFuture";
+        ctx.fillText("You lost", screenWidth/2 - 72, screenHeight/2 + 48);
+    }
+    else if(gameOver == 2) {
+        ctx.font = "48pt KenvectorFuture";
+        ctx.fillText("Congratulations", screenWidth/2 - 330, screenHeight/2);
+        ctx.font = "20pt KenvectorFuture";
+        ctx.fillText("You won", screenWidth/2 - 65, screenHeight/2 + 48);
+    }
+}
 
 function spawnEnemies() {
     for(var i = 0; i < 5; i++) {
@@ -351,6 +389,29 @@ function initialize() {
     ctx.fillStyle="#fff";
     player = new Player(673,550);
     background = new Background();
+    spawnEnemies();
+    
+    image_background.onload = function() {resourcesLoaded++;};
+    image_lives.onload = function() {resourcesLoaded++;};
+    image_powerup.onload = function() {resourcesLoaded++;};
+    image_guiPanel.onload = function() {resourcesLoaded++;};
+    image_player.onload = function() {resourcesLoaded++;};
+    image_enemy_bullet.onload = function() {resourcesLoaded++;};
+    image_player_bullet.onload = function() {resourcesLoaded++;};
+    image_upgrade.onload = function() {resourcesLoaded++;};
+    image_enemies.onload = function() {resourcesLoaded++;};
+    image_explosion.onload = function() {resourcesLoaded++;};
+    image_background.src = "images/backgroundBig.png";
+    image_lives.src = "images/livesIcon.png";
+    image_powerup.src = "images/upgradeIcon.png";
+    image_guiPanel.src = "images/GUIPanel.png";
+    image_player.src = "images/spaceshipSprite.png";
+    image_enemy_bullet.src = "images/enemy_bullet.png";
+    image_player_bullet.src = "images/player_bullet.png";
+    image_upgrade.src = "images/upgrade.png";
+    image_enemies.src = "images/enemies.png";
+    image_explosion.src = "images/explosion.png";
+    
     sound_shoot = new Audio("sounds/bullet_shoot.wav");
     music_background = new Audio("sounds/background_music.wav");
     music_background.addEventListener('ended', function() {
@@ -358,7 +419,6 @@ function initialize() {
         this.play();
     });
     music_background.play();
-    spawnEnemies();
     
     main(0);
 }
@@ -368,8 +428,15 @@ function main(timestamp) {
     delta = timestamp - lastFrame;
     lastFrame = timestamp;
     
-    update(delta);
-    draw(ctx);
+    if(resourcesLoaded == 10) {
+        update(delta);
+        draw(ctx);
+    }
+    else {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.font = "30pt sans-serif";
+        ctx.fillText("Loading " + 100*(resourcesLoaded/10) + "%", screenWidth/2 - 130, screenHeight/2);
+    }
 }
 
 function update(delta) {
@@ -403,8 +470,11 @@ function update(delta) {
         }
         else if(collidingBoxes(player,pickups[i])) {
             upgrades++;
-            sound_upgrade = new Audio("sounds/upgrade.wav");
-            sound_upgrade.play();
+            score += 50;
+            if(!muted) {
+                sound_upgrade = new Audio("sounds/upgrade.wav");
+                sound_upgrade.play();
+            }
             delete upg;
             pickups.splice(i,1);
             u--;
@@ -501,9 +571,11 @@ function update(delta) {
             enemies.splice(i,1);
             enC--;
             i--;
+            continue;
         }
         if(collidingBoxes(enemies[i],player) && lastFrame - lastDeath > 5000) {
             enemies[i].explosion.start();
+            score += (4-enemies[i].type)*50 + 100;
             if(Math.random() < enemies[i].upgradeProbability)
                 spawnUpgrade(enemies[i].x+enemies[i].width/2, enemies[i].y+enemies[i].height/2);
             player.explosion.start();
@@ -523,6 +595,7 @@ function update(delta) {
                 enemies[i].armor-=bullets[j].damage;
                 if(enemies[i].armor <= 0) {
                     enemies[i].explosion.start();
+                    score += (4-enemies[i].type)*50 + 100;
                     if(Math.random() < enemies[i].upgradeProbability)
                         spawnUpgrade(enemies[i].x+enemies[i].width/2, enemies[i].y+enemies[i].height/2);
                     if(!muted) {
@@ -557,10 +630,7 @@ function update(delta) {
     }
 }
 
-function draw(ctx) {
-    var deltaDraw = lastFrame - lastDraw;
-    lastDraw = lastFrame;
-    
+function draw(ctx) {    
     ctx.clearRect(0,0,canvas.width,canvas.height);
     
     background.draw(ctx);
@@ -571,8 +641,5 @@ function draw(ctx) {
          (lastFrame - lastDeath >= 4500 && lastFrame - lastDeath <= 5000)))
        player.draw(ctx);
     enemies.forEach(function(enemy) {enemy.draw(ctx);});
-    ctx.font = "24pt sans-serif";
-    ctx.fillText(Math.round(1000/deltaDraw) + " fps",20,40);
-    ctx.font = "10pt sans-serif";
-    ctx.fillText("mute with m",20,60);
+    drawGUI(ctx);
 }
