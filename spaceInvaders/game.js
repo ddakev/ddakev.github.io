@@ -68,23 +68,25 @@ var image_lives = new Image(),
 
 function Background() {
     this.width = 1366;
-    this.height = 643;
+    this.height = 673;
     this.x = 0;
     this.y = 1277; // starting y position on the image
     this.speed = 1.5;
     this.image = image_background;
 }
 Background.prototype.move = function() {
+    this.height=screenHeight*this.width/screenWidth;
     this.y -= this.speed;
-    if(this.y <= -643) this.y = 1277;
+    if(this.y > 1920-this.height) this.y=1920-this.height;
+    if(this.y <= -this.height) this.y = 1920-this.height;
 };
 Background.prototype.draw = function(ctx) {
     if(this.y>=0) {
-        ctx.drawImage(this.image,this.x,this.y,this.width,this.height,0,0,1366,643);
+        ctx.drawImage(this.image,this.x,this.y,this.width,this.height,0,0,screenWidth,screenHeight);
     }
     else {
-        ctx.drawImage(this.image,this.x,0,this.width,this.height+this.y,0,-this.y,1366,643+this.y);
-        ctx.drawImage(this.image,this.x,1920+this.y,this.width,-this.y,0,0,1366,-this.y);
+        ctx.drawImage(this.image,this.x,0,this.width,this.height+this.y,0,-this.y*screenHeight/this.height,screenWidth,screenHeight+this.y*screenHeight/this.height);
+        ctx.drawImage(this.image,this.x,1920+this.y,this.width,-this.y,0,0,screenWidth,-this.y*screenHeight/this.height);
     }
 };
 
@@ -271,6 +273,10 @@ Enemy.prototype.move = function() {
     }
     
 };
+Enemy.prototype.moveTo = function(newX, newY) {
+    this.x = newX;
+    this.y = newY;
+};
 Enemy.prototype.moveBy = function(dX, dY) {
     this.x += dX;
     this.y += dY;
@@ -329,9 +335,9 @@ function drawGUI(ctx) {
         ctx.fillText(player.lives, 215, 28);
     }
     ctx.font = "20pt KenvectorFuture";
-    ctx.fillText(Math.round(1000/deltaDraw) + " fps",1240,40);
+    ctx.fillText(Math.round(1000/deltaDraw) + " fps", screenWidth - 125, 40);
     ctx.font = "10pt KenvectorFuture";
-    ctx.fillText("mute with m",1245,60);
+    ctx.fillText("mute with m", screenWidth - 120, 60);
     
     if(gameOver == 1) {
         ctx.font = "48pt KenvectorFuture";
@@ -390,16 +396,28 @@ function collidingBoxes(a, b)
     else return false;
 }
 
+function updateNewDims(oldW, newW, oldH, newH)
+{
+    player.moveTo(player.x*newW/oldW,player.y*newH/oldH);
+    enemies.forEach(function(e) {e.moveTo(e.x*newW/oldW,e.y*newH/oldH); e.startY = e.startY*newH/oldH});
+    bullets.forEach(function(b) {b.moveTo(b.x*newW/oldW,b.y*newH/oldH);});
+    pickups.forEach(function(p) {p.moveTo(p.x*newW/oldW,p.y*newH/oldH);});
+}
+
 function initialize() {
     for(var i=0; i<223; i++)
         keysPressed[i] = false;
     document.addEventListener("keydown", function(e) {keysPressed[e.keyCode]=true;});
     document.addEventListener("keyup", function(e) {keysPressed[e.keyCode]=false;});
     
+    screenHeight = window.innerHeight;
+    screenWidth = window.innerWidth;
     canvas = document.getElementById("gameWindow");
+    canvas.height = screenHeight;
+    canvas.width = screenWidth;
     ctx = canvas.getContext('2d');
-    ctx.fillStyle="#fff";
-    player = new Player(673,550);
+    ctx.fillStyle = "#fff";
+    player = new Player(screenWidth/2-41/2,screenHeight*0.95-46);
     background = new Background();
     spawnEnemies();
     
@@ -439,6 +457,15 @@ function main(timestamp) {
     window.requestAnimationFrame(main);
     delta = timestamp - lastFrame;
     lastFrame = timestamp;
+    
+    if(window.innerHeight != screenHeight || window.innerWidth != screenWidth) {
+        updateNewDims(screenWidth,window.innerWidth,screenHeight,window.innerHeight);
+        screenHeight = window.innerHeight;
+        screenWidth = window.innerWidth;
+        canvas.width = screenWidth;
+        canvas.height = screenHeight;
+        ctx.fillStyle="#fff";
+    }
     
     if(resourcesLoaded == 10) {
         update(delta);
@@ -509,7 +536,7 @@ function update(delta) {
     
     if(freeze) {
         if(gameOver == 0 && lastFrame - lastDeath >= 2000) {
-            player.moveTo(673,550);
+            player.moveTo(screenWidth/2-41/2,screenHeight*0.95-46);
             player.explosion.explosionFrame = -1;
             player.speedX = 0;
             player.speedY = 0;
