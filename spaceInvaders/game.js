@@ -484,7 +484,13 @@ function update(delta) {
     else if(!keysPressed[KEY_M]&&markToMute) {muted=!muted; markToMute=false;}
     music_background.muted=muted;
     if(keysPressed[KEY_1]) {
-        enemies.forEach(function(e) {if(e.explosion.status == 0) e.explosion.start();});
+        enemies.forEach(function(e) {
+            if(e.explosion.status == 0) e.explosion.start();
+            if(!muted) {
+                sound_explosion = new Audio("sounds/enemy_explosion.wav");
+                sound_explosion.play();
+            }
+        });
     }
     if(keysPressed[KEY_2]) markBtn2 = true;
     else if(!keysPressed[KEY_2]&&markBtn2) {
