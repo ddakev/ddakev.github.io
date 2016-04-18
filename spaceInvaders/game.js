@@ -344,12 +344,17 @@ function drawGUI(ctx) {
         ctx.fillText("Game Over", screenWidth/2 - 200, screenHeight/2);
         ctx.font = "20pt KenvectorFuture";
         ctx.fillText("You lost", screenWidth/2 - 72, screenHeight/2 + 48);
+        ctx.font = "14pt KenvectorFuture";
+        ctx.fillText("Press R for new game", screenWidth/2 - 125, screenHeight/2 + 90);
+        
     }
     else if(gameOver == 2) {
         ctx.font = "48pt KenvectorFuture";
         ctx.fillText("Congratulations", screenWidth/2 - 330, screenHeight/2);
         ctx.font = "20pt KenvectorFuture";
-        ctx.fillText("You won", screenWidth/2 - 65, screenHeight/2 + 48);
+        ctx.fillText("You won", screenWidth/2 - 70, screenHeight/2 + 48);
+        ctx.font = "14pt KenvectorFuture";
+        ctx.fillText("Press R for new game", screenWidth/2 - 125, screenHeight/2 + 90);
     }
 }
 
@@ -388,20 +393,41 @@ function spawnUpgrade(x, y) {
     pickups.push(new Upgrade(x - 10, y));
 }
 
-function collidingBoxes(a, b)
-{
+function collidingBoxes(a, b) {
     if(Math.max(a.x+a.collisionBox[0],b.x+b.collisionBox[0])<Math.min(a.x+a.width-a.collisionBox[2],b.x+b.width-b.collisionBox[2]) &&
         Math.max(a.y+a.collisionBox[1],b.y+b.collisionBox[1])<Math.min(a.y+a.height-a.collisionBox[3],b.y+b.height-b.collisionBox[3]))
         return true;
     else return false;
 }
 
-function updateNewDims(oldW, newW, oldH, newH)
-{
+function updateNewDims(oldW, newW, oldH, newH) {
     player.moveTo(player.x*newW/oldW,player.y*newH/oldH);
     enemies.forEach(function(e) {e.moveTo(e.x*newW/oldW,e.y*newH/oldH); e.startY = e.startY*newH/oldH});
     bullets.forEach(function(b) {b.moveTo(b.x*newW/oldW,b.y*newH/oldH);});
     pickups.forEach(function(p) {p.moveTo(p.x*newW/oldW,p.y*newH/oldH);});
+}
+
+function newGame() {
+    enemies.forEach(function(e) {delete e;});
+    enemies.splice(0,enemies.length);
+    bullets.forEach(function(b) {delete b;});
+    bullets.splice(0,bullets.length);
+    pickups.forEach(function(p) {delete p;});
+    pickups.splice(0,pickups.length);
+    
+    player.moveTo(screenWidth/2-41/2,screenHeight*0.95-46);
+    player.speedX = 0;
+    player.speedY = 0;
+    player.explosion.explosionFrame = -1;
+    player.lives = 3;
+    upgrades = 0;
+    score = 0;
+    lastBullet = lastFrame;
+    lastDeath = lastFrame - 5000;
+    freeze = false;
+    
+    spawnEnemies();
+    gameOver = 0;
 }
 
 function initialize() {
@@ -502,6 +528,9 @@ function update(delta) {
         markBtn3 = false;
         player.lives++;
     }
+    if(gameOver != 0 && keysPressed[KEY_R]) {
+        newGame();
+    }
     
     var n=bullets.length;
     for(var i=0; i<n; i++) {
@@ -556,17 +585,17 @@ function update(delta) {
         gameOver = 2;
     
     if(player.explosion.status > 0) {
+        enemies.forEach(function(enemy) {
+            if(enemy.explosion.status > 0) {
+                if(enemy.explosion.status == 1) enemy.explosion.advance();
+                else {enemies.splice(enemies.indexOf(enemy),1); delete enemy;}
+            }
+        });
         if(player.explosion.status == 2) {
             freeze=true;
         }
         else {
             player.explosion.advance();
-            enemies.forEach(function(enemy) {
-                if(enemy.explosion.status > 0) {
-                    if(enemy.explosion.status == 1) enemy.explosion.advance();
-                    else {enemies.splice(enemies.indexOf(enemy),1); delete enemy;}
-                }
-            });
             return;
         }
     }
