@@ -567,14 +567,6 @@ function update(delta) {
                     else {enemies.splice(enemies.indexOf(enemy),1); delete enemy;}
                 }
             });
-            bullets.forEach(function(bullet) {
-                bullet.move();
-                if(bullet.y<=-bullet.height || bullet.y>=screenHeight) {bullets.splice(bullets.indexOf(bullet),1); delete bullet;}
-            });
-            pickups.forEach(function(upg) {
-                upg.move();
-                if(upg.y >= screenHeight) {pickups.splice(pickups.indexOf(upg),1); delete upg;}
-            });
             return;
         }
     }
