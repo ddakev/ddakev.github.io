@@ -8,6 +8,7 @@ var curScrn=0;
 var scrStep=0;
 var scrollPosition=0;
 var slideNames=["home","about","projects","contact","copyright"];
+var visited=[0,0,0,0];
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
@@ -16,7 +17,8 @@ function startAnimations()
     var content=document.getElementById("contentPage");
     scrollPosition=content.scrollTop;
     var scrollFactor=3*Math.abs(content.scrollTop)/parseFloat(window.getComputedStyle(document.getElementById("contact")).top);
-    document.getElementById("pageSelectorButtons").style.webkitClipPath="circle(10px at 7.5px " + (8.5+scrollFactor*19.5) + "px)";
+    document.getElementById("pageSelectorClip").style.top=(3+scrollFactor*19.5) + "px";
+    document.getElementById("pageSelectorButtons").style.top=(-3-scrollFactor*19.5) + "px";
     updateCurrentScreen(findScreen());
     if(window.innerWidth>640) {
         document.getElementById("logo").addEventListener("mouseover", expandName);
@@ -26,14 +28,98 @@ function startAnimations()
         if(inp.getAttribute("type")=="text") {
             inp.addEventListener("focus", function(i) {
                 inp.parentNode.getElementsByClassName("cLabel")[0].style.fontSize="8pt"; inp.parentNode.getElementsByClassName("cLabel")[0].style.marginTop="0";
+                inp.style.background="rgb(240,240,220)";
+                inp.style.boxShadow="0 0 8px -1px rgb(255,84,84)";
             });
             inp.addEventListener("blur", function(i) {
+                inp.style.background="rgb(230,230,210)";
+                inp.style.boxShadow="none";
                 if(inp.value=="") {
+                    if(inp.name=="email") {
+                        inp.parentElement.getElementsByClassName("notification")[0].innerHTML="Please provide an email address";
+                    }
                     inp.parentNode.getElementsByClassName("cLabel")[0].style.fontSize="12pt";
                     inp.parentNode.getElementsByClassName("cLabel")[0].style.marginTop="10px";
+                    inp.parentElement.getElementsByClassName("notification")[0].style.visibility="visible";
+                    inp.parentElement.getElementsByClassName("notification")[0].style.maxWidth="300px";
+                    inp.parentElement.getElementsByClassName("notArrow")[0].style.visibility="visible";
+                }
+                else {
+                    if(inp.name=="email"&&!validate(inp.value)) {
+                        inp.parentElement.getElementsByClassName("notification")[0].innerHTML="Please provide a valid email";
+                        inp.parentElement.getElementsByClassName("notification")[0].style.visibility="visible";
+                        inp.parentElement.getElementsByClassName("notification")[0].style.maxWidth="300px";
+                        inp.parentElement.getElementsByClassName("notArrow")[0].style.visibility="visible";
+                    }
+                    else {
+                        inp.parentElement.getElementsByClassName("notification")[0].style.maxWidth="0px";
+                        setTimeout(function() {inp.parentElement.getElementsByClassName("notification")[0].style.visibility="hidden"; inp.parentElement.getElementsByClassName("notArrow")[0].style.visibility="hidden";},200);
+                    }
                 }
             });
+            inp.addEventListener("mouseover", function(e) {
+                inp.style.background="rgb(240,240,220)";
+            });
+            inp.addEventListener("mouseout", function(e) {
+                if(inp !== document.activeElement)
+                    inp.style.background="rgb(230,230,210)";
+            });
         }
+    });
+    var ta = document.getElementsByTagName("textarea")[0];
+    ta.addEventListener("mouseover", function(e) {
+        ta.style.background="rgb(240,240,220)";
+    });
+    ta.addEventListener("mouseout", function(e) {
+        if(ta !== document.activeElement)
+            ta.style.background="rgb(230,230,210)";
+    });
+    ta.addEventListener("focus", function(e) {
+        ta.style.background="rgb(240,240,220)";
+        ta.style.boxShadow="0 0 8px -1px rgb(255,84,84)";
+    });
+    ta.addEventListener("blur", function(e) {
+        ta.style.background="rgb(230,230,210)";
+        ta.style.boxShadow="none";
+        if(ta.value=="") {
+            ta.parentElement.getElementsByClassName("notification")[2].style.visibility="visible";
+            ta.parentElement.getElementsByClassName("notArrow")[2].style.visibility="visible";
+            ta.parentElement.getElementsByClassName("notification")[2].style.maxWidth="300px";
+        }
+        else {
+            ta.parentElement.getElementsByClassName("notification")[2].style.maxWidth="0px";
+            setTimeout(function() {ta.parentElement.getElementsByClassName("notification")[2].style.visibility="hidden"; ta.parentElement.getElementsByClassName("notArrow")[2].style.visibility="hidden";},200);
+        }
+    });
+    document.getElementById("cForm").addEventListener("submit", function(e) {
+        var valid = true;
+        Array.prototype.forEach.call(document.getElementsByTagName("input"), function(inp) {
+            if(inp.value == "") {
+                valid = false;
+                inp.parentElement.getElementsByClassName("notification")[0].style.visibility="visible";
+                inp.parentElement.getElementsByClassName("notification")[0].style.maxWidth="300px";
+                inp.parentElement.getElementsByClassName("notArrow")[0].style.visibility="visible";
+            }
+            else if(inp.name=="email" && !validate(inp.value)) {
+                valid=false;
+                inp.parentElement.getElementsByClassName("notification")[0].innerHTML="Please provide a valid email";
+                inp.parentElement.getElementsByClassName("notification")[0].style.visibility="visible";
+                inp.parentElement.getElementsByClassName("notification")[0].style.maxWidth="300px";
+                inp.parentElement.getElementsByClassName("notArrow")[0].style.visibility="visible";
+            }
+        });
+        var ta=document.getElementsByTagName("textarea")[0];
+        if(ta.value=="") {
+            valid=false;
+            ta.parentElement.getElementsByClassName("notification")[2].style.visibility="visible";
+            ta.parentElement.getElementsByClassName("notArrow")[2].style.visibility="visible";
+            ta.parentElement.getElementsByClassName("notification")[2].style.maxWidth="300px";
+        }
+        if(valid == false && e.preventDefault) {
+            e.preventDefault();
+        }
+        return valid;
+        
     });
     document.getElementById("contentPage").addEventListener("scroll",scrollPg);
     document.getElementById("hamMenu").addEventListener("click",checkboxChange);
@@ -45,8 +131,11 @@ function startAnimations()
         mItems[i].children[0].addEventListener("mouseenter",function(event){event.target.style.backgroundColor="rgba(65,64,66,0.6)";});
         mItems[i].children[0].addEventListener("mouseout",function(event){if(event.target != document.getElementsByClassName("menuItem")[curScrn].children[0]) event.target.style.backgroundColor="rgba(65,64,66,0.0)";});
     }
-    document.getElementById('scrollHint').style.animationPlayState='running';
-    document.getElementById('scrollHint').addEventListener("animationend",startAn);
+    if(!document.getElementById("downarr").contentDocument.getElementById("expand").beginElement) {
+        document.getElementById("downarr").data="graphics/downarrow.svg";
+    }
+    document.getElementById("scrollHintWrapper").style.bottom="5vh";
+    setTimeout('startAn()',1000);
     if(navigator.userAgent.indexOf("Firefox")!=-1) 
     {
         document.getElementById("downarr").contentDocument.getElementById("expand").setAttribute("keySplines",".48 .34 .82 .67; .34 .44 .87 1");
@@ -63,6 +152,17 @@ function updateCurrentScreen(scr)
         document.getElementsByTagName("li")[scr].style.backgroundColor="rgba(65,64,66,0.6)";
         document.getElementsByTagName("li")[scr].style.boxShadow="inset 0px 0px 6px -1px rgba(31,30,32,0.6)";
     }
+    
+    if(scr == 1 && visited[scr] == 0) {
+        animatePie("bl-cpp",0.95);
+        animatePie("bl-java",0.85);
+        animatePie("bl-csharp",0.75);
+        animatePie("bl-javascript",0.8);
+        animatePie("bl-html",0.65);
+        animatePie("bl-css",0.7);
+    }
+    
+    visited[scr] = 1;
     curScrn=scr;
 }
 function findScreen()
@@ -92,7 +192,8 @@ function scroll(spos,fpos,steps)
     content.scrollTop=Math.round(spos+(fpos-spos)*(-(scrStep/steps-1)*(scrStep/steps-1)+1));
     scrollPosition=Math.abs(content.scrollTop);
     var scrollFactor=3*Math.abs(content.scrollTop)/parseFloat(window.getComputedStyle(document.getElementById("contact")).top);
-    document.getElementById("pageSelectorButtons").style.webkitClipPath="circle(10px at 7.5px " + (8.5+scrollFactor*19.5) + "px)";
+    document.getElementById("pageSelectorClip").style.top=(3+scrollFactor*19.5) + "px";
+    document.getElementById("pageSelectorButtons").style.top=(-3-scrollFactor*19.5) + "px";
     var cSlides = document.getElementsByClassName("contents");
     for(var l=0; l<cSlides.length; l++)
     {
@@ -142,8 +243,13 @@ function scrollPg()
 function startAn()
 {
     var svgDocument=document.getElementById("downarr").contentDocument;
-    svgDocument.getElementById('expand').beginElement();
-    document.getElementById("scrollHint").style.webkitClipPath="circle(60% at 50% 50%)";
+    try {svgDocument.getElementById('expand').beginElement();}
+    catch(err) {}
+    document.getElementById("scrollHint").style.width="20vh";
+    document.getElementById("scrollHint").style.height="20vh";
+    document.getElementById("scrollHint").style.top="-6.9vh";
+    document.getElementById("scrollHintContainer").style.top="6.9vh";
+    document.getElementById("scrollHintContainer").style.left="0vh";
 }
 function expandName()
 {
@@ -158,6 +264,24 @@ function hideName()
     setTimeout('document.getElementById("logoImage").contentDocument.getElementById("moveDClip2").beginElement()', 400);
     setTimeout('document.getElementById("logoImage").contentDocument.getElementById("moveD2").beginElement()', 400);
     setTimeout('document.getElementById("logo").style.overflow="hidden"',800);
+}
+function animatePie(pie, perc)
+{
+    if(perc < 0.5) {
+        document.getElementById(pie).getElementsByClassName("rightFill")[0].style.webkitTransform="rotate(" + (-180+perc*360) + "deg)";
+        document.getElementById(pie).getElementsByClassName("rightFill")[0].style.mozTransform="rotate(" + (-180+perc*360) + "deg)";
+        document.getElementById(pie).getElementsByClassName("rightFill")[0].style.msTransform="rotate(" + (-180+perc*360) + "deg)";
+        document.getElementById(pie).getElementsByClassName("rightFill")[0].style.oTransform="rotate(" + (-180+perc*360) + "deg)";
+        document.getElementById(pie).getElementsByClassName("rightFill")[0].transform="rotate(" + (-180+perc*360) + "deg)";
+    }
+    else {
+        document.getElementById(pie).getElementsByClassName("rightFill")[0].style.webkitTransform="rotate(0deg)";
+        document.getElementById(pie).getElementsByClassName("rightFill")[0].style.mozTransform="rotate(0deg)";
+        document.getElementById(pie).getElementsByClassName("rightFill")[0].style.msTransform="rotate(0deg)";
+        document.getElementById(pie).getElementsByClassName("rightFill")[0].style.oTransform="rotate(0deg)";
+        document.getElementById(pie).getElementsByClassName("rightFill")[0].style.transform="rotate(0deg)";
+        setTimeout("document.getElementById('"+pie+"').getElementsByClassName('leftFill')[0].style.webkitTransform='rotate(' + (-180+("+perc+"-0.5)*360) + 'deg)'; document.getElementById('"+pie+"').getElementsByClassName('leftFill')[0].style.mozTransform='rotate(' + (-180+("+perc+"-0.5)*360) + 'deg)'; document.getElementById('"+pie+"').getElementsByClassName('leftFill')[0].style.msTransform='rotate(' + (-180+("+perc+"-0.5)*360) + 'deg)'; document.getElementById('"+pie+"').getElementsByClassName('leftFill')[0].style.oTransform='rotate(' + (-180+("+perc+"-0.5)*360) + 'deg)'; document.getElementById('"+pie+"').getElementsByClassName('leftFill')[0].style.transform='rotate(' + (-180+("+perc+"-0.5)*360) + 'deg)';",500);
+    }
 }
 function checkboxChange(e)
 {
@@ -189,4 +313,14 @@ function collapseMenu()
         document.getElementById("hamMenu").checked=false;
         checkboxChange();
     }
+}
+function validate(str)
+{
+    if(str.indexOf("@")==-1) return false;
+    var parts = str.split("@");
+    if(parts.length != 2) return false;
+    if(parts[0].length == 0 || parts[1].length == 0) return false;
+    if(parts[1].indexOf(".")==-1) return false;
+    if(parts[1].indexOf(".")==0 || parts[1].lastIndexOf(".")==parts[1].length-1) return false;
+    return true;
 }
