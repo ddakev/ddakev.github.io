@@ -7,23 +7,82 @@ var rep;
 var curScrn=0;
 var scrStep=0;
 var scrollPosition=0;
+var lScrnHeight;
+var lScrnWidth;
 var slideNames=["home","about","projects","contact","copyright"];
 var visited=[0,0,0,0];
+
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
-function startAnimations()
+
+function init()
 {
+    lScrnHeight = window.innerHeight;
+    lScrnWidth = window.innerWidth;
     var content=document.getElementById("contentPage");
     scrollPosition=content.scrollTop;
     var scrollFactor=3*Math.abs(content.scrollTop)/parseFloat(window.getComputedStyle(document.getElementById("contact")).top);
     document.getElementById("pageSelectorClip").style.top=(3+scrollFactor*19.5) + "px";
     document.getElementById("pageSelectorButtons").style.top=(-3-scrollFactor*19.5) + "px";
     updateCurrentScreen(findScreen());
+    initEvents();
+    if(!document.getElementById("downarr").contentDocument.getElementById("expand").beginElement) {
+        document.getElementById("downarr").data="graphics/downarrow.svg";
+    }
+    document.getElementById("scrollHintWrapper").style.bottom="5vh";
+    setTimeout('startAnims()',1000);
+    if(navigator.userAgent.indexOf("Firefox")!=-1) 
+    {
+        document.getElementById("downarr").contentDocument.getElementById("expand").setAttribute("keySplines",".48 .34 .82 .67; .34 .44 .87 1");
+    }
+}
+function initEvents()
+{
     if(window.innerWidth>640) {
         document.getElementById("logo").addEventListener("mouseover", expandName);
         document.getElementById("logo").addEventListener("mouseout", hideName);
     }
+    
+    window.addEventListener("resize", scrollPg);
+    document.getElementById("contentPage").addEventListener("scroll",scrollPg);
+    document.getElementById("hamMenu").addEventListener("click",checkboxChange);
+    document.getElementById("contentPage").addEventListener("click",checkToCollapse);
+    
+    var mItems=document.getElementsByClassName("menuItem");
+    for(var i=0; i<mItems.length; i++)
+    {
+        mItems[i].addEventListener("click",collapseMenu);
+        mItems[i].children[0].addEventListener("mouseenter",function(event){event.target.style.backgroundColor="rgba(65,64,66,0.6)";});
+        mItems[i].children[0].addEventListener("mouseout",function(event){if(event.target != document.getElementsByClassName("menuItem")[curScrn].children[0]) event.target.style.backgroundColor="rgba(65,64,66,0.0)";});
+    }
+    
+    var ta = document.getElementsByTagName("textarea")[0];
+    ta.addEventListener("mouseover", function(e) {
+        ta.style.background="rgb(240,240,220)";
+    });
+    ta.addEventListener("mouseout", function(e) {
+        if(ta !== document.activeElement)
+            ta.style.background="rgb(230,230,210)";
+    });
+    ta.addEventListener("focus", function(e) {
+        ta.style.background="rgb(240,240,220)";
+        ta.style.boxShadow="0 0 8px -1px rgb(255,84,84)";
+    });
+    ta.addEventListener("blur", function(e) {
+        ta.style.background="rgb(230,230,210)";
+        ta.style.boxShadow="none";
+        if(ta.value=="") {
+            ta.parentElement.getElementsByClassName("notification")[2].style.visibility="visible";
+            ta.parentElement.getElementsByClassName("notArrow")[2].style.visibility="visible";
+            ta.parentElement.getElementsByClassName("notification")[2].style.maxWidth="300px";
+        }
+        else {
+            ta.parentElement.getElementsByClassName("notification")[2].style.maxWidth="0px";
+            setTimeout(function() {ta.parentElement.getElementsByClassName("notification")[2].style.visibility="hidden"; ta.parentElement.getElementsByClassName("notArrow")[2].style.visibility="hidden";},200);
+        }
+    });
+    
     Array.prototype.forEach.call(document.getElementsByTagName("input"), function(inp) {
         if(inp.getAttribute("type")=="text") {
             inp.addEventListener("focus", function(i) {
@@ -66,31 +125,7 @@ function startAnimations()
             });
         }
     });
-    var ta = document.getElementsByTagName("textarea")[0];
-    ta.addEventListener("mouseover", function(e) {
-        ta.style.background="rgb(240,240,220)";
-    });
-    ta.addEventListener("mouseout", function(e) {
-        if(ta !== document.activeElement)
-            ta.style.background="rgb(230,230,210)";
-    });
-    ta.addEventListener("focus", function(e) {
-        ta.style.background="rgb(240,240,220)";
-        ta.style.boxShadow="0 0 8px -1px rgb(255,84,84)";
-    });
-    ta.addEventListener("blur", function(e) {
-        ta.style.background="rgb(230,230,210)";
-        ta.style.boxShadow="none";
-        if(ta.value=="") {
-            ta.parentElement.getElementsByClassName("notification")[2].style.visibility="visible";
-            ta.parentElement.getElementsByClassName("notArrow")[2].style.visibility="visible";
-            ta.parentElement.getElementsByClassName("notification")[2].style.maxWidth="300px";
-        }
-        else {
-            ta.parentElement.getElementsByClassName("notification")[2].style.maxWidth="0px";
-            setTimeout(function() {ta.parentElement.getElementsByClassName("notification")[2].style.visibility="hidden"; ta.parentElement.getElementsByClassName("notArrow")[2].style.visibility="hidden";},200);
-        }
-    });
+    
     document.getElementById("cForm").addEventListener("submit", function(e) {
         var valid = true;
         Array.prototype.forEach.call(document.getElementsByTagName("input"), function(inp) {
@@ -121,25 +156,6 @@ function startAnimations()
         return valid;
         
     });
-    document.getElementById("contentPage").addEventListener("scroll",scrollPg);
-    document.getElementById("hamMenu").addEventListener("click",checkboxChange);
-    document.getElementById("contentPage").addEventListener("click",checkToCollapse);
-    var mItems=document.getElementsByClassName("menuItem");
-    for(var i=0; i<mItems.length; i++)
-    {
-        mItems[i].addEventListener("click",collapseMenu);
-        mItems[i].children[0].addEventListener("mouseenter",function(event){event.target.style.backgroundColor="rgba(65,64,66,0.6)";});
-        mItems[i].children[0].addEventListener("mouseout",function(event){if(event.target != document.getElementsByClassName("menuItem")[curScrn].children[0]) event.target.style.backgroundColor="rgba(65,64,66,0.0)";});
-    }
-    if(!document.getElementById("downarr").contentDocument.getElementById("expand").beginElement) {
-        document.getElementById("downarr").data="graphics/downarrow.svg";
-    }
-    document.getElementById("scrollHintWrapper").style.bottom="5vh";
-    setTimeout('startAn()',1000);
-    if(navigator.userAgent.indexOf("Firefox")!=-1) 
-    {
-        document.getElementById("downarr").contentDocument.getElementById("expand").setAttribute("keySplines",".48 .34 .82 .67; .34 .44 .87 1");
-    }
 }
 function updateCurrentScreen(scr)
 {
@@ -221,6 +237,13 @@ function scrollPg()
 {
     var content=document.getElementById("contentPage");
     var newScr=Math.abs(content.scrollTop);
+    if(window.innerHeight!=lScrnHeight || window.innerWidth!=lScrnWidth) {
+        scrStep=0;
+        scroll(content.scrollTop,parseInt(window.getComputedStyle(document.getElementById(slideNames[curScrn])).top),1);
+        lScrnHeight=window.innerHeight;
+        lScrnWidth=window.innerWidth;
+        return;
+    }
     content.scrollTop=scrollPosition;
    
     if(!rep)
@@ -240,7 +263,7 @@ function scrollPg()
             scrollToPage(Math.max(0,(curScrn-1)));
     }
 }
-function startAn()
+function startAnims()
 {
     var svgDocument=document.getElementById("downarr").contentDocument;
     try {svgDocument.getElementById('expand').beginElement();}

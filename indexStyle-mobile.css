@@ -180,6 +180,12 @@ body
 .titleText
 {
     font-size:32pt;
+    line-height:32pt;
+}
+.subtitle
+{
+    font-size:12pt;
+    line-height:12pt;
 }
 .titleText.light
 {

@@ -345,17 +345,20 @@ h1, span
     position:absolute;
     bottom:0;
     margin-bottom:-1px;
-    left:5vw;
-    width:45vw;
+    /*left:5vw;*/
+    right:40vmax;
+    /*width:45vw;*/
+    width:94.2vmin;
     z-index:1;
-    height:40.6vw;
+    /*height:40.6vw;*/
+    height:85vmin;
     background:url(graphics/portrait.png) no-repeat;
     background-size:cover;
 }
 .textBox
 {
     background:rgb(240,240,220);
-    margin-left:40vw;
+    margin-left:45vw;
     padding:20px;
     width:30vw;
     border-radius:10px 10px 10px 0;
@@ -378,10 +381,10 @@ h1, span
 .titleText
 {
     top:10px;
-    font-size:36pt;
+    font-size:4vmax;
     display:inline-block;
     margin:0;
-    line-height: 50px;
+    line-height:4vmax;
 }
 .titleText.light
 {
@@ -413,6 +416,8 @@ h1, span
 }
 .subtitle
 {
+    font-size:1.3vmax;
+    line-height:1.3vmax;
     color:rgb(65,64,66);
     font-weight:600;
 }
