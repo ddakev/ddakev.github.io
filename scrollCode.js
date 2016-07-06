@@ -67,7 +67,7 @@ function initEvents()
     });
     ta.addEventListener("focus", function(e) {
         ta.style.background="rgb(240,240,220)";
-        ta.style.boxShadow="0 0 8px -1px rgb(255,84,84)";
+        ta.style.boxShadow="0 0 8px -1px rgb(150,150,150)";
     });
     ta.addEventListener("blur", function(e) {
         ta.style.background="rgb(230,230,210)";
@@ -88,7 +88,7 @@ function initEvents()
             inp.addEventListener("focus", function(i) {
                 inp.parentNode.getElementsByClassName("cLabel")[0].style.fontSize="8pt"; inp.parentNode.getElementsByClassName("cLabel")[0].style.marginTop="0";
                 inp.style.background="rgb(240,240,220)";
-                inp.style.boxShadow="0 0 8px -1px rgb(255,84,84)";
+                inp.style.boxShadow="0 0 8px -1px rgb(150,150,150)";
             });
             inp.addEventListener("blur", function(i) {
                 inp.style.background="rgb(230,230,210)";
@@ -164,7 +164,7 @@ function updateCurrentScreen(scr)
     if(window.getComputedStyle(document.getElementById("hamMenuLabel")).display=="none")
     {
         document.getElementsByTagName("li")[curScrn].style.backgroundColor="rgba(65,64,66,0.0)";
-        document.getElementsByTagName("li")[curScrn].style.boxShadow="none";
+        document.getElementsByTagName("li")[curScrn].style.boxShadow="inset 0px 0px 6px -1px rgba(31,30,32,0)";
         document.getElementsByTagName("li")[scr].style.backgroundColor="rgba(65,64,66,0.6)";
         document.getElementsByTagName("li")[scr].style.boxShadow="inset 0px 0px 6px -1px rgba(31,30,32,0.6)";
     }

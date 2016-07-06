@@ -84,11 +84,12 @@ body
     margin:0;
     border-radius:10px;
     background-color:rgba(65,64,66,0.0);
-    -webkit-transition: background-color 0.2s;
-    -moz-transition:    background-color 0.2s;
-    -ms-transition:     background-color 0.2s;
-    -o-transition:      background-color 0.2s;
-    transition:         background-color 0.2s;
+    box-shadow:inset 0px 0px 6px -1px rgba(31,30,32,0);
+    -webkit-transition: background-color 0.2s, box-shadow 0.2s;
+    -moz-transition:    background-color 0.2s, box-shadow 0.2s;
+    -ms-transition:     background-color 0.2s, box-shadow 0.2s;
+    -o-transition:      background-color 0.2s, box-shadow 0.2s;
+    transition:         background-color 0.2s, box-shadow 0.2s;
 }
 .menuItem li:hover
 {
@@ -102,6 +103,7 @@ body
     left:0;
     text-align: center;
     z-index:0;
+    box-shadow:inset 1px 3px 8px rgba(255,255,255,0.3);
 }
 #scrollHintWrapper
 {
@@ -233,41 +235,41 @@ a
 {
     top:0vh;
     background-color:rgb(0,173,239);
-    background-image:-webkit-linear-gradient(left,rgb(0,140,206) 0%,rgb(0,173,239) 50%,rgb(0,140,206) 100%);
-    background-image:-moz-linear-gradient(left,rgb(0,140,206) 0%,rgb(0,173,239) 50%,rgb(0,140,206) 100%);
-    background-image:-ms-linear-gradient(left,rgb(0,140,206) 0%,rgb(0,173,239) 50%,rgb(0,140,206) 100%);
-    background-image:-o-linear-gradient(left,rgb(0,140,206) 0%,rgb(0,173,239) 50%,rgb(0,140,206) 100%);
-    background-image:linear-gradient(to right,rgb(0,140,206) 0%,rgb(0,173,239) 50%,rgb(0,140,206) 100%);
+    background-image:-webkit-linear-gradient(150deg,rgb(0,173,239) 0%,rgb(0,120,186) 100%);
+    background-image:-moz-linear-gradient(150deg,rgb(0,173,239) 0%,rgb(0,120,186) 100%);
+    background-image:-ms-linear-gradient(150deg,rgb(0,173,239) 0%,rgb(0,120,186) 100%);
+    background-image:-o-linear-gradient(150deg,rgb(0,173,239) 0%,rgb(0,120,186) 100%);
+    background-image:linear-gradient(150deg,rgb(0,173,239) 0%,rgb(0,120,186) 100%);
 }
 #about
 {
     top:100vh;
-    background-color:rgb(239,64,54);
-    background-image:-webkit-linear-gradient(left,rgb(206,31,21) 0%, rgb(239,64,54) 50%, rgb(206,31,21) 100%);
-    background-image:-moz-linear-gradient(left,rgb(206,31,21) 0%, rgb(239,64,54) 50%, rgb(206,31,21) 100%);
-    background-image:-ms-linear-gradient(left,rgb(206,31,21) 0%, rgb(239,64,54) 50%, rgb(206,31,21) 100%);
-    background-image:-o-linear-gradient(left,rgb(206,31,21) 0%, rgb(239,64,54) 50%, rgb(206,31,21) 100%);
-    background-image:linear-gradient(to right,rgb(206,31,21) 0%, rgb(239,64,54) 50%, rgb(206,31,21) 100%);
+    background-color:rgb(255,95,75);
+    background-image:-webkit-linear-gradient(150deg,rgb(255,95,75) 0%, rgb(205,35,15) 100%);
+    background-image:-moz-linear-gradient(150deg,rgb(255,95,75) 0%, rgb(205,35,15) 100%);
+    background-image:-ms-linear-gradient(150deg,rgb(255,95,75) 0%, rgb(205,35,15) 100%);
+    background-image:-o-linear-gradient(150deg,rgb(255,95,75) 0%, rgb(205,35,15) 100%);
+    background-image:linear-gradient(150deg,rgb(255,95,75) 0%, rgb(205,35,15) 100%);
 }
 #projects
 {
     top:200vh;
-    background-color:rgb(80,229,80);
-    background-image:-webkit-linear-gradient(left,rgb(40,189,40) 0%, rgb(80,229,80) 50%, rgb(40,189,40) 100%);
-    background-image:-moz-linear-gradient(left,rgb(40,189,40) 0%, rgb(80,229,80) 50%, rgb(40,189,40) 100%);
-    background-image:-ms-linear-gradient(left,rgb(40,189,40) 0%, rgb(80,229,80) 50%, rgb(40,189,40) 100%);
-    background-image:-o-linear-gradient(left,rgb(40,189,40) 0%, rgb(80,229,80) 50%, rgb(40,189,40) 100%);
-    background-image:linear-gradient(to right,rgb(40,189,40) 0%, rgb(80,229,80) 50%, rgb(40,189,40) 100%);
+    background-color:rgb(90,230,60);
+    background-image:-webkit-linear-gradient(150deg,rgb(90,230,60) 0%, rgb(40,180,10) 100%);
+    background-image:-moz-linear-gradient(150deg,rgb(90,230,60) 0%, rgb(40,180,10) 100%);
+    background-image:-ms-linear-gradient(150deg,rgb(90,230,60) 0%, rgb(40,180,10) 100%);
+    background-image:-o-linear-gradient(150deg,rgb(90,230,60) 0%, rgb(40,180,10) 100%);
+    background-image:linear-gradient(150deg,rgb(90,230,60) 0%, rgb(40,180,10) 100%);
 }
 #contact
 {
     top:300vh;
-    background-color:rgb(225,221,40);
-    background-image:-webkit-linear-gradient(left,rgb(185,181,0) 0%, rgb(225,221,40) 50%, rgb(185,181,0) 100%);
-    background-image:-moz-linear-gradient(left,rgb(185,181,0) 0%, rgb(225,221,40) 50%, rgb(185,181,0) 100%);
-    background-image:-ms-linear-gradient(left,rgb(185,181,0) 0%, rgb(225,221,40) 50%, rgb(185,181,0) 100%);
-    background-image:-o-linear-gradient(left,rgb(185,181,0) 0%, rgb(225,221,40) 50%, rgb(185,181,0) 100%);
-    background-image:linear-gradient(to right,rgb(185,181,0) 0%, rgb(225,221,40) 50%, rgb(185,181,0) 100%);
+    background-color:rgb(255,210,0);
+    background-image:-webkit-linear-gradient(150deg,rgb(255,210,0) 0%, rgb(225,139,20) 100%);
+    background-image:-moz-linear-gradient(150deg,rgb(255,210,0) 0%, rgb(225,139,20) 100%);
+    background-image:-ms-linear-gradient(150deg,rgb(255,210,0) 0%, rgb(225,139,20) 100%);
+    background-image:-o-linear-gradient(150deg,rgb(255,210,0) 0%, rgb(225,139,20) 100%);
+    background-image:linear-gradient(150deg,rgb(255,210,0) 0%, rgb(225,139,20) 100%);
 }
 #copyright
 {
@@ -389,24 +391,26 @@ h1, span
 .titleText.light
 {
     color:white;
-    text-shadow:1px 1px 0px rgba(205,204,206,0.9),
-        2px 2px 0px rgba(185,184,186,0.9);
+    text-shadow:1px 1px 1px rgba(205,204,206,0.9),
+        2px 2px 1px rgba(185,184,186,0.9);
 }
 .titleText.dark
 {
     color:rgba(65,64,66,1);
-    text-shadow:1px 1px 0px rgba(85,84,86,0.9),
-        2px 2px 0px rgba(105,104,106,0.9);
+    text-shadow:1px 1px 1px rgba(85,84,86,0.9),
+        2px 2px 1px rgba(105,104,106,0.9);
 }
 .titleText.accent
 {
     color:rgba(255,84,84,1);
-    text-shadow:1px 1px 0px rgba(255,104,104,0.9),
-        2px 2px 0px rgba(255,124,124,0.5);
+    text-shadow:1px 1px 1px rgba(255,104,104,0.9),
+        2px 2px 1px rgba(255,124,124,0.5);
 }
 .accent
 {
-    color:rgba(255,84,84,1);
+    color:rgba(255,210,50,1);
+    font-weight:bold;
+    text-shadow:1px 1px 1px rgba(255,240,80,0.6);
 }
 #nameUnderline
 {
@@ -424,8 +428,8 @@ h1, span
 .bigSubtitle
 {
     color:rgb(65,64,66);
-    font-weight:600;
-    font-size:16pt;
+    font-weight:bold;
+    font-size:18pt;
 }
 #aboutContents .titleText
 {
@@ -446,15 +450,14 @@ h1, span
     left:0;
     width:92%;
     height:90%;
-    background:rgb(230,230,210);
     border-radius:5px;
-    box-shadow:inset 0 0 3px 0px rgba(65,64,66,0.8);
 }
 #aboutBg .subtitle
 {
-    color:rgb(125,124,126);
-    font-size:12.5pt;
-    font-weight: normal;
+    color:rgb(245,244,246);
+    font-size:14pt;
+    line-height:16pt;
+    font-weight:100;
 }
 #aboutInfo
 {
@@ -487,6 +490,10 @@ h1, span
     padding:3% 6.5%;
     width:32%;
     height:94%;
+}
+#skillsLabel
+{
+    margin-bottom:2%;
 }
 .blContainer
 {
@@ -534,7 +541,7 @@ h1, span
     background: -moz-radial-gradient(right, circle farthest-side,  rgba(225,54,54,0.8) 0%, rgba(225,54,54,0.8) 80%, rgba(255,84,84,0.8) 100%);
     background: -ms-radial-gradient(right, circle farthest-side,  rgba(225,54,54,0.8) 0%, rgba(225,54,54,0.8) 80%, rgba(255,84,84,0.8) 100%);
     background: -o-radial-gradient(right, circle farthest-side,  rgba(225,54,54,0.8) 0%, rgba(225,54,54,0.8) 80%, rgba(255,84,84,0.8) 100%);
-    background: radial-gradient(circle farthest-side at right,  rgba(225,54,54,0.8) 0%, rgba(225,54,54,0.8) 80%, rgba(255,84,84,0.8) 100%);
+    background: radial-gradient(circle farthest-side at right,  rgba(225,180,20,1) 0%, rgba(225,180,20,1) 80%, rgba(255,210,50,1) 100%);
     -webkit-transform-origin:   100% 50%;
     -moz-transform-origin:      100% 50%;
     -ms-transform-origin:       100% 50%;
@@ -551,7 +558,7 @@ h1, span
     background: -moz-radial-gradient(left, circle farthest-side,  rgba(225,54,54,0.8) 0%, rgba(225,54,54,0.8) 80%, rgba(255,84,84,0.8) 100%);
     background: -ms-radial-gradient(left, circle farthest-side,  rgba(225,54,54,0.8) 0%, rgba(225,54,54,0.8) 80%, rgba(255,84,84,0.8) 100%);
     background: -o-radial-gradient(left, circle farthest-side,  rgba(225,54,54,0.8) 0%, rgba(225,54,54,0.8) 80%, rgba(255,84,84,0.8) 100%);
-    background: radial-gradient(circle farthest-side at left,  rgba(225,54,54,0.8) 0%, rgba(225,54,54,0.8) 80%, rgba(255,84,84,0.8) 100%);
+    background: radial-gradient(circle farthest-side at left,  rgba(225,180,20,1) 0%, rgba(225,180,20,1) 80%, rgba(255,210,50,1) 100%);
     -webkit-transform-origin:   0% 50%;
     -moz-transform-origin:      0% 50%;
     -ms-transform-origin:       0% 50%;
@@ -568,14 +575,18 @@ h1, span
     margin-left:13%;
     margin-top:13%;
     background: rgb(65,64,66);
-    background: -webkit-linear-gradient(top left, rgb(105,104,106) 0%, rgb(65,64,66) 100%);
-    background: -moz-linear-gradient(top left, rgb(105,104,106) 0%, rgb(65,64,66) 100%);
-    background: -ms-linear-gradient(top left, rgb(105,104,106) 0%, rgb(65,64,66) 100%);
-    background: -o-linear-gradient(top left, rgb(105,104,106) 0%, rgb(65,64,66) 100%);
-    background: linear-gradient(top left, rgb(105,104,106) 0%, rgb(65,64,66) 100%);
+    background: -webkit-linear-gradient(top left, rgb(85,84,86) 0%, rgb(35,34,36) 100%);
+    background: -moz-linear-gradient(top left, rgb(85,84,86) 0%, rgb(35,34,36) 100%);
+    background: -ms-linear-gradient(top left, rgb(85,84,86) 0%, rgb(35,34,36) 100%);
+    background: -o-linear-gradient(top left, rgb(85,84,86) 0%, rgb(35,34,36) 100%);
+    background: linear-gradient(top left, rgb(85,84,86) 0%, rgb(35,34,36) 100%);
     border-radius:37px;
     box-shadow: 0 0 5px rgba(65,64,66,0.8), inset 0 0 2px rgba(255,255,255,0.2);
     z-index:20;
+}
+#miscSkillsLabel
+{
+    margin-top:0;
 }
 .miscSkills
 {
@@ -589,8 +600,8 @@ h1, span
     display:inline-block;
     padding:2px 5px;
     margin:2px 0;
-    background:rgba(255,84,84,0.4);
-    border:1px solid rgba(225,54,54,0.4);
+    background:rgba(255,230,80,0.7);
+    border:1px solid rgba(205,160,0,1);
     border-radius:3px;
     color:rgb(65,64,66);
 }
@@ -730,6 +741,7 @@ h1, span
     -ms-transition-delay:       0s;
     -o-transition-delay:        0s;
     transition-delay:           0s;
+    box-shadow:0px -3px 10px 3px rgba(65,64,66,0.8);
 }
 .projActions
 {
@@ -758,6 +770,7 @@ h1, span
     -ms-transition-delay:       0s;
     -o-transition-delay:        0s;
     transition-delay:           0s;
+    box-shadow:0px 3px 10px 3px rgba(65,64,66,0.8);
 }
 .projButton
 {
@@ -834,6 +847,7 @@ h1, span
     height:150%;
     left:-25%;
     z-index:20;
+    box-shadow:0 0 10px -1px rgba(65,64,66,0.8);
 }
 .project:nth-child(1)>.projectWrapper:hover,
 .project:nth-child(2)>.projectWrapper:hover,

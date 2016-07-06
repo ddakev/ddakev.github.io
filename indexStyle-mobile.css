@@ -199,11 +199,11 @@ body
 #aboutBg
 {
     margin:0 0 0 0;
+    text-align:justify;
     top:15%;
     width:100%;
     height:85%;
     border-radius:0px;
-    box-shadow:inset 0 4px 3px -3px rgba(65,64,66,0.8);
 }
 .bigSubtitle
 {
@@ -213,6 +213,8 @@ body
 #aboutBg .subtitle
 {
     font-size:11.5pt;
+    line-height: 12pt;
+    margin-bottom:1vh;
 }
 #aboutInfo
 {
@@ -223,20 +225,21 @@ body
 }
 .educationIcon
 {
-    display:inline-block;
     height:28pt;
     width:28pt;
-    margin-right:10px;
-    float:left;
-    background:url(graphics/eduIcon.svg);
 }
 #schoolLabel
 {
     display:none;
 }
+#eduSchool
+{
+    margin-bottom:0 !important;
+}
 #eduLabel
 {
-    font-size:11pt;
+    margin-top:0 !important;
+    font-size:10pt !important;
 }
 #progLangs
 {
@@ -245,7 +248,7 @@ body
     margin:0 0 0 0;
     padding:3% 0%;
     width:100%;
-    height:34%;
+    height:auto;
 }
 #skillsLabel, #miscSkillsLabel
 {
@@ -256,6 +259,8 @@ body
     height:15vw;
     width:15vw;
     margin:0 0;
+    max-height: none;
+    max-width: none;
 }
 .blContainer:nth-child(2)
 {
@@ -265,16 +270,20 @@ body
 {
     width:15vw;
     height:15vw;
+    margin:0;
     border-radius:7.5vw;
+    max-height: none;
+    max-width: none;
 }
 .pieFg
 {
     width:11.1vw;
     height:11.1vw;
-    margin-left:1.95vw;
-    margin-top:1.95vw;
+    margin:1.95vw;
     border-radius:5.55vw;
     box-shadow: 0 0 3px rgba(65,64,66,0.8), inset 0 0 2px rgba(255,255,255,0.2);
+    max-height: none;
+    max-width: none;
 }
 .leftFill, .rightFill
 {
@@ -290,6 +299,7 @@ body
 {
     width:100%;
     box-sizing:border-box;
+    text-align:left;
     padding:0 3%;
     margin-top:2%;
 }
@@ -445,6 +455,7 @@ body
     width:100%;
     height:60%;
     box-sizing: border-box;
+    text-align: center;
     padding:3%;
 }
 #cForm
