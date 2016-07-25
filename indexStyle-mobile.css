@@ -144,38 +144,26 @@ body
     padding:0vh 1vw;
     text-align:center;
 }
-#homeContents
-{
-    padding-top:10vh;
-    height:75vh;
-}
 .btnLink
 {
     padding:8px 10px;
     font-size:10pt;
 }
+#picContainer
+{
+    left:0;
+}
 #myPicture
 {
-    left:15vw;
     width:70vw;
     height:63.2vw;
 }
 .textBox
 {
-    margin:-10vh 5vw 0 5vw;
-    padding:20px 5px;
+    margin:15vh 5vw 0 5vw;
+    padding:10px 5px;
     width:auto;
-    border-radius:10px;
-}
-.textBox::after
-{
-    position:absolute;
-    margin-top:19px;
-    left:60%;
-    border-top:15px solid rgb(240,240,220);
-    border-left:15px solid transparent;
-    border-right:15px solid transparent;
-    border-bottom:15px solid transparent;
+    text-align:center;
 }
 .titleText
 {
@@ -184,13 +172,18 @@ body
 }
 .subtitle
 {
-    font-size:12pt;
-    line-height:12pt;
+    font-size:14pt;
+    line-height:16pt;
+}
+.titleText.dark
+{
+    font-size:34pt !important;
+    line-height:34pt !important;
 }
 .titleText.light
 {
-    line-height:28pt;
-    font-size:28pt;
+    line-height:36pt !important;
+    font-size:36pt !important;
 }
 #aboutContents .subtitle
 {

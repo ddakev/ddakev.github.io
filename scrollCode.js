@@ -23,8 +23,8 @@ function init()
     var content=document.getElementById("contentPage");
     scrollPosition=content.scrollTop;
     var scrollFactor=3*Math.abs(content.scrollTop)/parseFloat(window.getComputedStyle(document.getElementById("contact")).top);
-    document.getElementById("pageSelectorClip").style.top=(3+scrollFactor*19.5) + "px";
-    document.getElementById("pageSelectorButtons").style.top=(-3-scrollFactor*19.5) + "px";
+    document.getElementById("pageSelectorClip").style.top=(3+scrollFactor*21) + "px";
+    document.getElementById("pageSelectorButtons").style.top=(-3-scrollFactor*21) + "px";
     updateCurrentScreen(findScreen());
     initEvents();
     if(!document.getElementById("downarr").contentDocument.getElementById("expand").beginElement) {
@@ -208,8 +208,8 @@ function scroll(spos,fpos,steps)
     content.scrollTop=Math.round(spos+(fpos-spos)*(-(scrStep/steps-1)*(scrStep/steps-1)+1));
     scrollPosition=Math.abs(content.scrollTop);
     var scrollFactor=3*Math.abs(content.scrollTop)/parseFloat(window.getComputedStyle(document.getElementById("contact")).top);
-    document.getElementById("pageSelectorClip").style.top=(3+scrollFactor*19.5) + "px";
-    document.getElementById("pageSelectorButtons").style.top=(-3-scrollFactor*19.5) + "px";
+    document.getElementById("pageSelectorClip").style.top=(3+scrollFactor*21) + "px";
+    document.getElementById("pageSelectorButtons").style.top=(-3-scrollFactor*21) + "px";
     var cSlides = document.getElementsByClassName("contents");
     for(var l=0; l<cSlides.length; l++)
     {
