@@ -385,14 +385,12 @@ h1, span
 .titleText.light
 {
     color:white;
-    /*text-shadow:1px 1px 1px rgba(205,204,206,0.9),
-        2px 2px 1px rgba(185,184,186,0.9);*/
+    text-shadow:1px 1px 1px rgba(165,164,166,1);
 }
 .titleText.dark
 {
     color:rgba(65,64,66,1);
-    /*text-shadow:1px 1px 1px rgba(85,84,86,0.9),
-        2px 2px 1px rgba(105,104,106,0.9);*/
+    text-shadow:1px 1px 1px rgba(35,34,36,0.8);
 }
 .textBox .titleText.dark
 {
@@ -418,6 +416,7 @@ h1, span
     line-height:4.3vmin;
     color:rgb(65,64,66);
     font-weight:bold;
+    text-shadow:0.5px 0.5px 1px rgba(35,34,36,0.5);
 }
 .bigSubtitle
 {
@@ -1345,10 +1344,6 @@ input[type="submit"]:active
 
 @media only screen and (max-width: 1200px)
 {
-    #pageSelector
-    {
-        display:none;
-    }
     .contents
     {
         width:100vw;

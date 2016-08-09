@@ -135,6 +135,10 @@ body
 {
     background-color:none;
 }
+#pageSelector
+{
+    display:none;
+}
 .contents
 {
     top:15vh;

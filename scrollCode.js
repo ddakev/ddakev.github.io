@@ -160,7 +160,7 @@ function initEvents()
 function updateCurrentScreen(scr)
 {
     window.location.hash=slideNames[scr];
-    document.title=slideNames[scr].capitalize() + " | Daniel Dakev";
+    document.title=slideNames[scr].capitalize() + " - Daniel Dakev";
     if(window.getComputedStyle(document.getElementById("hamMenuLabel")).display=="none")
     {
         document.getElementsByTagName("li")[curScrn].style.backgroundColor="rgba(65,64,66,0.0)";
