@@ -181,13 +181,13 @@ body
 }
 .titleText.dark
 {
-    font-size:34pt !important;
-    line-height:34pt !important;
+    font-size:32pt !important;
+    line-height:32pt !important;
 }
 .titleText.light
 {
-    line-height:36pt !important;
-    font-size:36pt !important;
+    line-height:32pt !important;
+    font-size:32pt !important;
 }
 #aboutContents .subtitle
 {
@@ -462,8 +462,12 @@ body
 .tField
 {
     display:inline-block;
-    width:48%;
-    margin:3% 0.5%;
+    width:45%;
+    margin:3% 2%;
+}
+.tField:nth-child(1)
+{
+    margin-left:0;
 }
 .cLabel
 {
@@ -477,16 +481,16 @@ input[type="text"], textarea
 }
 textarea
 {
-    height:48%;
-    width:98.75%;
+    height:40%;
+    width:95%;
     margin:0 0.5%;
-    line-height:13pt;
+    line-height:12pt;
     padding:10px;
 }
 input[type="submit"]
 {
     margin:2% 0.5%;
-    width:98.75%;
+    width:100%;
     float:left;
 }
 .notification

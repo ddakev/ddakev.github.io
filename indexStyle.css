@@ -823,13 +823,13 @@ h1, span
     color:rgb(230,230,210);
 }
 .project:nth-child(1)>.projectWrapper>.projPic,
-.project:nth-child(2)>.projectWrapper>.projPic, 
+.project:nth-child(2)>.projectWrapper>.projPic,
 .project:nth-child(3)>.projectWrapper>.projPic
 {
     top:-25%;
 }
 .project:nth-child(4)>.projectWrapper>.projPic,
-.project:nth-child(5)>.projectWrapper>.projPic, 
+.project:nth-child(5)>.projectWrapper>.projPic,
 .project:nth-child(6)>.projectWrapper>.projPic
 {
     top:-25%;
@@ -1261,7 +1261,8 @@ input[type="submit"]:active
     display:inline-block;
     text-align:left;
     margin-top:-3%;
-    width:15%;
+    width:6vw;
+    height:6vw;
 }
 .socIcon
 {
@@ -1271,7 +1272,7 @@ input[type="submit"]:active
 }
 .socIconContainer a
 {
-    height:20%;
+    height:100%;
     width:100%;
     text-decoration: none;
 }
