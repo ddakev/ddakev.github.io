@@ -10,10 +10,32 @@
         <script type="text/javascript" src="scrollCode.js"></script>
     </head>
     <body onload="javascript:init();">
-            <label id="hamMenuLabel" for="hamMenu">
-                <object id="hamImage" data="graphics/hamIcon.svg"></object>
-            </label>
-            <input type="checkbox" id="hamMenu">
+        <label id="hamMenuLabel" for="hamMenu">
+            <object id="hamImage" data="graphics/hamIcon.svg"></object>
+        </label>
+        <input type="checkbox" id="hamMenu">
+        <div class="slide" id="home">
+            <div id="picContainer">
+                <div id="myPicture">
+                </div>
+            </div>
+            <div class="textBox">
+                <h1 class="titleText dark" id="hi">Hi! I'm</h1><br>
+                <h1 class="titleText light" id="name">Daniel Dakev</h1><br>
+                <span class="subtitle">Computer Science Student;<br> Front-end Programmer;<br> Software Developer</span>
+            </div>
+            <div id="scrollHintWrapper">
+                <div id="scrollHint">
+                    <div id="scrollHintContainer">
+                        <span>Scroll</span>
+                        <object id="downarr" data="graphics/downarrow1.svg"></object>
+                        <a href="#about" id="hintSelector" onclick="javascript:scrollToPage(1);">
+                        </a>
+                        <span>Down</span>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="contentPage">
             <div id="topBar">
                 <div id="logo">
@@ -22,383 +44,358 @@
                     </a>
                 </div>
                 <div id="menu">
-                    <a href="#home" class="menuItem" onclick="javascript:scrollToPage(0);">
+                    <a href="javascript:void(0);" class="menuItem" onclick="javascript:scrollToPage(0);">
                         <li>Home</li>
                     </a>
-                    <a href="#about" class="menuItem" onclick="javascript:scrollToPage(1);">
+                    <a href="javascript:void(0);" class="menuItem" onclick="javascript:scrollToPage(1);">
                         <li>About</li>
                     </a>
-                    <a href="#projects" class="menuItem" onclick="javascript:scrollToPage(2);">
+                    <a href="javascript:void(0);" class="menuItem" onclick="javascript:scrollToPage(2);">
                         <li>Projects</li>
                     </a>
-                    <a href="#contact" class="menuItem" onclick="javascript:scrollToPage(3);">
+                    <a href="javascript:void(0);" class="menuItem" onclick="javascript:scrollToPage(3);">
                         <li>Contact</li>
                     </a>
                 </div>
             </div>
             <div id="pageSelector">
-                <a href="#home" class="pageSelect" id="page0" onclick="javascript:scrollToPage(0);"></a>
-                <a href="#about" class="pageSelect" id="page1" onclick="javascript:scrollToPage(1);"></a>
-                <a href="#projects" class="pageSelect" id="page2" onclick="javascript:scrollToPage(2);"></a>
-                <a href="#contact" class="pageSelect" id="page3" onclick="javascript:scrollToPage(3);"></a>
+                <a href="javascript:void(0);" class="pageSelect" id="page0" onclick="javascript:scrollToPage(0);"></a>
+                <a href="javascript:void(0);" class="pageSelect" id="page1" onclick="javascript:scrollToPage(1);"></a>
+                <a href="javascript:void(0);" class="pageSelect" id="page2" onclick="javascript:scrollToPage(2);"></a>
+                <a href="javascript:void(0);" class="pageSelect" id="page3" onclick="javascript:scrollToPage(3);"></a>
                 <div id="pageSelectorClip">
                     <div id="pageSelectorButtons">
-                        <a href="#home" class="pageSelectButton" id="pagebtn0" onclick="javascript:scrollToPage(0);"></a>
-                        <a href="#about" class="pageSelectButton" id="pagebtn1" onclick="javascript:scrollToPage(1);"></a>
-                        <a href="#projects" class="pageSelectButton" id="pagebtn2" onclick="javascript:scrollToPage(2);"></a>
-                        <a href="#contact" class="pageSelectButton" id="pagebtn3" onclick="javascript:scrollToPage(3);"></a>
+                        <a href="javascript:void(0);" class="pageSelectButton" id="pagebtn0" onclick="javascript:scrollToPage(0);"></a>
+                        <a href="javascript:void(0);" class="pageSelectButton" id="pagebtn1" onclick="javascript:scrollToPage(1);"></a>
+                        <a href="javascript:void(0);" class="pageSelectButton" id="pagebtn2" onclick="javascript:scrollToPage(2);"></a>
+                        <a href="javascript:void(0);" class="pageSelectButton" id="pagebtn3" onclick="javascript:scrollToPage(3);"></a>
                     </div>
                 </div>
             </div>
-            <div class="slide" id="home">
-                    <div id="picContainer">
-                        <div id="myPicture">
-                        </div>
-                    </div>
-                    <div class="textBox">
-                        <h1 class="titleText dark" id="hi">Hi! I'm</h1><br>
-                        <h1 class="titleText light" id="name">Daniel Dakev</h1><br>
-                        <span class="subtitle">Computer Science Student;<br> Front-end Programmer;<br> Software Developer</span>
-                    </div>
-                <div id="scrollHintWrapper">
-                    <div id="scrollHint">
-                        <div id="scrollHintContainer">
-                            <span>Scroll</span>
-                            <object id="downarr" data="graphics/downarrow1.svg"></object>
-                            <a href="#about" id="hintSelector" onclick="javascript:scrollToPage(1);">
-                            </a>
-                            <span>Down</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             <div class="slide" id="about">
-                <div class="contents" id="aboutContents">
-                    <h1 class="titleText light">About me</h1><br>
-                    <span class="subtitle"><a href="https://drive.google.com/file/d/0Bzq3popibj_fUnhpOEE0OFhUcUk/view?usp=sharing" target="_blank" class="btnLink">View printable Resume</a></span>
-                    <div id="aboutBg">
-                        <div id="aboutInfo">
-                            <p class="bigSubtitle">
-                                Who am I?
-                            </p>
-                            <p class="subtitle">
-                                I'm a second year undergraduate student in <b class="accent">Atlanta, GA</b>, and I spend my free time writing code and developing practical software. I build responsive and interactive <b class="accent">websites</b>, GUI and console <b class="accent">applications for Windows</b>, and <b class="accent">Android apps</b>. I also do my own <b class="accent">UI/UX design</b> with the help of Illustrator and Photoshop. I'm currently looking for an <b class="accent">internship</b>.
-                            </p>
-                            <p class="bigSubtitle" id="schoolLabel">
-                                Education
-                            </p>
-                            <span class="educationIcon">
-                            </span>
-                            <span class="subtitle" id="eduSchool">
-                                Georgia State University
-                            </span><br>
-                            <span class="subtitle" id="eduLabel">
-                                Class of 2019
-                            </span>
+                <h1 class="titleText dark">About</h1><br>
+                <span class="subtitle"><a href="https://drive.google.com/file/d/0Bzq3popibj_fUnhpOEE0OFhUcUk/view?usp=sharing" target="_blank" class="btnLink">View printable Resume</a></span>
+                <div id="aboutBg">
+                    <div id="aboutInfo">
+                        <p class="bigSubtitle">
+                            Who am I?
+                        </p>
+                        <p class="subtitle">
+                            I'm a second year undergraduate student in <b class="accent">Atlanta, GA</b>, and I spend my free time writing code and developing practical software. I build responsive and interactive <b class="accent">websites</b>, GUI and console <b class="accent">applications for Windows</b>, and <b class="accent">Android apps</b>. I also do my own <b class="accent">UI/UX design</b> with the help of Illustrator and Photoshop. I'm currently looking for an <b class="accent">internship</b>.
+                        </p>
+                        <p class="bigSubtitle" id="schoolLabel">
+                            Education
+                        </p>
+                        <span class="educationIcon">
+                        </span>
+                        <span class="subtitle" id="eduSchool">
+                            Georgia State University
+                        </span><br>
+                        <span class="subtitle" id="eduLabel">
+                            Class of 2019
+                        </span>
+                    </div>
+                    <div id="progLangs">
+                        <p class="bigSubtitle" id="skillsLabel">My skills include:</p>
+                        <div class="blContainer" id="bl-cpp">
+                            <div class="pieBg">
+                                <div class="leftHalf">
+                                    <div class="leftFill"></div>
+                                </div>
+                                <div class="rightHalf">
+                                    <div class="rightFill"></div>
+                                </div>
+                                <div class="pieFg">
+                                    <span class="bigLang cpp"></span>
+                                </div>
+                            </div>
                         </div>
-                        <div id="progLangs">
-                            <p class="bigSubtitle" id="skillsLabel">My skills include:</p>
-                            <div class="blContainer" id="bl-cpp">
-                                <div class="pieBg">
-                                    <div class="leftHalf">
-                                        <div class="leftFill"></div>
-                                    </div>
-                                    <div class="rightHalf">
-                                        <div class="rightFill"></div>
-                                    </div>
-                                    <div class="pieFg">
-                                        <span class="bigLang cpp"></span>
-                                    </div>
+                        <div class="blContainer" id="bl-java">
+                            <div class="pieBg">
+                                <div class="leftHalf">
+                                    <div class="leftFill"></div>
+                                </div>
+                                <div class="rightHalf">
+                                    <div class="rightFill"></div>
+                                </div>
+                                <div class="pieFg">
+                                    <span class="bigLang java"></span>
                                 </div>
                             </div>
-                            <div class="blContainer" id="bl-java">
-                                <div class="pieBg">
-                                    <div class="leftHalf">
-                                        <div class="leftFill"></div>
-                                    </div>
-                                    <div class="rightHalf">
-                                        <div class="rightFill"></div>
-                                    </div>
-                                    <div class="pieFg">
-                                        <span class="bigLang java"></span>
-                                    </div>
+                        </div>
+                        <div class="blContainer" id="bl-csharp">
+                            <div class="pieBg">
+                                <div class="leftHalf">
+                                    <div class="leftFill"></div>
+                                </div>
+                                <div class="rightHalf">
+                                    <div class="rightFill"></div>
+                                </div>
+                                <div class="pieFg">
+                                    <span class="bigLang csharp"></span>
                                 </div>
                             </div>
-                            <div class="blContainer" id="bl-csharp">
-                                <div class="pieBg">
-                                    <div class="leftHalf">
-                                        <div class="leftFill"></div>
-                                    </div>
-                                    <div class="rightHalf">
-                                        <div class="rightFill"></div>
-                                    </div>
-                                    <div class="pieFg">
-                                        <span class="bigLang csharp"></span>
-                                    </div>
+                        </div>
+                        <div class="blContainer" id="bl-javascript">
+                            <div class="pieBg">
+                                <div class="leftHalf">
+                                    <div class="leftFill"></div>
+                                </div>
+                                <div class="rightHalf">
+                                    <div class="rightFill"></div>
+                                </div>
+                                <div class="pieFg">
+                                    <span class="bigLang javascript"></span>
                                 </div>
                             </div>
-                            <div class="blContainer" id="bl-javascript">
-                                <div class="pieBg">
-                                    <div class="leftHalf">
-                                        <div class="leftFill"></div>
-                                    </div>
-                                    <div class="rightHalf">
-                                        <div class="rightFill"></div>
-                                    </div>
-                                    <div class="pieFg">
-                                        <span class="bigLang javascript"></span>
-                                    </div>
+                        </div>
+                        <div class="blContainer" id="bl-html">
+                            <div class="pieBg">
+                                <div class="leftHalf">
+                                    <div class="leftFill"></div>
+                                </div>
+                                <div class="rightHalf">
+                                    <div class="rightFill"></div>
+                                </div>
+                                <div class="pieFg">
+                                    <span class="bigLang html5"></span>
                                 </div>
                             </div>
-                            <div class="blContainer" id="bl-html">
-                                <div class="pieBg">
-                                    <div class="leftHalf">
-                                        <div class="leftFill"></div>
-                                    </div>
-                                    <div class="rightHalf">
-                                        <div class="rightFill"></div>
-                                    </div>
-                                    <div class="pieFg">
-                                        <span class="bigLang html5"></span>
-                                    </div>
+                        </div>
+                        <div class="blContainer" id="bl-css">
+                            <div class="pieBg">
+                                <div class="leftHalf">
+                                    <div class="leftFill"></div>
+                                </div>
+                                <div class="rightHalf">
+                                    <div class="rightFill"></div>
+                                </div>
+                                <div class="pieFg">
+                                    <span class="bigLang css3"></span>
                                 </div>
                             </div>
-                            <div class="blContainer" id="bl-css">
-                                <div class="pieBg">
-                                    <div class="leftHalf">
-                                        <div class="leftFill"></div>
-                                    </div>
-                                    <div class="rightHalf">
-                                        <div class="rightFill"></div>
-                                    </div>
-                                    <div class="pieFg">
-                                        <span class="bigLang css3"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="bigSubtitle" id="miscSkillsLabel">In addition to:</p>
-                            <div class="miscSkills">
-                                <span>Python</span>
-                                <span>PHP</span>
-                                <span>SQL</span>
-                                <span>XML</span>
-                                <span>.NET</span>
-                                <span>Android</span>
-                                <span>Algorithms</span>
-                                <span>Data Structures</span>
-                                <span>Adobe Photoshop</span>
-                                <span>Adobe Illustrator</span>
-                            </div>
+                        </div>
+                        <p class="bigSubtitle" id="miscSkillsLabel">In addition to:</p>
+                        <div class="miscSkills">
+                            <span>Python</span>
+                            <span>PHP</span>
+                            <span>SQL</span>
+                            <span>XML</span>
+                            <span>.NET</span>
+                            <span>Android</span>
+                            <span>Algorithms</span>
+                            <span>Data Structures</span>
+                            <span>Adobe Photoshop</span>
+                            <span>Adobe Illustrator</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="slide" id="projects">
-                <div class="contents" id="projectsContents">
-                    <h1 class="titleText light" id="projectsTitle">Projects</h1><br>
-                    <span class="subtitle"><a href="https://github.com/ddakev" target="_blank" class="btnLink">See them all on my Github</a></span>
-                    <div id="projectsContainer">
-                        <div class="project" id="unknock">
-                            <div class="projectWrapper">
-                                <div class="projPic">
-                                    <div class="projInfo">
-                                        <p class="projTitle">
-                                        UnKnock
-                                        </p>
-                                        <div class="projLang">
-                                            <span class="lang java"></span>
-                                            <span class="lang android"></span>
-                                        </div>
-                                        <br>
-                                        <p class="projDesc">
-                                        Unlocks Android smartphones using a secret, pre-recorded knock pattern. Algorithm determines the resemblance between the input and the pattern in memory.
-                                        </p>
+                <h1 class="titleText light" id="projectsTitle">Projects</h1><br>
+                <span class="subtitle"><a href="https://github.com/ddakev" target="_blank" class="btnLink">See them all on my Github</a></span>
+                <div id="projectsContainer">
+                    <div class="project" id="unknock">
+                        <div class="projectWrapper">
+                            <div class="projPic">
+                                <div class="projInfo">
+                                    <p class="projTitle">
+                                    UnKnock
+                                    </p>
+                                    <div class="projLang">
+                                        <span class="lang java"></span>
+                                        <span class="lang android"></span>
                                     </div>
-                                    <div class="projActions">
-                                        <a href="https://github.com/ddakev/UnKnock" target="_blank" class="projButton">
-                                            <div class="codeIcon">
-                                            </div><br>
-                                            <span class="projectText">
-                                                See code
-                                            </span>
-                                        </a>
-                                        <a href="https://github.com/ddakev/UnKnock/archive/master.zip" target="_blank" class="projButton">
-                                            <div class="downloadIcon">
-                                            </div><br>
-                                            <span class="projectText">
-                                                Download
-                                            </span>
-                                        </a>
-                                    </div>
+                                    <br>
+                                    <p class="projDesc">
+                                    Unlocks Android smartphones using a secret, pre-recorded knock pattern. Algorithm determines the resemblance between the input and the pattern in memory.
+                                    </p>
+                                </div>
+                                <div class="projActions">
+                                    <a href="https://github.com/ddakev/UnKnock" target="_blank" class="projButton">
+                                        <div class="codeIcon">
+                                        </div><br>
+                                        <span class="projectText">
+                                            See code
+                                        </span>
+                                    </a>
+                                    <a href="https://github.com/ddakev/UnKnock/archive/master.zip" target="_blank" class="projButton">
+                                        <div class="downloadIcon">
+                                        </div><br>
+                                        <span class="projectText">
+                                            Download
+                                        </span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        <div class="project" id="spaceInvaders">
-                            <div class="projectWrapper">
-                                <div class="projPic">
-                                    <div class="projInfo">
-                                        <p class="projTitle">
-                                        Space Invaders
-                                        </p>
-                                        <div class="projLang">
-                                            <span class="lang javascript"></span>
-                                        </div>
-                                        <br>
-                                        <p class="projDesc">
-                                        A Space Invaders-type game written completely in javascript in a week as a challenge.
-                                        </p>
+                    </div>
+                    <div class="project" id="spaceInvaders">
+                        <div class="projectWrapper">
+                            <div class="projPic">
+                                <div class="projInfo">
+                                    <p class="projTitle">
+                                    Space Invaders
+                                    </p>
+                                    <div class="projLang">
+                                        <span class="lang javascript"></span>
                                     </div>
-                                    <div class="projActions">
-                                        <a href="https://github.com/ddakev/SpaceInvaders" target="_blank" class="projButton">
-                                            <div class="codeIcon">
-                                            </div><br>
-                                            <span class="projectText">
-                                                See code
-                                            </span>
-                                        </a>
-                                        <a href="http://ddakev.github.io/SpaceInvaders/" target="_blank" class="projButton">
-                                            <div class="demoIcon">
-                                            </div><br>
-                                            <span class="projectText">
-                                                Live Demo
-                                            </span>
-                                        </a>
-                                    </div>
+                                    <br>
+                                    <p class="projDesc">
+                                    A Space Invaders-type game written completely in javascript in a week as a challenge.
+                                    </p>
+                                </div>
+                                <div class="projActions">
+                                    <a href="https://github.com/ddakev/SpaceInvaders" target="_blank" class="projButton">
+                                        <div class="codeIcon">
+                                        </div><br>
+                                        <span class="projectText">
+                                            See code
+                                        </span>
+                                    </a>
+                                    <a href="http://ddakev.github.io/SpaceInvaders/" target="_blank" class="projButton">
+                                        <div class="demoIcon">
+                                        </div><br>
+                                        <span class="projectText">
+                                            Live Demo
+                                        </span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        <div class="project" id="minesweeper">
-                            <div class="projectWrapper">
-                                <div class="projPic">
-                                    <div class="projInfo">
-                                        <p class="projTitle">
-                                        Minesweeper
-                                        </p>
-                                        <div class="projLang">
-                                            <span class="lang csharp"></span>
-                                        </div>
-                                        <br>
-                                        <p class="projDesc">
-                                        A take on Microsoft's classic and incredibly addicting game made using form elements in Visual Studio.
-                                        </p>
+                    </div>
+                    <div class="project" id="minesweeper">
+                        <div class="projectWrapper">
+                            <div class="projPic">
+                                <div class="projInfo">
+                                    <p class="projTitle">
+                                    Minesweeper
+                                    </p>
+                                    <div class="projLang">
+                                        <span class="lang csharp"></span>
                                     </div>
-                                    <div class="projActions">
-                                        <a href="https://github.com/ddakev/MineSweeper" target="_blank" class="projButton">
-                                            <div class="codeIcon">
-                                            </div><br>
-                                            <span class="projectText">
-                                                See code
-                                            </span>
-                                        </a>
-                                        <a href="https://github.com/ddakev/MineSweeper/archive/master.zip" target="_blank" class="projButton">
-                                            <div class="downloadIcon">
-                                            </div><br>
-                                            <span class="projectText">
-                                                Download
-                                            </span>
-                                        </a>
-                                    </div>
+                                    <br>
+                                    <p class="projDesc">
+                                    A take on Microsoft's classic and incredibly addicting game made using form elements in Visual Studio.
+                                    </p>
+                                </div>
+                                <div class="projActions">
+                                    <a href="https://github.com/ddakev/MineSweeper" target="_blank" class="projButton">
+                                        <div class="codeIcon">
+                                        </div><br>
+                                        <span class="projectText">
+                                            See code
+                                        </span>
+                                    </a>
+                                    <a href="https://github.com/ddakev/MineSweeper/archive/master.zip" target="_blank" class="projButton">
+                                        <div class="downloadIcon">
+                                        </div><br>
+                                        <span class="projectText">
+                                            Download
+                                        </span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        <div class="project" id="hardestGameEver">
-                            <div class="projectWrapper">
-                                <div class="projPic">
-                                    <div class="projInfo">
-                                        <p class="projTitle">
-                                        Hardest Game Ever
-                                        </p>
-                                        <div class="projLang">
-                                            <span class="lang java"></span>
-                                        </div>
-                                        <br>
-                                        <p class="projDesc">
-                                        A minimalistic Java puzzle game where the goal is to simply lead the red square to the finish while avoiding blue circles.
-                                        </p>
+                    </div>
+                    <div class="project" id="hardestGameEver">
+                        <div class="projectWrapper">
+                            <div class="projPic">
+                                <div class="projInfo">
+                                    <p class="projTitle">
+                                    Hardest Game Ever
+                                    </p>
+                                    <div class="projLang">
+                                        <span class="lang java"></span>
                                     </div>
-                                    <div class="projActions">
-                                        <a href="https://github.com/ddakev/HardestGameEver" target="_blank" class="projButton">
-                                            <div class="codeIcon">
-                                            </div><br>
-                                            <span class="projectText">
-                                                See code
-                                            </span>
-                                        </a>
-                                        <a href="#" target="_blank" class="projButton">
-                                            <div class="demoIcon">
-                                            </div><br>
-                                            <span class="projectText">
-                                                Live Demo
-                                            </span>
-                                        </a>
-                                    </div>
+                                    <br>
+                                    <p class="projDesc">
+                                    A minimalistic Java puzzle game where the goal is to simply lead the red square to the finish while avoiding blue circles.
+                                    </p>
+                                </div>
+                                <div class="projActions">
+                                    <a href="https://github.com/ddakev/HardestGameEver" target="_blank" class="projButton">
+                                        <div class="codeIcon">
+                                        </div><br>
+                                        <span class="projectText">
+                                            See code
+                                        </span>
+                                    </a>
+                                    <a href="#" target="_blank" class="projButton">
+                                        <div class="demoIcon">
+                                        </div><br>
+                                        <span class="projectText">
+                                            Live Demo
+                                        </span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        <div class="project" id="heightmapGenerator">
-                            <div class="projectWrapper">
-                                <div class="projPic">
-                                    <div class="projInfo">
-                                        <p class="projTitle">
-                                        Heightmap Generator
-                                        </p>
-                                        <div class="projLang">
-                                            <span class="lang csharp"></span>
-                                        </div>
-                                        <br>
-                                        <p class="projDesc">
-                                        An experiment in C# using various algorithms to automatically generate heightmaps of realistic terrains.
-                                        </p>
+                    </div>
+                    <div class="project" id="heightmapGenerator">
+                        <div class="projectWrapper">
+                            <div class="projPic">
+                                <div class="projInfo">
+                                    <p class="projTitle">
+                                    Heightmap Generator
+                                    </p>
+                                    <div class="projLang">
+                                        <span class="lang csharp"></span>
                                     </div>
-                                    <div class="projActions">
-                                        <a href="https://github.com/ddakev/HeightmapGenerator" target="_blank" class="projButton">
-                                            <div class="codeIcon">
-                                            </div><br>
-                                            <span class="projectText">
-                                                See code
-                                            </span>
-                                        </a>
-                                        <a href="https://github.com/ddakev/HeightmapGenerator/archive/master.zip" target="_blank" class="projButton">
-                                            <div class="downloadIcon">
-                                            </div><br>
-                                            <span class="projectText">
-                                                Download
-                                            </span>
-                                        </a>
-                                    </div>
+                                    <br>
+                                    <p class="projDesc">
+                                    An experiment in C# using various algorithms to automatically generate heightmaps of realistic terrains.
+                                    </p>
+                                </div>
+                                <div class="projActions">
+                                    <a href="https://github.com/ddakev/HeightmapGenerator" target="_blank" class="projButton">
+                                        <div class="codeIcon">
+                                        </div><br>
+                                        <span class="projectText">
+                                            See code
+                                        </span>
+                                    </a>
+                                    <a href="https://github.com/ddakev/HeightmapGenerator/archive/master.zip" target="_blank" class="projButton">
+                                        <div class="downloadIcon">
+                                        </div><br>
+                                        <span class="projectText">
+                                            Download
+                                        </span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        <div class="project">
-                            <div class="projectWrapper">
-                                <div class="projPic">
-                                    <div class="projInfo">
-                                        <p class="projTitle">
-                                        Project 6
-                                        </p>
-                                        <div class="projLang">
-                                        </div>
-                                        <br>
-                                        <p class="projDesc">
-                                        Project description
-                                        </p>
+                    </div>
+                    <div class="project">
+                        <div class="projectWrapper">
+                            <div class="projPic">
+                                <div class="projInfo">
+                                    <p class="projTitle">
+                                    Project 6
+                                    </p>
+                                    <div class="projLang">
                                     </div>
-                                    <div class="projActions">
-                                        <a href="#" target="_blank" class="projButton">
-                                            <div class="codeIcon">
-                                            </div><br>
-                                            <span class="projectText">
-                                                See code
-                                            </span>
-                                        </a>
-                                        <a href="#" target="_blank" class="projButton">
-                                            <div class="demoIcon">
-                                            </div><br>
-                                            <span class="projectText">
-                                                Live Demo
-                                            </span>
-                                        </a>
-                                    </div>
+                                    <br>
+                                    <p class="projDesc">
+                                    Project description
+                                    </p>
+                                </div>
+                                <div class="projActions">
+                                    <a href="#" target="_blank" class="projButton">
+                                        <div class="codeIcon">
+                                        </div><br>
+                                        <span class="projectText">
+                                            See code
+                                        </span>
+                                    </a>
+                                    <a href="#" target="_blank" class="projButton">
+                                        <div class="demoIcon">
+                                        </div><br>
+                                        <span class="projectText">
+                                            Live Demo
+                                        </span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -406,95 +403,87 @@
                 </div>
             </div>
             <div class="slide" id="contact">
-                <div class="contents" id="contactContents">
-                    <div id="socialForm">
-                        <h1 class="titleText light">Ckeck out my social profiles</h1>
-                        <div id="socialIcons">
-                            <span class="socIconContainer">
-                                <a href="https://github.com/ddakev" target="_blank">
-                                    <object class="socIcon" data="graphics/social/github.svg">
-                                    </object>
-                                </a>
-                            </span>
-                            <span class="socIconContainer">
-                                <a href="https://www.linkedin.com/in/daniel-dakev-ab340580" target="_blank">
-                                    <object class="socIcon" data="graphics/social/linkedin.svg">
-                                    </object>
-                                </a>
-                            </span><br>
-                            <span class="socIconContainer">
-                                <a href="http://codepen.io/ddakev/" target="_blank">
-                                    <object class="socIcon" data="graphics/social/codepen.svg">
-                                    </object>
-                                </a>
-                            </span>
-                            <span class="socIconContainer">
-                                <a href="mailto:ddakev@gmail.com">
-                                    <object class="socIcon" data="graphics/social/gmail.svg">
-                                    </object>
-                                </a>
-                            </span>
-                            <span class="socIconContainer">
-                                <a href="https://plus.google.com/110562048452345544954/" target="_blank">
-                                    <object class="socIcon" data="graphics/social/googlep.svg">
-                                    </object>
-                                </a>
-                            </span><br>
-                            <span class="socIconContainer">
-                                <a href="https://www.facebook.com/ddakev" target="_blank">
-                                    <object class="socIcon" data="graphics/social/facebook.svg">
-                                    </object>
-                                </a>
-                            </span>
-                            <span class="socIconContainer">
-                                <a href="https://twitter.com/ddakev" target="_blank">
-                                    <object class="socIcon" data="graphics/social/twitter.svg">
-                                    </object>
-                                </a>
-                            </span>
-                        </div>
+                <h1 class="titleText light">Contact</h1><br>
+                <div id="socialForm">
+                    <div id="socialIcons">
+                        <span class="socIconContainer">
+                            <a href="https://github.com/ddakev" target="_blank">
+                                <object class="socIcon" data="graphics/social/github.svg">
+                                </object>
+                            </a>
+                        </span>
+                        <span class="socIconContainer">
+                            <a href="https://www.linkedin.com/in/daniel-dakev-ab340580" target="_blank">
+                                <object class="socIcon" data="graphics/social/linkedin.svg">
+                                </object>
+                            </a>
+                        </span><br>
+                        <span class="socIconContainer">
+                            <a href="http://codepen.io/ddakev/" target="_blank">
+                                <object class="socIcon" data="graphics/social/codepen.svg">
+                                </object>
+                            </a>
+                        </span>
+                        <span class="socIconContainer">
+                            <a href="mailto:ddakev@gmail.com">
+                                <object class="socIcon" data="graphics/social/gmail.svg">
+                                </object>
+                            </a>
+                        </span>
+                        <span class="socIconContainer">
+                            <a href="https://plus.google.com/110562048452345544954/" target="_blank">
+                                <object class="socIcon" data="graphics/social/googlep.svg">
+                                </object>
+                            </a>
+                        </span><br>
+                        <span class="socIconContainer">
+                            <a href="https://www.facebook.com/ddakev" target="_blank">
+                                <object class="socIcon" data="graphics/social/facebook.svg">
+                                </object>
+                            </a>
+                        </span>
+                        <span class="socIconContainer">
+                            <a href="https://twitter.com/ddakev" target="_blank">
+                                <object class="socIcon" data="graphics/social/twitter.svg">
+                                </object>
+                            </a>
+                        </span>
                     </div>
-                    <div class="verticalLine" id="vl1">
-                    </div>
-                    <div id="or">
-                        <span class="subtitle">or</span>
-                    </div>
-                    <div class="verticalLine" id="vl2">
-                    </div>
-                    <div id="contactForm">
-                        <h1 class="titleText dark">Drop me a line</h1>
-                        <form id="cForm">
-                            <div class="tField">
-                                <input name="name" id="nameBox" type="text" />
-                                <label for="name" id="nameLabel" class="cLabel">Name</label>
-                                <div class="notArrow">
-                                </div>
-                                <div class="notification">
-                                    Please type your name
-                                </div>
-                            </div>
-                            <div class="tField">
-                                <input name="email" id="emailBox" type="text" />
-                                <label for="email" id="emailLabel" class="cLabel">Email address</label>
-                                <div class="notArrow">
-                                </div>
-                                <div class="notification">
-                                    Please provide an email address
-                                </div>
-                            </div>
-                            <textarea name="content" form="cForm" id="contentBox" cols="66" rows="9" placeholder="Your message to me"></textarea>
-                            <div class="notification" id="textareaNotif">
-                                What do you want to say to me?
-                            </div>
+                </div>
+                <div class="verticalLine">
+                </div>
+                <div id="contactForm">
+                    <form id="cForm">
+                        <div class="tField">
+                            <input name="name" id="nameBox" type="text" />
+                            <label for="name" id="nameLabel" class="cLabel">Name</label>
                             <div class="notArrow">
                             </div>
-                            <input id="sendBtn" type="submit" value="Send" />
-                        </form>
-                    </div>
+                            <div class="notification">
+                                Please type your name
+                            </div>
+                        </div>
+                        <div class="tField">
+                            <input name="email" id="emailBox" type="text" />
+                            <label for="email" id="emailLabel" class="cLabel">Email address</label>
+                            <div class="notArrow">
+                            </div>
+                            <div class="notification">
+                                Please provide an email address
+                            </div>
+                        </div>
+                        <textarea name="content" form="cForm" id="contentBox" cols="66" rows="9" placeholder="Your message to me"></textarea>
+                        <div class="notification" id="textareaNotif">
+                            What do you want to say to me?
+                        </div>
+                        <div class="notArrow">
+                        </div>
+                        <input id="sendBtn" type="submit" value="Send" />
+                    </form>
                 </div>
             </div>
             <div id="copyright">
-                <span id="credits">Designed and developed by Daniel Dakev</span>
+                <span id="credits">Made with &hearts; by Daniel Dakev</span>
             </div>
         </div>
     </body>

@@ -21,6 +21,10 @@ function init()
     lScrnHeight = window.innerHeight;
     lScrnWidth = window.innerWidth;
     var content=document.getElementById("contentPage");
+    var page = window.location.href.split("?p=");
+    if(page.length>1) {
+      content.scrollTop = parseFloat(document.getElementById(page[1]).offsetTop);
+    }
     scrollPosition=content.scrollTop;
     var scrollFactor=3*Math.abs(content.scrollTop)/parseFloat(window.getComputedStyle(document.getElementById("contact")).top);
     document.getElementById("pageSelectorClip").style.top=(3+scrollFactor*21) + "px";
@@ -32,7 +36,7 @@ function init()
     }
     document.getElementById("scrollHintWrapper").style.bottom="5vh";
     setTimeout('startAnims()',1000);
-    if(navigator.userAgent.indexOf("Firefox")!=-1) 
+    if(navigator.userAgent.indexOf("Firefox")!=-1)
     {
         document.getElementById("downarr").contentDocument.getElementById("expand").setAttribute("keySplines",".48 .34 .82 .67; .34 .44 .87 1");
     }
@@ -43,35 +47,40 @@ function initEvents()
         document.getElementById("logo").addEventListener("mouseover", expandName);
         document.getElementById("logo").addEventListener("mouseout", hideName);
     }
-    
+
     window.addEventListener("resize", scrollPg);
     document.getElementById("contentPage").addEventListener("scroll",scrollPg);
     document.getElementById("hamMenu").addEventListener("click",checkboxChange);
     document.getElementById("contentPage").addEventListener("click",checkToCollapse);
-    
+
     var mItems=document.getElementsByClassName("menuItem");
     for(var i=0; i<mItems.length; i++)
     {
-        mItems[i].addEventListener("click",collapseMenu);
+        mItems[i].addEventListener("click",function(e) {collapseMenu();});
         mItems[i].children[0].addEventListener("mouseenter",function(event){event.target.style.backgroundColor="rgba(65,64,66,0.6)";});
         mItems[i].children[0].addEventListener("mouseout",function(event){if(event.target != document.getElementsByClassName("menuItem")[curScrn].children[0]) event.target.style.backgroundColor="rgba(65,64,66,0.0)";});
     }
-    
+
     var ta = document.getElementsByTagName("textarea")[0];
     ta.addEventListener("mouseover", function(e) {
-        ta.style.background="rgb(240,240,220)";
+        ta.style.borderBottomColor="rgba(0,130,200,0.5)";
+        ta.style.backgroundColor="rgba(190,190,190,0.1)";
     });
     ta.addEventListener("mouseout", function(e) {
-        if(ta !== document.activeElement)
-            ta.style.background="rgb(230,230,210)";
+        if(ta !== document.activeElement) {
+            ta.style.borderBottomColor="rgba(65,64,66,0.5)";
+            ta.style.backgroundColor="rgba(190,190,190,0.0)";
+        }
     });
     ta.addEventListener("focus", function(e) {
-        ta.style.background="rgb(240,240,220)";
-        ta.style.boxShadow="0 0 8px -1px rgb(150,150,150)";
+        ta.style.borderBottomColor="rgba(0,130,200,1)";
+        ta.className += " selected";
+        ta.style.backgroundColor="rgba(190,190,190,0.2)";
     });
     ta.addEventListener("blur", function(e) {
-        ta.style.background="rgb(230,230,210)";
-        ta.style.boxShadow="none";
+        ta.style.borderBottomColor="rgba(65,64,66,0.5)";
+        ta.className = "";
+        ta.style.backgroundColor="rgba(190,190,190,0.0)";
         if(ta.value=="") {
             ta.parentElement.getElementsByClassName("notification")[2].style.visibility="visible";
             ta.parentElement.getElementsByClassName("notArrow")[2].style.visibility="visible";
@@ -82,17 +91,20 @@ function initEvents()
             setTimeout(function() {ta.parentElement.getElementsByClassName("notification")[2].style.visibility="hidden"; ta.parentElement.getElementsByClassName("notArrow")[2].style.visibility="hidden";},200);
         }
     });
-    
+
     Array.prototype.forEach.call(document.getElementsByTagName("input"), function(inp) {
         if(inp.getAttribute("type")=="text") {
             inp.addEventListener("focus", function(i) {
                 inp.parentNode.getElementsByClassName("cLabel")[0].style.fontSize="8pt"; inp.parentNode.getElementsByClassName("cLabel")[0].style.marginTop="0";
-                inp.style.background="rgb(240,240,220)";
-                inp.style.boxShadow="0 0 8px -1px rgb(150,150,150)";
+                inp.parentNode.getElementsByClassName("cLabel")[0].style.color="rgba(0,130,200,1)";
+                inp.style.backgroundColor="rgba(190,190,190,0.2)";
+                inp.style.borderBottomColor="rgba(0,130,200,1)";
             });
             inp.addEventListener("blur", function(i) {
-                inp.style.background="rgb(230,230,210)";
-                inp.style.boxShadow="none";
+                inp.style.backgroundColor="rgba(190,190,190,0.0)";
+                inp.style.borderBottomColor="rgba(65,64,66,0.5)";
+                inp.parentNode.getElementsByClassName("cLabel")[0].style.color="rgba(0,130,200,0.7)";
+
                 if(inp.value=="") {
                     if(inp.name=="email") {
                         inp.parentElement.getElementsByClassName("notification")[0].innerHTML="Please provide an email address";
@@ -117,15 +129,18 @@ function initEvents()
                 }
             });
             inp.addEventListener("mouseover", function(e) {
-                inp.style.background="rgb(240,240,220)";
+                inp.style.backgroundColor="rgba(190,190,190,0.1)";
+                inp.style.borderBottomColor="rgba(0,130,200,0.5)";
             });
             inp.addEventListener("mouseout", function(e) {
-                if(inp !== document.activeElement)
-                    inp.style.background="rgb(230,230,210)";
+                if(inp !== document.activeElement) {
+                    inp.style.backgroundColor="rgba(190,190,190,0.0)";
+                    inp.style.borderBottomColor="rgba(65,64,66,0.5)";
+                }
             });
         }
     });
-    
+
     document.getElementById("cForm").addEventListener("submit", function(e) {
         var valid = true;
         Array.prototype.forEach.call(document.getElementsByTagName("input"), function(inp) {
@@ -154,13 +169,15 @@ function initEvents()
             e.preventDefault();
         }
         return valid;
-        
+
     });
 }
 function updateCurrentScreen(scr)
 {
-    window.location.hash=slideNames[scr];
+    var stateObj = {a: "b"};
+    history.replaceState(stateObj, slideNames[scr].capitalize(), "?p="+slideNames[scr]);
     document.title=slideNames[scr].capitalize() + " - Daniel Dakev";
+
     if(window.getComputedStyle(document.getElementById("hamMenuLabel")).display=="none")
     {
         document.getElementsByTagName("li")[curScrn].style.backgroundColor="rgba(65,64,66,0.0)";
@@ -168,7 +185,7 @@ function updateCurrentScreen(scr)
         document.getElementsByTagName("li")[scr].style.backgroundColor="rgba(65,64,66,0.6)";
         document.getElementsByTagName("li")[scr].style.boxShadow="inset 0px 0px 6px -1px rgba(31,30,32,0.6)";
     }
-    
+
     if(scr == 1 && visited[scr] == 0) {
         animatePie("bl-cpp",0.95);
         animatePie("bl-java",0.85);
@@ -177,7 +194,10 @@ function updateCurrentScreen(scr)
         animatePie("bl-html",0.65);
         animatePie("bl-css",0.7);
     }
-    
+
+    document.getElementById("pageSelectorClip").style.top=(3+scr*21) + "px";
+    document.getElementById("pageSelectorButtons").style.top=(-3-scr*21) + "px";
+
     visited[scr] = 1;
     curScrn=scr;
 }
@@ -185,10 +205,10 @@ function findScreen()
 {
     var content=document.getElementById("contentPage");
     var pos=Math.abs(content.scrollTop);
-    var dist0=Math.abs(pos-parseFloat(getComputedStyle(document.getElementById(slideNames[0])).top));
-    var dist1=Math.abs(pos-parseFloat(getComputedStyle(document.getElementById(slideNames[1])).top));
-    var dist2=Math.abs(pos-parseFloat(getComputedStyle(document.getElementById(slideNames[2])).top));
-    var dist3=Math.abs(pos-parseFloat(getComputedStyle(document.getElementById(slideNames[3])).top));
+    var dist0=Math.abs(pos-parseFloat(document.getElementById(slideNames[0]).offsetTop));
+    var dist1=Math.abs(pos-parseFloat(document.getElementById(slideNames[1]).offsetTop));
+    var dist2=Math.abs(pos-parseFloat(document.getElementById(slideNames[2]).offsetTop));
+    var dist3=Math.abs(pos-parseFloat(document.getElementById(slideNames[3]).offsetTop));
     var mindist=Math.min(Math.min(dist0,dist1),Math.min(dist2,dist3));
     if(mindist == dist0) return 0;
     else if(mindist == dist1) return 1;
@@ -207,16 +227,6 @@ function scroll(spos,fpos,steps)
     scrStep++;
     content.scrollTop=Math.round(spos+(fpos-spos)*(-(scrStep/steps-1)*(scrStep/steps-1)+1));
     scrollPosition=Math.abs(content.scrollTop);
-    var scrollFactor=3*Math.abs(content.scrollTop)/parseFloat(window.getComputedStyle(document.getElementById("contact")).top);
-    document.getElementById("pageSelectorClip").style.top=(3+scrollFactor*21) + "px";
-    document.getElementById("pageSelectorButtons").style.top=(-3-scrollFactor*21) + "px";
-    var cSlides = document.getElementsByClassName("contents");
-    for(var l=0; l<cSlides.length; l++)
-    {
-        var topClip=(-parseFloat(window.getComputedStyle(cSlides[l].parentElement).top)+content.scrollTop)*100/window.innerHeight;
-        var iClip="inset("+topClip.toString()+"vh 0px 0px 0px)";
-        cSlides[l].style.webkitClipPath=iClip;
-    }
     var scr = findScreen();
     if(scr != curScrn)
     {
@@ -230,38 +240,18 @@ function scrollToPage(anc)
     var steps=80;
     var content = document.getElementById("contentPage");
     scrStep=0;
-    var goal=parseFloat(window.getComputedStyle(document.getElementById(slideNames[parseInt(anc)])).top);
+    var goal=parseFloat(document.getElementById(slideNames[parseInt(anc)]).offsetTop);
     rep=setInterval(scroll,dur/steps,Math.abs(content.scrollTop),goal,steps);
 }
 function scrollPg()
 {
-    var content=document.getElementById("contentPage");
-    var newScr=Math.abs(content.scrollTop);
-    if(window.innerHeight!=lScrnHeight || window.innerWidth!=lScrnWidth) {
-        scrStep=0;
-        scroll(content.scrollTop,parseInt(window.getComputedStyle(document.getElementById(slideNames[curScrn])).top),1);
-        lScrnHeight=window.innerHeight;
-        lScrnWidth=window.innerWidth;
-        return;
+    if(document.getElementById("contentPage").scrollTop>=parseFloat(document.getElementById("about").offsetTop)) {
+      document.getElementById("topBar").style.boxShadow="inset 0px -5px 10px -5px rgba(65,64,66,0.4)";
     }
-    content.scrollTop=scrollPosition;
-   
-    if(!rep)
-    {
-        if(slideNames.indexOf(window.location.hash.slice(1))!=curScrn && slideNames.indexOf(window.location.hash.slice(1))!=-1)
-        {
-            return;
-        }
-        if(newScr>scrollPosition)
-        {
-            if(curScrn<3)
-                scrollToPage(curScrn+1);
-            else
-                scrollToPage(4);
-        }
-        else if(newScr<scrollPosition)
-            scrollToPage(Math.max(0,(curScrn-1)));
+    else {
+      document.getElementById("topBar").style.boxShadow="none";
     }
+    updateCurrentScreen(findScreen());
 }
 function startAnims()
 {
