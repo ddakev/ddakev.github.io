@@ -10,6 +10,8 @@ body
 {
     overflow-x:hidden;
     position:fixed;
+    height:85vh;
+    margin-top:15vh;
 }
 #scrollHint span
 {
@@ -36,7 +38,7 @@ body
 {
     pointer-events: none;
 }
-#contentPage, #topBar
+#contentPage, #topBar, #home
 {
     -webkit-transition: left 0.2s;
     -moz-transition:    left 0.2s;
@@ -47,12 +49,17 @@ body
 #topBar
 {
     position:fixed;
+    height:15vh;
 }
 #hamMenu:checked ~ #contentPage
 {
     left:35vh;
 }
 #hamMenu:checked ~ #contentPage>#topBar
+{
+    left:35vh;
+}
+#hamMenu:checked ~ #home
 {
     left:35vh;
 }
@@ -139,15 +146,6 @@ body
 {
     display:none;
 }
-.contents
-{
-    top:15vh;
-    width:98vw;
-    height:85vh;
-    margin:0;
-    padding:0vh 1vw;
-    text-align:center;
-}
 .btnLink
 {
     padding:8px 10px;
@@ -189,7 +187,16 @@ body
     line-height:32pt !important;
     font-size:32pt !important;
 }
-#aboutContents .subtitle
+#about .titleText
+{
+    font-size:16pt !important;
+    line-height:16pt !important;
+}
+#about .titleText::after
+{
+    top:-4pt;
+}
+#about .subtitle
 {
     margin-top:0.5%;
 }
@@ -242,8 +249,8 @@ body
 {
     top:auto;
     bottom:0;
-    margin:0 0 0 0;
-    padding:3% 0%;
+    margin:0 0 4vh 0;
+    padding:0;
     width:100%;
     height:auto;
 }
@@ -304,28 +311,25 @@ body
 {
     font-size:11.5pt;
 }
-#projectsContents
+#projectsTitle
 {
-    padding:0 2%;
-    width:auto;
-    margin:0;
-    left:0;
-    right:0;
+  font-size:16pt !important;
+  line-height:16pt !important;
 }
-#projectsContents .subtitle
+#projectsTitle::after
+{
+  top:-4pt;
+}
+#projects .subtitle
 {
     display:inline-block;
     margin-top:10px;
 }
-#projectsTitle
-{
-    margin-top:0vh;
-}
 #projectsContainer
 {
-    height:75%;
-    left:-1px;
-    right:-1px;
+    height:75vh;
+    left:0px;
+    right:0px;
     bottom:0;
     margin-bottom:-3px;
 }
@@ -375,67 +379,41 @@ body
 {
     width:7vw;
 }
-#contactContents .titleText
+#contact .titleText
 {
-    font-size:9vw;
-    line-height:9vw;
+  font-size:16pt !important;
+  line-height:16pt !important;
+}
+#contact .titleText::after
+{
+  top:-4pt;
 }
 .verticalLine
 {
-    width:35%;
-    height:0;
-    border-image:-webkit-linear-gradient(left,rgba(65,64,66,0) 0%, rgba(65,64,66,0.8) 10%, rgba(65,64,66,0.8) 90%, rgba(65,64,66,0) 100%) 100%;
-    border-image:-moz-linear-gradient(left,rgba(65,64,66,0) 0%, rgba(65,64,66,0.8) 10%, rgba(65,64,66,0.8) 90%, rgba(65,64,66,0) 100%) 100%;
-    border-image:-ms-linear-gradient(left,rgba(65,64,66,0) 0%, rgba(65,64,66,0.8) 10%, rgba(65,64,66,0.8) 90%, rgba(65,64,66,0) 100%) 100%;
-    border-image:-o-linear-gradient(left,rgba(65,64,66,0) 0%, rgba(65,64,66,0.8) 10%, rgba(65,64,66,0.8) 90%, rgba(65,64,66,0) 100%) 100%;
-    border-image:linear-gradient(to right,rgba(65,64,66,0) 0%, rgba(65,64,66,0.8) 10%, rgba(65,64,66,0.8) 90%, rgba(65,64,66,0) 100%) 100%;
-    border-image-slice:1;
-    border-width:2px 0 1px 0;
-}
-#vl1
-{
-    top:37%;
-    left:5%;
-}
-#vl2
-{
-    top:37%;
-    left:60%;
-}
-#or
-{
-    top:33%;
-    left:46%;
-    font-size:24pt;
+    width:60%;
+    height:3px;
+    left:20%;
+    top:52%;
 }
 #socialForm
 {
     width:100%;
-    height:30%;
+    height:40%;
     padding:5% 0;
-    text-align: left;
-}
-#socialForm .titleText
-{
-    display:inline-block;
-    padding:0;
-    width:40%;
-    margin-left:5%;
-    vertical-align:middle;
-    box-sizing: border-box;
+    text-align: center;
 }
 #socialIcons
 {
     display:inline-block;
-    width:50%;
+    width:80%;
     text-align:center;
     vertical-align:middle;
     margin-top:0;
 }
 .socIconContainer
 {
-    width:13vw;
-    height:13vw;
+    width:20vw;
+    height:20vw;
 }
 .socIconContainer a
 {

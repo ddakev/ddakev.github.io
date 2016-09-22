@@ -30,6 +30,7 @@ function init()
     document.getElementById("pageSelectorClip").style.top=(3+scrollFactor*21) + "px";
     document.getElementById("pageSelectorButtons").style.top=(-3-scrollFactor*21) + "px";
     updateCurrentScreen(findScreen());
+    document.getElementById("contentBox").placeholder = "Hey Daniel,\nLet's get in touch.";
     initEvents();
     if(!document.getElementById("downarr").contentDocument.getElementById("expand").beginElement) {
         document.getElementById("downarr").data="graphics/downarrow.svg";
@@ -65,16 +66,20 @@ function initEvents()
     ta.addEventListener("mouseover", function(e) {
         ta.style.borderBottomColor="rgba(0,130,200,0.5)";
         ta.style.backgroundColor="rgba(190,190,190,0.1)";
+        if(ta.className == "")
+          ta.className = "hovered";
     });
     ta.addEventListener("mouseout", function(e) {
         if(ta !== document.activeElement) {
             ta.style.borderBottomColor="rgba(65,64,66,0.5)";
             ta.style.backgroundColor="rgba(190,190,190,0.0)";
+            if(ta.className.indexOf("hovered") > -1)
+              ta.className = "";
         }
     });
     ta.addEventListener("focus", function(e) {
         ta.style.borderBottomColor="rgba(0,130,200,1)";
-        ta.className += " selected";
+        ta.className = "selected";
         ta.style.backgroundColor="rgba(190,190,190,0.2)";
     });
     ta.addEventListener("blur", function(e) {
@@ -103,7 +108,7 @@ function initEvents()
             inp.addEventListener("blur", function(i) {
                 inp.style.backgroundColor="rgba(190,190,190,0.0)";
                 inp.style.borderBottomColor="rgba(65,64,66,0.5)";
-                inp.parentNode.getElementsByClassName("cLabel")[0].style.color="rgba(0,130,200,0.7)";
+                inp.parentNode.getElementsByClassName("cLabel")[0].style.color="rgba(65,64,66,0.5)";
 
                 if(inp.value=="") {
                     if(inp.name=="email") {
@@ -131,11 +136,14 @@ function initEvents()
             inp.addEventListener("mouseover", function(e) {
                 inp.style.backgroundColor="rgba(190,190,190,0.1)";
                 inp.style.borderBottomColor="rgba(0,130,200,0.5)";
+                if(inp !== document.activeElement)
+                  inp.parentNode.getElementsByClassName("cLabel")[0].style.color="rgba(0,130,200,0.7)";
             });
             inp.addEventListener("mouseout", function(e) {
                 if(inp !== document.activeElement) {
                     inp.style.backgroundColor="rgba(190,190,190,0.0)";
                     inp.style.borderBottomColor="rgba(65,64,66,0.5)";
+                    inp.parentNode.getElementsByClassName("cLabel")[0].style.color="rgba(65,64,66,0.5)";
                 }
             });
         }
@@ -246,10 +254,12 @@ function scrollToPage(anc)
 function scrollPg()
 {
     if(document.getElementById("contentPage").scrollTop>=parseFloat(document.getElementById("about").offsetTop)) {
-      document.getElementById("topBar").style.boxShadow="inset 0px -5px 10px -5px rgba(65,64,66,0.4)";
+      if(getComputedStyle(document.getElementById("topBar")).boxShadow == "none")
+        document.getElementById("topBar").style.boxShadow="inset 0px -5px 10px -5px rgba(65,64,66,0.4)";
     }
     else {
-      document.getElementById("topBar").style.boxShadow="none";
+      if(getComputedStyle(document.getElementById("topBar")).boxShadow != "none")
+        document.getElementById("topBar").style.boxShadow="none";
     }
     updateCurrentScreen(findScreen());
 }
