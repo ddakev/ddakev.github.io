@@ -18,11 +18,6 @@ body
     font-size:2vh;
     margin:3.5vh 1vh;
 }
-#nameUnderline
-{
-    width:90%;
-    margin:10px 5%;
-}
 #hamMenuLabel
 {
     display:block;
@@ -50,6 +45,7 @@ body
 {
     position:fixed;
     height:15vh;
+    backface-visibility: visible;
 }
 #hamMenu:checked ~ #contentPage
 {
@@ -392,8 +388,6 @@ body
 {
     width:60%;
     height:3px;
-    left:20%;
-    top:52%;
 }
 #socialForm
 {

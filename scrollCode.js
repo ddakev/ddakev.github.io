@@ -87,9 +87,9 @@ function initEvents()
         ta.className = "";
         ta.style.backgroundColor="rgba(190,190,190,0.0)";
         if(ta.value=="") {
-            ta.parentElement.getElementsByClassName("notification")[2].style.visibility="visible";
+            /*ta.parentElement.getElementsByClassName("notification")[2].style.visibility="visible";
             ta.parentElement.getElementsByClassName("notArrow")[2].style.visibility="visible";
-            ta.parentElement.getElementsByClassName("notification")[2].style.maxWidth="300px";
+            ta.parentElement.getElementsByClassName("notification")[2].style.maxWidth="300px";*/
         }
         else {
             ta.parentElement.getElementsByClassName("notification")[2].style.maxWidth="0px";
@@ -111,14 +111,14 @@ function initEvents()
                 inp.parentNode.getElementsByClassName("cLabel")[0].style.color="rgba(65,64,66,0.5)";
 
                 if(inp.value=="") {
-                    if(inp.name=="email") {
+                    /*if(inp.name=="email") {
                         inp.parentElement.getElementsByClassName("notification")[0].innerHTML="Please provide an email address";
-                    }
+                    }*/
                     inp.parentNode.getElementsByClassName("cLabel")[0].style.fontSize="12pt";
                     inp.parentNode.getElementsByClassName("cLabel")[0].style.marginTop="10px";
-                    inp.parentElement.getElementsByClassName("notification")[0].style.visibility="visible";
+                    /*inp.parentElement.getElementsByClassName("notification")[0].style.visibility="visible";
                     inp.parentElement.getElementsByClassName("notification")[0].style.maxWidth="300px";
-                    inp.parentElement.getElementsByClassName("notArrow")[0].style.visibility="visible";
+                    inp.parentElement.getElementsByClassName("notArrow")[0].style.visibility="visible";*/
                 }
                 else {
                     if(inp.name=="email"&&!validate(inp.value)) {
@@ -237,9 +237,7 @@ function scroll(spos,fpos,steps)
     scrollPosition=Math.abs(content.scrollTop);
     var scr = findScreen();
     if(scr != curScrn)
-    {
         updateCurrentScreen(scr);
-    }
 }
 function scrollToPage(anc)
 {
@@ -261,7 +259,9 @@ function scrollPg()
       if(getComputedStyle(document.getElementById("topBar")).boxShadow != "none")
         document.getElementById("topBar").style.boxShadow="none";
     }
-    updateCurrentScreen(findScreen());
+    var scr = findScreen();
+    if(scr != curScrn)
+      updateCurrentScreen(scr);
 }
 function startAnims()
 {
