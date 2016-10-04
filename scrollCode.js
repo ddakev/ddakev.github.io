@@ -181,19 +181,14 @@ function initEvents()
           xhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
           xhttp.onreadystatechange = function() {
             if(xhttp.readyState == 4) {
-              if(xhttp.status == 200 && xhttp.response == "Message sent.") {
-                document.getElementById("sendNotification").innerHTML = xhttp.response;
+              document.getElementById("sendNotification").innerHTML = xhttp.response;
+              if(xhttp.response == "Message sent.") {
                 document.getElementById("sendNotification").style.color="rgb(0,153,0)";
                 document.getElementById("nameBox").value="";
                 document.getElementById("emailBox").value="";
                 document.getElementById("contentBox").value="";
               }
               else {
-                if(xhttp.readyState == 4)
-                  document.getElementById("sendNotification").innerHTML = xhttp.response;
-                else {
-                  document.getElementById("sendNotification").innerHTML = "Error when sending message. Please try again later."
-                }
                 document.getElementById("sendNotification").style.color="rgb(230,46,0)";
               }
               document.getElementById("sendNotification").style.opacity="0";
