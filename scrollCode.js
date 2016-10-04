@@ -149,7 +149,7 @@ function initEvents()
         }
     });
 
-    document.getElementById("cForm").addEventListener("submit", function(e) {
+    document.getElementById("sendBtn").addEventListener("click", function(e) {
         var valid = true;
         Array.prototype.forEach.call(document.getElementsByTagName("input"), function(inp) {
             if(inp.value == "") {
@@ -173,8 +173,42 @@ function initEvents()
             ta.parentElement.getElementsByClassName("notArrow")[2].style.visibility="visible";
             ta.parentElement.getElementsByClassName("notification")[2].style.maxWidth="300px";
         }
-        if(valid == false && e.preventDefault) {
-            e.preventDefault();
+        if(valid)
+        {
+
+          var xhttp = new XMLHttpRequest();
+          xhttp.open("POST","http://ddakev.comli.com/send_mail.php", true);
+          xhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+          xhttp.onreadystatechange = function() {
+            if(xhttp.readyState == 4) {
+              if(xhttp.status == 200 && xhttp.response == "Message sent.") {
+                document.getElementById("sendNotification").innerHTML = xhttp.response;
+                document.getElementById("sendNotification").style.color="rgb(0,153,0)";
+                document.getElementById("nameBox").value="";
+                document.getElementById("emailBox").value="";
+                document.getElementById("contentBox").value="";
+              }
+              else {
+                if(xhttp.readyState == 4)
+                  document.getElementById("sendNotification").innerHTML = xhttp.response;
+                else {
+                  document.getElementById("sendNotification").innerHTML = "Error when sending message. Please try again later."
+                }
+                document.getElementById("sendNotification").style.color="rgb(230,46,0)";
+              }
+              document.getElementById("sendNotification").style.opacity="0";
+              document.getElementById("nameBox").disabled = false;
+              document.getElementById("emailBox").disabled = false;
+              document.getElementById("contentBox").disabled = false;
+              document.getElementById("sendBtn").disabled = false;
+            }
+          }
+          document.getElementById("sendNotification").innerHTML = "Sending message...";
+          document.getElementById("nameBox").disabled = true;
+          document.getElementById("emailBox").disabled = true;
+          document.getElementById("contentBox").disabled = true;
+          document.getElementById("sendBtn").disabled = true;
+          xhttp.send("name="+document.getElementById("nameBox").value+"&email="+document.getElementById("emailBox").value+"&content="+document.getElementById("contentBox").value);
         }
         return valid;
 

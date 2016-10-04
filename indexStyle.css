@@ -1247,6 +1247,7 @@ textarea:-moz-placeholder
 }
 textarea:-ms-input-placeholder
 {
+  content:'Sending message';
     color:rgba(65,64,66,0.5);
     -webkit-transition: color 0.5s;
     -moz-transition:    color 0.5s;
@@ -1287,12 +1288,12 @@ textarea.hovered:-ms-input-placeholder
     color:rgba(0,100,170,0.7);
 }
 
-input[type="submit"]
+input[type="button"]
 {
     display:block;
     cursor:pointer;
     position:relative;
-    margin:3% 0;
+    margin:1% 0;
     top:0;
     border:none;
     outline:none;
@@ -1312,11 +1313,29 @@ input[type="submit"]
     -o-transition:      top 0.1s, box-shadow 0.1s;
     transition:         top 0.1s, box-shadow 0.1s;
 }
-input[type="submit"]:hover
+#sendNotification
+{
+  display:inline-block;
+  position:relative;
+  margin-top:1%;
+  font-size:11pt;
+  font-style:italic;
+  float:right;
+  color:rgb(150,150,150);
+  top:13px;
+  opacity:1;
+  margin-right:30px;
+  -webkit-transition:   opacity 0.5s linear 5s;
+  -moz-transition:      opacity 0.5s linear 5s;
+  -ms-transition:       opacity 0.5s linear 5s;
+  -o-transition:        opacity 0.5s linear 5s;
+  transition:           opacity 0.5s linear 5s;
+}
+input[type="button"]:hover
 {
     background:rgb(255,89,91);
 }
-input[type="submit"]:active
+input[type="button"]:active
 {
     top:3px;
     box-shadow:0 0 0 0 rgb(160,24,26);
@@ -1518,7 +1537,7 @@ input[type="submit"]:active
     {
         font-size:1.2vw;
     }
-    input[type="submit"]
+    input[type="button"]
     {
         font-size:1.4vw;
     }

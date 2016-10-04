@@ -459,7 +459,7 @@ textarea
     line-height:12pt;
     padding:10px;
 }
-input[type="submit"]
+input[type="button"]
 {
     margin:2% 0.5%;
     width:100%;
