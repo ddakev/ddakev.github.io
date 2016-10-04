@@ -181,16 +181,18 @@ function initEvents()
           xhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
           xhttp.onreadystatechange = function() {
             if(xhttp.readyState == 4) {
-              document.getElementById("sendNotification").innerHTML = xhttp.response;
-              if(xhttp.response == "Message sent.") {
+              if(xhttp.status == 200) {
+              	document.getElementById("sendNotification").innerHTML = "Message sent.";
                 document.getElementById("sendNotification").style.color="rgb(0,153,0)";
                 document.getElementById("nameBox").value="";
                 document.getElementById("emailBox").value="";
                 document.getElementById("contentBox").value="";
               }
               else {
+              	document.getElementById("sendNotification").innerHTML = "There was a problem sending the message. Please try again later.";
                 document.getElementById("sendNotification").style.color="rgb(230,46,0)";
               }
+              document.getElementById("sendNotification").style.transition = "opacity 0.5s linear 5s";
               document.getElementById("sendNotification").style.opacity="0";
               document.getElementById("nameBox").disabled = false;
               document.getElementById("emailBox").disabled = false;
@@ -198,6 +200,9 @@ function initEvents()
               document.getElementById("sendBtn").disabled = false;
             }
           }
+          document.getElementById("sendNotification").style.transition = "none";
+          document.getElementById("sendNotification").style.opacity = "1";
+	  document.getElementById("sendNotification").style.color="rgb(150,150,150)";
           document.getElementById("sendNotification").innerHTML = "Sending message...";
           document.getElementById("nameBox").disabled = true;
           document.getElementById("emailBox").disabled = true;
