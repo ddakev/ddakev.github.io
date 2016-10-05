@@ -431,6 +431,18 @@ body
 {
     margin:0;
 }
+#sendNotification
+{
+  position:fixed;
+  top:15vh;
+  padding:2px 5px;
+  left:50%;
+  width:auto;
+  margin:20px 0 0 -70px;
+  border-radius:5px;
+  background-color:rgba(220,220,220,0.8);
+  opacity:0;
+}
 .tField
 {
     display:inline-block;

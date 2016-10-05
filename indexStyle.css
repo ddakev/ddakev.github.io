@@ -116,6 +116,7 @@ body
     white-space: nowrap;
     height:6.2vh;
     overflow:visible;
+    text-align: center;
     -webkit-transition:  bottom 0.5s 0.5s cubic-bezier(.17,.67,.56,1.38);
     -moz-transition:     bottom 0.5s 0.5s cubic-bezier(.17,.67,.56,1.38);
     -o-transition:       bottom 0.5s 0.5s cubic-bezier(.17,.67,.56,1.38);
@@ -867,6 +868,7 @@ h1, span
     width:150%;
     height:150%;
     left:-25%;
+    top:-25%;
     z-index:20;
     box-shadow:0 0 10px -1px rgba(65,64,66,0.8);
 }
@@ -937,6 +939,12 @@ h1, span
 #heightmapGenerator .projPic
 {
     background:url(graphics/projects/heightmapGenerator/thumb.svg) no-repeat;
+    background-size:cover;
+    background-position:center;
+}
+#roadrant .projPic
+{
+    background:url(graphics/projects/roadRant/thumb.png);
     background-size:cover;
     background-position:center;
 }

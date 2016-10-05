@@ -87,9 +87,6 @@ function initEvents()
         ta.className = "";
         ta.style.backgroundColor="rgba(190,190,190,0.0)";
         if(ta.value=="") {
-            /*ta.parentElement.getElementsByClassName("notification")[2].style.visibility="visible";
-            ta.parentElement.getElementsByClassName("notArrow")[2].style.visibility="visible";
-            ta.parentElement.getElementsByClassName("notification")[2].style.maxWidth="300px";*/
         }
         else {
             ta.parentElement.getElementsByClassName("notification")[2].style.maxWidth="0px";
@@ -111,14 +108,8 @@ function initEvents()
                 inp.parentNode.getElementsByClassName("cLabel")[0].style.color="rgba(65,64,66,0.5)";
 
                 if(inp.value=="") {
-                    /*if(inp.name=="email") {
-                        inp.parentElement.getElementsByClassName("notification")[0].innerHTML="Please provide an email address";
-                    }*/
                     inp.parentNode.getElementsByClassName("cLabel")[0].style.fontSize="12pt";
                     inp.parentNode.getElementsByClassName("cLabel")[0].style.marginTop="10px";
-                    /*inp.parentElement.getElementsByClassName("notification")[0].style.visibility="visible";
-                    inp.parentElement.getElementsByClassName("notification")[0].style.maxWidth="300px";
-                    inp.parentElement.getElementsByClassName("notArrow")[0].style.visibility="visible";*/
                 }
                 else {
                     if(inp.name=="email"&&!validate(inp.value)) {
@@ -187,10 +178,18 @@ function initEvents()
                 document.getElementById("nameBox").value="";
                 document.getElementById("emailBox").value="";
                 document.getElementById("contentBox").value="";
+                if(window.getComputedStyle(document.getElementById("hamMenuLabel")).display=="block") {
+                  document.getElementById("sendNotification").style.backgroundColor="rgba(120,253,120,0.8)";
+                  document.getElementById("sendNotification").style.marginLeft="-50px";
+                }
               }
               else {
               	document.getElementById("sendNotification").innerHTML = "There was a problem sending the message. Please try again later.";
                 document.getElementById("sendNotification").style.color="rgb(230,46,0)";
+                if(window.getComputedStyle(document.getElementById("hamMenuLabel")).display=="block") {
+                  document.getElementById("sendNotification").style.backgroundColor="rgba(255,120,90,0.8)";
+                  document.getElementById("sendNotification").style.marginLeft="-45vw";
+                }
               }
               document.getElementById("sendNotification").style.transition = "opacity 0.5s linear 5s";
               document.getElementById("sendNotification").style.opacity="0";
@@ -202,8 +201,12 @@ function initEvents()
           }
           document.getElementById("sendNotification").style.transition = "none";
           document.getElementById("sendNotification").style.opacity = "1";
-	  document.getElementById("sendNotification").style.color="rgb(150,150,150)";
+	        document.getElementById("sendNotification").style.color="rgb(150,150,150)";
           document.getElementById("sendNotification").innerHTML = "Sending message...";
+          if(window.getComputedStyle(document.getElementById("hamMenuLabel")).display=="block") {
+            document.getElementById("sendNotification").style.backgroundColor="rgba(220,220,220,0.8)";
+            document.getElementById("sendNotification").style.marginLeft="-70px";
+          }
           document.getElementById("nameBox").disabled = true;
           document.getElementById("emailBox").disabled = true;
           document.getElementById("contentBox").disabled = true;
@@ -232,9 +235,9 @@ function updateCurrentScreen(scr)
         animatePie("bl-cpp",0.95);
         animatePie("bl-java",0.85);
         animatePie("bl-csharp",0.75);
-        animatePie("bl-javascript",0.8);
-        animatePie("bl-html",0.65);
-        animatePie("bl-css",0.7);
+        animatePie("bl-javascript",0.85);
+        animatePie("bl-html",0.90);
+        animatePie("bl-css",0.75);
     }
 
     document.getElementById("pageSelectorClip").style.top=(3+scr*21) + "px";
@@ -285,6 +288,14 @@ function scrollToPage(anc)
 }
 function scrollPg()
 {
+    if(scrollPosition == 0 && Math.abs(document.getElementById("contentPage").scrollTop) > scrollPosition) {
+      scrollToPage(1);
+    }
+    else if(Math.abs(document.getElementById("contentPage").scrollTop) < document.getElementById("about").offsetTop && scrollPosition >= document.getElementById("about").offsetTop) {
+      scrollToPage(0);
+    }
+    scrollPosition=Math.abs(document.getElementById("contentPage").scrollTop);
+
     if(document.getElementById("contentPage").scrollTop>=parseFloat(document.getElementById("about").offsetTop)) {
       if(getComputedStyle(document.getElementById("topBar")).boxShadow == "none")
         document.getElementById("topBar").style.boxShadow="inset 0px -5px 10px -5px rgba(65,64,66,0.4)";
